@@ -35,12 +35,25 @@ app.use(morgan('dev'));
 // routes ================
 // =======================
 // basic route
+
+// GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/
 app.get('/', function(req, res) {
     res.render('index.html');
 });
 
+// GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/about
 app.get('/about', function(req, res) {
     res.render('about.html');
+});
+
+// GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/register
+app.get('/register', function(req, res) {
+    res.render('register.html'); // TODO: Add Register.html to views folder
+});
+
+// POST http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/register
+app.post('/register', function(req, res) {
+    // TODO: Create user and add to database from what is passed back to the server
 });
 
 // app.get('/setup', function(req, res) {
