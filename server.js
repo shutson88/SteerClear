@@ -15,7 +15,7 @@ var User   = require('./routes/user'); // get our mongoose model
 // =======================
 // configuration =========
 // =======================
-var port = process.env.PORT || 8080; // used to create, sign, and verify tokens
+var port = process.env.PORT || 9000; // used to create, sign, and verify tokens
 app.use(express.static(__dirname + '/assets'));
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
@@ -31,6 +31,10 @@ app.use(bodyParser.json());
 // use morgan to log requests to the console
 app.use(morgan('dev'));
 
+var path    = require('path');
+//Serve up public files
+app.use(express.static('public'));
+
 // =======================
 // routes ================
 // =======================
@@ -38,7 +42,7 @@ app.use(morgan('dev'));
 
 // GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/
 app.get('/', function(req, res) {
-    res.render('index.html');
+    res.sendFile(path.join(__dirname+'/views/signin.html'));
 });
 
 // GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/about
@@ -46,6 +50,7 @@ app.get('/about', function(req, res) {
     res.render('about.html');
 });
 
+<<<<<<< HEAD
 // GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/register
 app.get('/register', function(req, res) {
     res.render('register.html'); // TODO: Add Register.html to views folder
@@ -73,6 +78,25 @@ app.post('/register', function(req, res) {
 //     res.json({ success: true });
 //   });
 // });
+=======
+app.get('/setup', function(req, res) {
+
+  // create a sample user
+  var jeremy = new User({
+    name: 'Seth',
+    password: bcrypt.hashSync('password'), // Encrypts password for storage in database
+    admin: true
+  });
+
+  // save the sample user
+  jeremy.save(function(err) {
+    if (err) throw err;
+
+    console.log(jeremy.name + ' saved successfully');
+    res.json({ success: true });
+  });
+});
+>>>>>>> 40d874fc7177cec5fe600bdfe72536ffe4ca21f8
 
 // API ROUTES -------------------
 // get an instance of the router for api routes
