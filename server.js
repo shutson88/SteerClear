@@ -16,7 +16,7 @@ var User   = require('./routes/user'); // get our mongoose model
 // configuration =========
 // =======================
 var port = process.env.PORT || 8080; // used to create, sign, and verify tokens
-app.use(express.static(__dirname + '/assets'));
+app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
@@ -60,23 +60,23 @@ app.post('/register', function(req, res) {
     // TODO: Create user and add to database from what is passed back to the server
 });
 
-// app.get('/setup', function(req, res) {
-//
-//   // create a sample user
-//   var jeremy = new User({
-//     name: 'Jeremy Moorman',
-//     password: bcrypt.hashSync('password'), // Encrypts password for storage in database
-//     admin: true
-//   });
-//
-//   // save the sample user
-//   jeremy.save(function(err) {
-//     if (err) throw err;
-//
-//     console.log(jeremy.name + ' saved successfully');
-//     res.json({ success: true });
-//   });
-// });
+app.get('/setup', function(req, res) {
+
+  // create a sample user
+  var jeremy = new User({
+    name: 'Jeremy',
+    password: bcrypt.hashSync('password'), // Encrypts password for storage in database
+    admin: true
+  });
+
+  // save the sample user
+  jeremy.save(function(err) {
+    if (err) throw err;
+
+    console.log(jeremy.name + ' saved successfully');
+    res.json({ success: true });
+  });
+});
 
 // API ROUTES -------------------
 // get an instance of the router for api routes
