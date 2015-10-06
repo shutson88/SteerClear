@@ -33,30 +33,29 @@ router.get('/about', function(req, res) {
 
 // GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/register
 router.get('/register', function(req, res) {
-    res.render('register.html'); // TODO: Add Register.html to views folder
+    res.render('register.html'); 
+});
+
+router.get('/addanimal', function(req, res) {
+    res.render('addanimal.html'); 
+});
+
+router.get('/viewanimals', function(req, res) {
+    res.render('viewanimals.html'); 
 });
 
 // POST http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/register
 router.post('/register', function(req, res) {
-    // TODO: Create user and add to database from what is passed back to the server
-});
+    User({
+		username: req.body.username,
+		password: bcrypt.hashSync(req.body.password)
+	}).save(function(err) {
+		if(err) throw err;
+		console.log(req.body.username + ' saved successfully');
+		res.json({ success: true});
+	});
 
-// router.get('/setup', function(req, res) {
-//
-//   // create a sample user
-//   var jeremy = new User({
-//     name: 'Jeremy',
-//     password: bcrypt.hashSync('password'), // Encrypts password for storage in database
-//   });
-//
-//   // save the sample user
-//   jeremy.save(function(err) {
-//     if (err) throw err;
-//
-//     console.log(jeremy.name + ' saved successfully');
-//     res.json({ success: true });
-//   });
-// });
+});
 
 // Export for use in server.js
 module.exports = router

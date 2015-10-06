@@ -19,7 +19,7 @@ var tokenAuth   = require('../middleware/authenticate')
 
 // Models
 var User        = require('../models/user'); // get our mongoose model
-
+var Animal 		= require('../models/animal');
 // get an instance of the router for api routes
 var router = express.Router();
 
@@ -37,7 +37,7 @@ router.post('/authenticate', function(req, res) {
 
   // find the user
   User.findOne({
-    name: req.body.name
+    username: req.body.username
   }, function(err, user) {
 
     if (err) throw err;
@@ -73,11 +73,35 @@ router.post('/authenticate', function(req, res) {
 // route middleware to verify a token
 router.use(tokenAuth);
 
-// route to return all users (GET http://localhost:8080/api/users)
-router.get('/users', function(req, res) {
-  User.find({}, function(err, users) {
-    res.json(users);
-  });
+// route to add an animal (GET http://localhost:8080/api/addanimal)
+router.post('/addanimal', function(req, res) {
+    Animal({
+		id: req.body.id,
+		managedBy: req.body.managedBy,
+		name: req.body.name,
+		type: req.body.type,
+		breed: req.body.breed,
+		date: req.body.date,
+		latestWeight: req.body.latestWeight
+	}).save(function(err) {
+		if(err) throw err;
+		console.log(req.body.name + ' saved successfully');
+		res.json({ success: true});
+	});
+	
+
+	
+    //res.json({success: false});
+
+});
+
+
+router.post('/viewanimals', function(req, res) {
+	console.log("Viewing animals for " + req.decoded.username);
+	var animals = Animal.find({ managedBy: req.decoded.username }, function(err, animals) {
+		res.json(animals);
+	});
+  
 });
 
 // Export for use in server.js

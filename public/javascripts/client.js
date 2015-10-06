@@ -13,11 +13,11 @@ function authenticate() {
     	else{
     		token = obj.token;
 			window.localStorage.setItem('token', token);
-    		loadHomepage();
+    		//loadHomepage();
     	}
 		
       	//console.log(xhttp.responseText);
-      	//console.log("token: " + token);
+      	console.log("token: " + token);
     }
   }
   xhttp.open("POST", "http://localhost:8080/api/authenticate", true);
@@ -27,12 +27,13 @@ function authenticate() {
 
 function loadHomepage(){
 	var xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "http://localhost:8080/api/", true);
+  xhttp.open("GET", "http://localhost:8080/", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.onreadystatechange = function() { 
     if (xhttp.readyState == 4 && xhttp.status == 200){
       callback(xhttp.responseText);
     }
-    console.log("token: "+token);
+    //console.log("token: "+token);
     xhttp.send("token="+token);
+}
 }

@@ -15,12 +15,14 @@
   <button type="button" onclick='authenticate()'>Log In</button>
 
 <br><br>
-<form action="http://localhost:8080/register">
+<form name="register">
 	<input type="submit" value="Register">
 </form>
 
-<br>
-<button type="button" onclick='authenticate()'>Submit</button>
+<script>
+document.register.action = window.location.href + 'register';
+console.log(document.register.action);
+</script>
 
 
 </body>
