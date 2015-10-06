@@ -1,6 +1,7 @@
 var token = "";
 
 function authenticate() {
+  
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -12,8 +13,9 @@ function authenticate() {
     	}
     	else{
     		token = obj.token;
-			window.localStorage.setItem('token', token);
-    		//loadHomepage();
+        window.localStorage.setItem('token', token);
+        window.localStorage.setItem('username', document.getElementById("username").value);
+    		window.location.assign("http://localhost:8080/index");
     	}
 		
       	//console.log(xhttp.responseText);
@@ -31,7 +33,8 @@ function loadHomepage(){
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.onreadystatechange = function() { 
     if (xhttp.readyState == 4 && xhttp.status == 200){
-      callback(xhttp.responseText);
+      console.log(xhttp.responseText);
+      window.location.assign("http://localhost:8080/index")
     }
     //console.log("token: "+token);
     xhttp.send("token="+token);
