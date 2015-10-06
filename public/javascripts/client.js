@@ -1,11 +1,11 @@
 var token = "";
 
 function authenticate() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-    	console.log(document.getElementById("username").value);
-    	var obj = JSON.parse(xhttp.responseText);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+        	var obj = JSON.parse(xhttp.responseText);
+
 
     	if(obj.success != true){
     		alert(obj.message);
@@ -33,7 +33,6 @@ function loadHomepage(){
     if (xhttp.readyState == 4 && xhttp.status == 200){
       callback(xhttp.responseText);
     }
-  }
-  console.log("token: "+token);
-  xhttp.send("token="+token);
+    console.log("token: "+token);
+    xhttp.send("token="+token);
 }

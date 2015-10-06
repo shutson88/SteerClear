@@ -6,9 +6,7 @@ var app         = express();
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 var mongoose    = require('mongoose'); // MongoDB connection module
-var bcrypt      = require('bcrypt-nodejs'); // Encryption module
 
-var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config'); // get our config file
 var User   = require('./routes/user'); // get our mongoose model
 var Animal = require('./routes/animal');
@@ -17,7 +15,7 @@ var Animal = require('./routes/animal');
 // configuration =========
 // =======================
 var port = process.env.PORT || 8080; // used to create, sign, and verify tokens
-app.use(express.static(__dirname + '/assets'));
+app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
@@ -35,19 +33,17 @@ app.use(bodyParser.json());
 // use morgan to log requests to the console
 app.use(morgan('dev'));
 
-var path    = require('path');
 //Serve up public files
 app.use(express.static('public'));
 
 // =======================
-// routes ================
+// Routers ===============
 // =======================
-// basic route
 
-// GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname+'/views/signin.html'));
-});
+// address:port/*
+var basicRoutes = require('./routes/basicRouter');
+app.use('/', basicRoutes);
+
 
 // GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/about
 app.get('/about', function(req, res) {
@@ -199,7 +195,9 @@ apiRoutes.get('/users', function(req, res) {
   });
 });
 
-// apply the routes to our application with the prefix /api
+
+// address:port/api/*
+var apiRoutes = require('./routes/apiRouter');
 app.use('/api', apiRoutes);
 
 // =======================
