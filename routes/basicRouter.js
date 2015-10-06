@@ -44,6 +44,10 @@ router.get('/viewanimals', function(req, res) {
     res.render('viewanimals.html'); 
 });
 
+router.get('/index', function(req, res) {
+    res.render('index.html'); 
+});
+
 // POST http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/register
 router.post('/register', function(req, res) {
     User({
