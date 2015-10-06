@@ -12,6 +12,7 @@ function authenticate() {
     	}
     	else{
     		token = obj.token;
+			window.localStorage.setItem('token', token);
     		loadHomepage();
     	}
 		
@@ -19,14 +20,14 @@ function authenticate() {
       	//console.log("token: " + token);
     }
   }
-  xhttp.open("POST", "http://localhost:9000/api/authenticate", true);
+  xhttp.open("POST", "http://localhost:8080/api/authenticate", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("name="+document.getElementById("username").value+"&password="+document.getElementById("password").value);
+  xhttp.send("username="+document.getElementById("username").value+"&password="+document.getElementById("password").value);
 }
 
 function loadHomepage(){
 	var xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "http://localhost:9000/api/home", true);
+  xhttp.open("GET", "http://localhost:8080/api/", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.onreadystatechange = function() { 
     if (xhttp.readyState == 4 && xhttp.status == 200){

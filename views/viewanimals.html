@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<script src="/javascripts/client.js"></script>
+<body>
+
+<form id="view_animals" action="http://localhost:8080/api/viewanimals" method="post">
+ 
+  <input type="hidden" name="token" value="">
+  <input type="submit" value="View My Animals">
+</form>
+<script>
+var token = window.localStorage.getItem('token');
+
+if(token) {
+	console.log(token);
+	document.forms['view_animals'].elements["token"].value = token;
+	
+}
+
+
+
+</script>
+
+
+</body>
+</html>

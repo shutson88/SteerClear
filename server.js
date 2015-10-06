@@ -11,6 +11,7 @@ var bcrypt      = require('bcrypt-nodejs'); // Encryption module
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config'); // get our config file
 var User   = require('./routes/user'); // get our mongoose model
+var Animal = require('./routes/animal');
 
 // =======================
 // configuration =========
@@ -20,12 +21,15 @@ app.use(express.static(__dirname + '/assets'));
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
+//app.use(express.json());
+//app.use(express.urlencoded());
 
 mongoose.connect(config.database); // connect to database
+var db = mongoose.connection;
 app.set('superSecret', config.secret); // secret variable
 
 // use body parser so we can get info from POST and/or URL parameters
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // use morgan to log requests to the console
@@ -52,31 +56,30 @@ app.get('/about', function(req, res) {
 
 // GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/register
 app.get('/register', function(req, res) {
-    res.render('register.html'); // TODO: Add Register.html to views folder
+    res.render('register.html'); 
+});
+
+app.get('/addanimal', function(req, res) {
+    res.render('addanimal.html'); 
+});
+
+app.get('/viewanimals', function(req, res) {
+    res.render('viewanimals.html'); 
 });
 
 // POST http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/register
 app.post('/register', function(req, res) {
-    // TODO: Create user and add to database from what is passed back to the server
+    User({
+		username: req.body.username,
+		password: bcrypt.hashSync(req.body.password)
+	}).save(function(err) {
+		if(err) throw err;
+		console.log(req.body.username + ' saved successfully');
+		res.json({ success: true});
+	});
+
 });
 
-// app.get('/setup', function(req, res) {
-//
-//   // create a sample user
-//   var jeremy = new User({
-//     name: 'Jeremy Moorman',
-//     password: bcrypt.hashSync('password'), // Encrypts password for storage in database
-//     admin: true
-//   });
-//
-//   // save the sample user
-//   jeremy.save(function(err) {
-//     if (err) throw err;
-//
-//     console.log(jeremy.name + ' saved successfully');
-//     res.json({ success: true });
-//   });
-// });
 
 // API ROUTES -------------------
 // get an instance of the router for api routes
@@ -87,7 +90,7 @@ apiRoutes.post('/authenticate', function(req, res) {
 
   // find the user
   User.findOne({
-    name: req.body.name
+    username: req.body.username
   }, function(err, user) {
 
     if (err) throw err;
@@ -97,7 +100,7 @@ apiRoutes.post('/authenticate', function(req, res) {
     } else if (user) {
 
       // check if password matches
-      if (!bcrypt.compareSync(req.body.password, user.password)) { // Checks given password with stored encrypted oneS
+      if (!bcrypt.compareSync(req.body.password, user.password)) { // Checks given password with stored encrypted ones
         res.json({ success: false, message: 'Authentication failed. Wrong password.' });
       } else {
 
@@ -135,6 +138,7 @@ apiRoutes.use(function(req, res, next) {
         return res.json({ success: false, message: 'Failed to authenticate token.' });
       } else {
         // if everything is good, save to request for use in other routes
+		console.log("successful token auth");
         req.decoded = decoded;
         next();
       }
@@ -154,8 +158,39 @@ apiRoutes.use(function(req, res, next) {
 
 // route to show a random message (GET http://localhost:8080/api/)
 apiRoutes.get('/', function(req, res) {
-  res.json({ message: 'Welcome to the coolest API on earth!' });
+  res.json({ message: 'Welcome to the SteerClear API on earth!' });
 });
+
+// route to add an animal (GET http://localhost:8080/api/addanimal)
+apiRoutes.post('/addanimal', function(req, res) {
+    Animal({
+		id: req.body.id,
+		managedBy: req.body.managedBy,
+		name: req.body.name,
+		type: req.body.type,
+		breed: req.body.breed,
+		date: req.body.date,
+		latestWeight: req.body.latestWeight
+	}).save(function(err) {
+		if(err) throw err;
+		console.log(req.body.name + ' saved successfully');
+		res.json({ success: true});
+	});
+	
+
+	
+    //res.json({success: false});
+
+});
+
+// route to return all users (GET http://localhost:8080/api/users)
+apiRoutes.post('/viewanimals', function(req, res) {
+	var animals = Animal.find({ managedBy: req.decoded.username }, function(err, animals) {
+		res.json(animals);
+	});
+  
+});
+
 
 // route to return all users (GET http://localhost:8080/api/users)
 apiRoutes.get('/users', function(req, res) {
@@ -171,4 +206,4 @@ app.use('/api', apiRoutes);
 // start the server ======
 // =======================
 app.listen(port);
-console.log('Magic happens at http://localhost:' + port);
+console.log('Server started');
