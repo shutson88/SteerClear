@@ -23,7 +23,7 @@ var router = express.Router();
 // ====================
 // GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/
 router.get('/', function(req, res) {
-    res.render('signin.html');
+    res.render('index.html');
 });
 
 // GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/about
@@ -42,6 +42,10 @@ router.get('/addanimal', function(req, res) {
 
 router.get('/viewanimals', function(req, res) {
     res.render('viewanimals.html'); 
+});
+
+router.get('/signin', function(req, res) {
+	res.render('signin.html');
 });
 
 router.get('/index', function(req, res) {

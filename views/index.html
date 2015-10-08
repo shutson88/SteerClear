@@ -7,6 +7,37 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script>
+        var http = new XMLHttpRequest();
+        var token = window.localStorage.getItem('token');
+        if(token) {
+           http.open("GET", window.document.location + 'checktoken', false);
+           http.send("token=", token);
+           http.onreadystatechange = function() {
+                if(http.readyState == 4 && http.status == 200) {
+                    var json = http.responseText;
+                    console.log(json);
+                    if(json.success === false) {
+                        window.location.assign(window.document.host + '/signin');
+                    }
+                }
+            }
+
+
+        } else {
+            console.log("http://" + window.location.host + '/signin');
+            window.location.assign("http://" + window.location.host + '/signin');
+
+
+
+        }
+        
+
+        
+
+
+        
+
+
         $(document).ready(function($) {
             $(".clickable-row").click(function() {
                 window.document.location = $(this).data("href");
@@ -47,6 +78,7 @@
                 <tbody>
                 </tbody>
             </table>
+            <button type="button" onClick="logout()">Logout</button>
             <button type="button" class="btn btn-default" onClick="addAnimal()">Add Animal</button>
 
         </div>
@@ -57,6 +89,10 @@
     getAnimals();
     function addAnimal(){
         window.location.assign("http://localhost:8080/addanimal");
+    }
+    function logout() {
+        window.localStorage.removeItem('token');
+        window.location.assign(window.document.location);
     }
 </script>
 </body>
