@@ -54,7 +54,7 @@ function register() {
 	xhttp.send(
 		"username="+document.getElementById("username").value + 
 		"&password="+document.getElementById("password").value); 
-		//TODO: modify when the user model is changed to match
+		//TODO: modify when the user model is changed
 	
 }
 
@@ -91,7 +91,7 @@ function addanimal() {
 		"&date="+document.getElementById("date").value +
 		"&latestWeight="+document.getElementById("latestWeight").value +
 		"&token="+window.localStorage.getItem('token')); 
-		//TODO: modify when the animal model is changed to match	
+		//TODO: modify when the animal model is changed	
 	
 	
 	
@@ -99,7 +99,7 @@ function addanimal() {
 
 function loadHomepage(){
 	var xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "http://localhost:8080/", true);
+  xhttp.open("GET", "http://" + window.location.host + "/index", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.onreadystatechange = function() { 
     if (xhttp.readyState == 4 && xhttp.status == 200){

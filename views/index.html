@@ -10,7 +10,7 @@
         var http = new XMLHttpRequest();
         var token = window.localStorage.getItem('token');
         if(token) {
-           http.open("GET", "http://" + window.document.host + 'checktoken', false);
+           http.open("GET", "http://" + window.location.host + '/checktoken', false);
            http.send("token=", token);
            http.onreadystatechange = function() {
                 if(http.readyState == 4 && http.status == 200) {
