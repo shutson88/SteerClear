@@ -95,6 +95,12 @@ router.post('/addanimal', function(req, res) {
 
 });
 
+router.get('/checktoken', function(req, res) {
+
+  res.json({success: true});
+
+});
+
 
 router.post('/viewanimals', function(req, res) {
 	console.log("Viewing animals for " + req.decoded.username);
