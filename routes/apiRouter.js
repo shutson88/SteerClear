@@ -109,10 +109,10 @@ router.post('/viewweights', function(req, res) {
 });
 
 router.get('/viewanimal', function(req, res) {
-  console.log("Viewing animal " + req.body.id);
-  var animal = Animal.find({ id: req.body.id }, function(err, animal) {
-    res.json(animal);
-  });
+	console.log("Viewing animal " + req.body.id);
+	var animal = Animal.find({ id: req.body.id }, function(err, animal) {
+		res.json(animal);
+	});
   
 });
 

@@ -92,7 +92,7 @@
     }
     function logout() {
         window.localStorage.removeItem('token');
-        window.location.assign(window.document.location);
+        window.location.assign("http://" + window.location.host + "/index");
     }
 </script>
 </body>
