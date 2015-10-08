@@ -96,9 +96,8 @@ router.post('/addanimal', function(req, res) {
 
 });
 
-router.get('/checktoken', function(req, res) {
-
-  res.json({success: true});
+router.post('/checktoken', function(req, res) {
+	res.json({success: true});
 
 });
 
