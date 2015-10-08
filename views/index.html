@@ -7,20 +7,24 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script>
-        var http = new XMLHttpRequest();
+        
         var token = window.localStorage.getItem('token');
         if(token) {
-           http.open("GET", "http://" + window.location.host + '/checktoken', false);
-           http.send("token=", token);
-           http.onreadystatechange = function() {
-                if(http.readyState == 4 && http.status == 200) {
-                    var json = http.responseText;
-                    console.log(json);
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+
+				if(xhttp.readyState == 4) {
+                    var json = JSON.parse(xhttp.responseText)
                     if(json.success === false) {
-                        window.location.assign("http://" + window.document.host + '/signin');
+						window.location.replace("http://" + window.location.host + '/signin');
                     }
                 }
+			
             }
+			xhttp.open("POST", "http://" + window.location.host + "/api/checktoken", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("token="+token);
+           
         } else {
             console.log("http://" + window.location.host + '/signin');
             window.location.assign("http://" + window.location.host + '/signin');
