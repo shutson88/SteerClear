@@ -15,14 +15,14 @@ function authenticate() {
     		token = obj.token;
         window.localStorage.setItem('token', token);
         window.localStorage.setItem('username', document.getElementById("username").value);
-    		window.location.assign("http://localhost:8080/index");
+    		window.location.assign("http://" + window.location.host + "/index");
     	}
 		
       	//console.log(xhttp.responseText);
       	console.log("token: " + token);
     }
   }
-  xhttp.open("POST", "http://localhost:8080/api/authenticate", true);
+  xhttp.open("POST", "http://" + window.location.host + "/api/authenticate", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("username="+document.getElementById("username").value+"&password="+document.getElementById("password").value);
 }
@@ -34,7 +34,7 @@ function loadHomepage(){
   xhttp.onreadystatechange = function() { 
     if (xhttp.readyState == 4 && xhttp.status == 200){
       console.log(xhttp.responseText);
-      window.location.assign("http://localhost:8080/index")
+      window.location.assign("http://" + window.location.host + "/index")
     }
     //console.log("token: "+token);
     xhttp.send("token="+token);

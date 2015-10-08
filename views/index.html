@@ -10,14 +10,14 @@
         var http = new XMLHttpRequest();
         var token = window.localStorage.getItem('token');
         if(token) {
-           http.open("GET", window.document.location + 'checktoken', false);
+           http.open("GET", "http://" + window.document.host + 'checktoken', false);
            http.send("token=", token);
            http.onreadystatechange = function() {
                 if(http.readyState == 4 && http.status == 200) {
                     var json = http.responseText;
                     console.log(json);
                     if(json.success === false) {
-                        window.location.assign(window.document.host + '/signin');
+                        window.location.assign("http://" + window.document.host + '/signin');
                     }
                 }
             }
@@ -88,7 +88,7 @@
     greeting();
     getAnimals();
     function addAnimal(){
-        window.location.assign("http://localhost:8080/addanimal");
+        window.location.assign("http://" + window.location.host + "/addanimal");
     }
     function logout() {
         window.localStorage.removeItem('token');

@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <script src="/javascripts/client.js"></script>
+<script src="/javascripts/queryurl.js"></script>
 <body>
 
-<form name="register" action="http://localhost:8080/register" method="post">
+<div id="successDiv">
+</div>
+
+<form name="register" method="post">
   Username:<br>
   <input name="username" id="username">
   <br>
@@ -13,8 +17,13 @@
   <input type="submit" value="Register">
 </form>
 <script>
-document.register.action = window.location.href;
+document.register.action = "http://" + window.location.host + "/register";
 console.log(document.register.action);
+var success = <%- JSON.stringify(success) %>;
+//console.log(success);
+if(success == 'true') {
+	document.getElementById("successDiv").textContent = "Successfully Registered";
+}
 </script>
 
 
