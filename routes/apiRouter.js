@@ -86,7 +86,8 @@ router.post('/addanimal', function(req, res) {
 	}).save(function(err) {
 		if(err) throw err;
 		console.log(req.body.name + ' saved successfully');
-		res.render("index.html");
+		res.json({ success: true});
+		//res.render("index.html");
 	});
 	
 
