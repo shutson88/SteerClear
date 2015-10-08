@@ -39,7 +39,7 @@ function getAnimals(){
         	}
     	}
     }
-	xhttp.open("POST", "http://localhost:8080/api/viewanimals", true);
+	xhttp.open("POST", "http://" + window.location.host + "/api/viewanimals", true); //TODO: doesn't work if I set to GET, server returns 403 Forbidden
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send("token="+window.localStorage.getItem('token'));
 

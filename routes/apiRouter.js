@@ -86,7 +86,7 @@ router.post('/addanimal', function(req, res) {
 	}).save(function(err) {
 		if(err) throw err;
 		console.log(req.body.name + ' saved successfully');
-		res.json({ success: true});
+		res.render("index.html");
 	});
 	
 
@@ -99,6 +99,21 @@ router.get('/checktoken', function(req, res) {
 
   res.json({success: true});
 
+});
+
+router.post('/viewweights', function(req, res) {
+  console.log("Viewing weights for " + req.body.id);
+
+
+
+});
+
+router.get('/viewanimal', function(req, res) {
+  console.log("Viewing animal " + req.body.id);
+  var animal = Animal.find({ id: req.body.id }, function(err, animal) {
+    res.json(animal);
+  });
+  
 });
 
 

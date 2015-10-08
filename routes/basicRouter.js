@@ -33,7 +33,10 @@ router.get('/about', function(req, res) {
 
 // GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/register
 router.get('/register', function(req, res) {
-    res.render('register.html'); 
+    res.render('register.html', {
+    	success: 'false'
+
+    }); 
 });
 
 router.get('/addanimal', function(req, res) {
@@ -60,7 +63,9 @@ router.post('/register', function(req, res) {
 	}).save(function(err) {
 		if(err) throw err;
 		console.log(req.body.username + ' saved successfully');
-		res.json({ success: true});
+		res.render("register.html", {
+			success: 'true'
+		});
 	});
 
 });
