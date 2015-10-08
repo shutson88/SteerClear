@@ -19,7 +19,7 @@ function login() {
     	}
 		
       	//console.log(xhttp.responseText);
-      	console.log("token: " + token);
+      	//console.log("token: " + token);
     }
   }
   xhttp.open("POST", "http://" + window.location.host + "/api/authenticate", true);
@@ -58,6 +58,44 @@ function register() {
 	
 }
 
+function addanimal() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			var obj = JSON.parse(xhttp.responseText);
+			
+			if(obj.success != true) {
+				alert(obj.message);
+			}
+			else {
+				
+				document.getElementById("successDiv").textContent = "Added successfully...redirecting in 2 seconds...";
+				setTimeout(function() {
+					window.location.replace("http://" + window.location.host + "/index");
+				}, 2000);
+				
+				
+				
+			}
+		}
+		
+	}	
+	xhttp.open("POST", "http://" + window.location.host + "/api/addanimal", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send(
+		"id="+document.getElementById("id").value + 
+		"&managedBy="+document.getElementById("managedBy").value +
+		"&name="+document.getElementById("name").value +
+		"&type="+document.getElementById("type").value +
+		"&breed="+document.getElementById("breed").value +
+		"&date="+document.getElementById("date").value +
+		"&latestWeight="+document.getElementById("latestWeight").value +
+		"&token="+window.localStorage.getItem('token')); 
+		//TODO: modify when the animal model is changed to match	
+	
+	
+	
+}
 
 function loadHomepage(){
 	var xhttp = new XMLHttpRequest();
@@ -65,7 +103,7 @@ function loadHomepage(){
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.onreadystatechange = function() { 
     if (xhttp.readyState == 4 && xhttp.status == 200){
-      console.log(xhttp.responseText);
+     // console.log(xhttp.responseText);
       window.location.assign("http://" + window.location.host + "/index")
     }
     //console.log("token: "+token);

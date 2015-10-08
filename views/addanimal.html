@@ -2,44 +2,46 @@
 <html>
 <script src="/javascripts/client.js"></script>
 <body>
-
-<form id="animal_info" action="http://localhost:8080/api/addanimal" method="post">
+<div id="successDiv">
+</div>
+<!-- <form id="animal_info" action="http://localhost:8080/api/addanimal" method="post"> -->
   ID:<br>
-  <input name="id" value="someid">
+  <input id="id" value="someid">
   <br>
   Managed By:<br>
-  <input name="managedBy" value="samuel">
+  <input id="managedBy" value="samuel">
   <br>
   Animal Name:<br>
-  <input name="name" value="bessie">
+  <input id="name" value="bessie">
   <br>
   Type of Animal:<br>
-  <input name="type" value="cow">
+  <input id="type" value="cow">
   <br>
   Breed:<br>
-  <input name="breed" value="angus">
+  <input id="breed" value="angus">
   <br>
   Date:<br>
-  <input name="date" value="1052015">
+  <input id="date" value="1052015">
   <br>
   Latest Weight:<br>
-  <input name="latestWeight" value="500">
+  <input id="latestWeight" value="500">
   <br>
-  <input type="hidden" name="token" value="">
-  <input type="submit" value="Add Animal to Database">
-</form>
-<script>
-var token = window.localStorage.getItem('token');
+<!--   <input type="hidden" id="token" value=""> -->
+<!--   <input type="submit" value="Add Animal to Database"> -->
+<!-- </form> -->
+<button type="button" onclick="addanimal()">Add Animal to Database</button>
+<!-- <script>
+ var token = window.localStorage.getItem('token');
 
 if(token) {
-	console.log(token);
-	document.forms['animal_info'].elements["token"].value = token;
+	//console.log(token);
+	document.getElementById("token").value = token;
 	
 }
 
 
 
-</script>
+</script>  -->
 
 
 </body>
