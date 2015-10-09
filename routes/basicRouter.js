@@ -52,7 +52,7 @@ router.get('/index', function(req, res) {
     res.render('index.html'); 
 });
 
-// POST http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/register
+//api call to register a user
 router.post('/register', function(req, res) {
     User({
 		username: req.body.username,
