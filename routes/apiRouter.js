@@ -84,15 +84,17 @@ router.post('/addanimal', function(req, res) {
 		date: req.body.date,
 		latestWeight: req.body.latestWeight
 	}).save(function(err) {
-		if(err) throw err;
-		console.log(req.body.name + ' saved successfully');
-		res.json({ success: true});
-		//res.render("index.html");
+		if(err) {
+			res.json({success: false, message: "something broke"});
+		} else {
+			console.log(req.body.name + ' saved successfully');
+			res.json({ success: true});
+		}
+		
 	});
 	
 
 	
-    //res.json({success: false});
 
 });
 
