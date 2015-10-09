@@ -6,7 +6,8 @@ var app         = express();
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 var mongoose    = require('mongoose'); // MongoDB connection module
-
+var path 		= require('path')
+var favicon 	= require('serve-favicon');
 var config = require('./config'); // get our config file
 
 
@@ -19,7 +20,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-
+app.use(favicon(path.join(__dirname + '/public/images/favicon.ico')))
 mongoose.connect(config.database); // connect to database
 var db = mongoose.connection;
 app.set('superSecret', config.secret); // secret variable
