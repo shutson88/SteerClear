@@ -58,9 +58,13 @@ router.post('/register', function(req, res) {
 		username: req.body.username,
 		password: bcrypt.hashSync(req.body.password)
 	}).save(function(err) {
-		if(err) throw err;
-		console.log(req.body.username + ' saved successfully');
-		res.json({ success: true});
+		if(err) {
+			res.json({success: false, message: "something broke"});
+		} else {
+			console.log(req.body.username + ' saved successfully');
+			res.json({ success: true});
+		}
+		
 	});
 
 });
