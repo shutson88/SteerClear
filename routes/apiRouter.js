@@ -64,11 +64,17 @@ router.post('/authenticate', function(req, res) {
           token: token
         });
       }
-
     }
-
   });
 });
+
+// TODO: Remove before deployment
+// FOR DEV USE ONLY!
+router.get('/users', function(req, res) {
+    var users = User.find(function(err, animals) {
+		res.json(animals);
+	});
+})
 
 // route middleware to verify a token
 router.use(tokenAuth);
@@ -89,13 +95,8 @@ router.post('/addanimal', function(req, res) {
 		} else {
 			console.log(req.body.name + ' saved successfully');
 			res.json({ success: true});
-		}
-		
+		}S
 	});
-	
-
-	
-
 });
 
 router.post('/checktoken', function(req, res) {
@@ -105,9 +106,6 @@ router.post('/checktoken', function(req, res) {
 
 router.post('/viewweights', function(req, res) {
   console.log("Viewing weights for " + req.body.id);
-
-
-
 });
 
 router.get('/viewanimal', function(req, res) {
@@ -115,16 +113,14 @@ router.get('/viewanimal', function(req, res) {
 	var animal = Animal.find({ id: req.body.id }, function(err, animal) {
 		res.json(animal);
 	});
-  
 });
-
 
 router.post('/viewanimals', function(req, res) {
 	console.log("Viewing animals for " + req.decoded.username);
 	var animals = Animal.find({ managedBy: req.decoded.username }, function(err, animals) {
 		res.json(animals);
 	});
-  
+
 });
 
 // Export for use in server.js

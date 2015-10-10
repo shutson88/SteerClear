@@ -37,11 +37,11 @@ router.get('/register', function(req, res) {
 });
 
 router.get('/addanimal', function(req, res) {
-    res.render('addanimal.html'); 
+    res.render('addanimal.html');
 });
 
 router.get('/viewanimals', function(req, res) {
-    res.render('viewanimals.html'); 
+    res.render('viewanimals.html');
 });
 
 router.get('/signin', function(req, res) {
@@ -49,14 +49,17 @@ router.get('/signin', function(req, res) {
 });
 
 router.get('/index', function(req, res) {
-    res.render('index.html'); 
+    res.render('index.html');
 });
 
 //api call to register a user
 router.post('/register', function(req, res) {
     User({
 		username: req.body.username,
-		password: bcrypt.hashSync(req.body.password)
+		password: bcrypt.hashSync(req.body.password),
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email
 	}).save(function(err) {
 		if(err) {
 			res.json({success: false, message: "something broke"});
@@ -64,7 +67,7 @@ router.post('/register', function(req, res) {
 			console.log(req.body.username + ' saved successfully');
 			res.json({ success: true});
 		}
-		
+
 	});
 
 });
