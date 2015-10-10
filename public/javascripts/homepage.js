@@ -30,11 +30,11 @@ function getAnimals(){
 				var lastWeight = newRow.insertCell(2);
 
 				// Append a text node to the cell
-				var newText  = document.createTextNode(obj.animals[i].id);
+				var newText  = document.createTextNode(obj.animals[i]._id);
 				id.appendChild(newText);
 				newText  = document.createTextNode(obj.animals[i].name);
 				name.appendChild(newText);
-				newText  = document.createTextNode(obj.animals[i].latestWeight);
+				newText  = document.createTextNode(obj.animals[i].type);
 				lastWeight.appendChild(newText);
         	}
     	}
