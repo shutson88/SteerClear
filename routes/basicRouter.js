@@ -55,14 +55,21 @@ router.get('/index', function(req, res) {
 //api call to register a user
 router.post('/register', function(req, res) {
     User({
-		username: req.body.username,
+		_id: req.body.username,
 		password: bcrypt.hashSync(req.body.password),
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email
 	}).save(function(err) {
 		if(err) {
-			res.json({success: false, message: "something broke"});
+			if(err && err.code !== 11000) {
+				console.log(err);
+				res.json({success: false, message: "Another error occurred"});
+			}
+			if(err && err.code === 11000) {
+				console.log(err);
+				res.json({success: false, message: "Username taken"});
+			};
 		} else {
 			console.log(req.body.username + ' saved successfully');
 			res.json({ success: true});

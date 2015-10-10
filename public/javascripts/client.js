@@ -53,7 +53,7 @@ function register() {
         "&first_name="+document.getElementById("first_name").value +
         "&last_name="+document.getElementById("last_name").value +
         "&email="+document.getElementById("email").value);
-		//TODO: modify when the user model is changed
+		
 }
 
 function addanimal() {
@@ -87,9 +87,8 @@ function addanimal() {
 		"&type="+document.getElementById("type").value +
 		"&breed="+document.getElementById("breed").value +
 		"&date="+document.getElementById("date").value +
-		"&latestWeight="+document.getElementById("latestWeight").value +
 		"&token="+window.localStorage.getItem('token'));
-		//TODO: modify when the animal model is changed
+		
 
 
 

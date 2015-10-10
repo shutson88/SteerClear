@@ -82,20 +82,24 @@ router.use(tokenAuth);
 // route to add an animal (GET http://localhost:8080/api/addanimal)
 router.post('/addanimal', function(req, res) {
     Animal({
-		id: req.body.id,
+		_id: req.body.id,
 		managedBy: req.body.managedBy,
 		name: req.body.name,
 		type: req.body.type,
 		breed: req.body.breed,
 		date: req.body.date,
-		latestWeight: req.body.latestWeight
 	}).save(function(err) {
 		if(err) {
-			res.json({success: false, message: "something broke"});
+			if(err && err.code !== 11000) {
+				res.json({success: false, message: "Another error occurred"});
+			}
+			if(err && err.code === 11000) {
+				res.json({success: false, message: "Duplicate animal"});
+			}
 		} else {
 			console.log(req.body.name + ' saved successfully');
-			res.json({ success: true});
-		}S
+			res.json({ success: true });
+		}
 	});
 });
 
