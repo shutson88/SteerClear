@@ -120,8 +120,8 @@ router.get('/viewanimal', function(req, res) {
 });
 
 router.post('/viewanimals', function(req, res) {
-	console.log("Viewing animals for " + req.decoded.username);
-	var animals = Animal.find({ managedBy: req.decoded.username }, function(err, animals) {
+	console.log("Viewing animals for " + req.decoded._id);
+	var animals = Animal.find({ managedBy: req.decoded._id }, function(err, animals) {
 		res.json(animals);
 	});
 
