@@ -68,7 +68,7 @@ router.post('/register', function(req, res) {
 			}
 			if(err && err.code === 11000) {
 				console.log(err);
-				res.json({success: false, message: "Username taken"});
+				res.json({success: false, message: "Username/email already taken"});
 			};
 		} else {
 			console.log(req.body.username + ' saved successfully');
