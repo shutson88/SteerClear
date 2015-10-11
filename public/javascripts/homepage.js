@@ -23,7 +23,7 @@ function getAnimals(){
 				// Insert a row in the table at the last row
 				var newRow   = tableRef.insertRow(tableRef.rows.length);
 				newRow.className='.clickable-row';
-				newRow.setAttribute("onClick", "<script>console.log("test")</script>");
+				//newRow.setAttribute("onClick", "<script>console.log("test")</script>");
 				// Insert a cell in the row at index 0
 				var id  = newRow.insertCell(0);
 				var name = newRow.insertCell(1);
