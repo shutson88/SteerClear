@@ -37,7 +37,7 @@ router.post('/authenticate', function(req, res) {
 
   // find the user
   User.findOne({
-    _id: req.body.username
+    _id: req.body.username.toLowerCase()
   }, function(err, user) {
 
     if (err) throw err;
@@ -81,26 +81,39 @@ router.use(tokenAuth);
 
 // route to add an animal (GET http://localhost:8080/api/addanimal)
 router.post('/addanimal', function(req, res) {
-    Animal({
-		_id: req.body.id,
-		managedBy: req.body.managedBy,
-		name: req.body.name,
-		type: req.body.type,
-		breed: req.body.breed,
-		date: req.body.date,
-	}).save(function(err) {
-		if(err) {
-			if(err && err.code !== 11000) {
-				res.json({success: false, message: "Another error occurred"});
-			}
-			if(err && err.code === 11000) {
-				res.json({success: false, message: "Duplicate animal"});
-			}
+    User.findOne({
+		_id: req.body.managedBy.toLowerCase()
+	}, function(err, user) {
+		if (!user) {
+			res.json({success: false, message: "User does not exist"});
 		} else {
-			console.log(req.body.name + ' saved successfully');
-			res.json({ success: true });
+			Animal({
+				_id: req.body.id,
+				managedBy: req.body.managedBy.toLowerCase(),
+				name: req.body.name,
+				type: req.body.type,
+				breed: req.body.breed,
+				date: req.body.date,
+			}).save(function(err) {
+				if(err) {
+					if(err && err.code !== 11000) {
+						res.json({success: false, message: "Another error occurred"});
+					}
+					if(err && err.code === 11000) {
+						res.json({success: false, message: "Duplicate animal"});
+					}
+				} else {
+					console.log(req.body.name + ' saved successfully');
+					res.json({ success: true });
+				}
+			});			
+			
+			
 		}
+		
 	});
+	
+
 });
 
 router.post('/checktoken', function(req, res) {
