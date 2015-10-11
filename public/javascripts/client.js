@@ -94,6 +94,57 @@ function addanimal() {
 
 }
 
+function getCurrentDate() {
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1;
+	var yyyy = today.getFullYear();
+	
+	if(dd < 10) {
+		dd='0' + dd;
+	}
+	if(mm < 10) {
+		mm='0' + mm;
+	}
+	today = mm+'/'+dd+'/'+yyyy;
+	document.getElementById("date").value = today;
+	
+	
+}
+
+function addWeight() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			var obj = JSON.parse(xhttp.responseText);
+
+			if(obj.success != true) {
+				alert(obj.message);
+			}
+			else {
+
+				document.getElementById("successDiv").textContent = "Added successfully...redirecting in 2 seconds...";
+				setTimeout(function() {
+					window.location.replace("http://" + window.location.host + "/index");
+				}, 2000);
+
+
+
+			}
+		}
+
+	}
+	xhttp.open("POST", "http://" + window.location.host + "/api/addweight", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send(
+		"id="+document.getElementById("id").value +
+		"&weight="+document.getElementById("weight").value +
+		"&date="+document.getElementById("date").value +
+		"&token="+window.localStorage.getItem('token'));
+	
+	
+}
+
 function loadHomepage(){
 	var xhttp = new XMLHttpRequest();
   xhttp.open("GET", "http://" + window.location.host + "/index", true);

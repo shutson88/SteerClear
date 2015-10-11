@@ -22,8 +22,8 @@ function getAnimals(){
 
 				// Insert a row in the table at the last row
 				var newRow   = tableRef.insertRow(tableRef.rows.length);
-				newRow.className='clickable-row';
-
+				newRow.className='.clickable-row';
+				newRow.setAttribute("onClick", "<script>console.log("test")</script>");
 				// Insert a cell in the row at index 0
 				var id  = newRow.insertCell(0);
 				var name = newRow.insertCell(1);
@@ -40,6 +40,19 @@ function getAnimals(){
     	}
     }
 	xhttp.open("POST", "http://" + window.location.host + "/api/viewanimals", true); //TODO: doesn't work if I set to GET, server returns 403 Forbidden
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("token="+window.localStorage.getItem('token'));
+
+}
+
+function getWeights(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+        	//TODO: Parse json and display it
+    	}
+    }
+	xhttp.open("POST", "http://" + window.location.host + "/api/viewweights", true); 
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send("token="+window.localStorage.getItem('token'));
 

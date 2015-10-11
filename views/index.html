@@ -30,11 +30,7 @@
             window.location.assign("http://" + window.location.host + '/signin');
         }
 
-        $(document).ready(function($) {
-            $(".clickable-row").click(function() {
-                window.document.location = $(this).data("href");
-            });
-        });
+
     </script>
 </head>
 <body>
@@ -68,17 +64,24 @@
                 </tr>
                 </thead>
                 <tbody>
+				<tr class=".clickable-row"></tr>
                 </tbody>
             </table>
             <button type="button" onClick="logout()">Logout</button>
             <button type="button" class="btn btn-default" onClick="addAnimal()">Add Animal</button>
-
+			
         </div>
     </div>
 </div>
 <script>
+
     greeting();
     getAnimals();
+	//$(document).ready(function($) {
+    //        $('.clickable-row').click(function() {
+    //            console.log('clicked');
+    //        });
+    //});
     function addAnimal(){
         window.location.assign("http://" + window.location.host + "/addanimal");
     }

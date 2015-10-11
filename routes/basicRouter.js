@@ -40,6 +40,10 @@ router.get('/addanimal', function(req, res) {
     res.render('addanimal.html');
 });
 
+router.get('/addweight', function(req, res) {
+    res.render('addweight.html');
+});
+
 router.get('/viewanimals', function(req, res) {
     res.render('viewanimals.html');
 });
@@ -54,7 +58,9 @@ router.get('/index', function(req, res) {
 
 //api call to register a user
 router.post('/register', function(req, res) {
-    User({
+    
+	//TODO: check if each field exists before creating and saving object
+	User({
 		_id: req.body.username,
 		password: bcrypt.hashSync(req.body.password),
         first_name: req.body.first_name,
