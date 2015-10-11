@@ -67,7 +67,6 @@ class User{
         do {
             request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(params, options: .PrettyPrinted)
         } catch {
-            //handle error. Probably return or mark function as throws
             print(error)
             return
         }
