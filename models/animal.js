@@ -10,19 +10,23 @@ module.exports = mongoose.model('Animal', new Schema({
 	},
 	managedBy: {
 		type: String,
-		required: true
+		required: true,
+		lowercase: true
 	},
 	name: {
 		type: String,
-		required: true
+		required: true,
+		lowercase: true
 	},
 	type: {
 		type: String,
-		required: true
+		required: true,
+		lowercase: true
 	},
 	breed: {
 		type: String,
-		required: true
+		required: true,
+		lowercase: true
 	},
 	date: {
 		type: String
