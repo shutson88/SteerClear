@@ -27,9 +27,6 @@ module.exports = mongoose.model('Animal', new Schema({
 		type: String,
 		required: true,
 		lowercase: true
-	},
-	date: {
-		type: String
 	}
 	
 }));

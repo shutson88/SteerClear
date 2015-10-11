@@ -20,6 +20,7 @@ var tokenAuth   = require('../middleware/authenticate')
 // Models
 var User        = require('../models/user'); // get our mongoose model
 var Animal 		= require('../models/animal');
+var Weight 		= require('../models/weight');
 // get an instance of the router for api routes
 var router = express.Router();
 
@@ -87,13 +88,15 @@ router.post('/addanimal', function(req, res) {
 		if (!user) {
 			res.json({success: false, message: "User does not exist"});
 		} else {
+			//TODO: check if each field exists before creating and saving object
+			
+			
 			Animal({
 				_id: req.body.id,
 				managedBy: req.body.managedBy.toLowerCase(),
 				name: req.body.name,
 				type: req.body.type,
-				breed: req.body.breed,
-				date: req.body.date,
+				breed: req.body.breed
 			}).save(function(err) {
 				if(err) {
 					if(err && err.code !== 11000) {
@@ -132,10 +135,53 @@ router.get('/viewanimal', function(req, res) {
 	});
 });
 
+router.post('/addweight', function(req, res) {
+    Animal.findOne({
+		_id: req.body.id.toLowerCase()
+	}, function(err, animal) {
+		if (!animal) {
+			res.json({success: false, message: "Animal does not exist"});
+		} else {
+			//TODO: check if each field exists before creating and saving object
+			
+			
+			Weight({
+				id: req.body.id,
+				weight: req.body.weight,
+				date: req.body.date
+			}).save(function(err) {
+				if(err) {
+					if(err && err.code !== 11000) {
+						res.json({success: false, message: "Another error occurred"});
+					}
+					if(err && err.code === 11000) { //TODO: shouldn't need this
+						res.json({success: false, message: "Duplicate found?"});
+					}
+				} else {
+					console.log('weight saved successfully');
+					res.json({ success: true });
+				}
+			});			
+			
+			
+		}
+		
+	});
+});
+
+
 router.post('/viewanimals', function(req, res) {
 	console.log("Viewing animals for " + req.decoded._id);
 	var animals = Animal.find({ managedBy: req.decoded._id }, function(err, animals) {
 		res.json(animals);
+	});
+
+});
+
+router.post('/viewweights', function(req, res) {
+	console.log("Viewing weights for " + req.decoded.id);
+	var weights = Weight.find({ id: req.decoded.id }, function(err, weights) {
+		res.json(weights);
 	});
 
 });
