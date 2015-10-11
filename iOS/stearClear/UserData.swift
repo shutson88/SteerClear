@@ -16,21 +16,11 @@ class User{
     
     var message: String!
     
-    var day: Int!
-    var month: Int!
-    var year: Int!
-    var num: Int!
-    var latestNum: Int!
-    var title: String!
-    var alt: String!
-    var imageURL: String!
-    var transcript: String!
+   
     
     var dataDic: Dictionary<String, AnyObject>!
     
-    func getImgUrl() -> String{
-        return imageURL
-    }
+
     
     func unwrapStr(dic: Dictionary<String, AnyObject>, key: String) -> String{
         guard let info = dic[key]! as? String else{
@@ -62,17 +52,8 @@ class User{
         
         self.username = username;
         self.password = password;
-        
-        day = Int()
-        month = Int()
-        year = Int()
-        num = Int()
-        title = String()
-        alt = String()
-        imageURL = String()
-        transcript = String()
+      
         //fetchJSON(JsonURL)
-        self.latestNum = unwrapInt(dataDic, key: "num")
         parse()
 
     }
@@ -129,7 +110,7 @@ class User{
             
         })
         
-        task!.resume()
+        task.resume()
     }
     
     
