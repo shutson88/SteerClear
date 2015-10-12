@@ -2,6 +2,7 @@
 <head>
     <title>Steer Clear</title>
     <script src="/javascripts/homepage.js"></script>
+	<script src="/javascripts/client.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
@@ -64,26 +65,31 @@
                 </tr>
                 </thead>
                 <tbody>
-				<tr class=".clickable-row"></tr>
                 </tbody>
             </table>
             <button type="button" onClick="logout()">Logout</button>
-            <button type="button" class="btn btn-default" onClick="addAnimal()">Add Animal</button>
+            <button type="button" id="addAnimalBtn" class="btn btn-default" onClick="addAnimal()">Add Animal</button>
+			<button type="button" id="addWeightBtn" class="btn btn-default" onClick="addWeight()">Add Weight</button>
 			
         </div>
     </div>
 </div>
 <script>
 
-    greeting();
+    
     getAnimals();
-	//$(document).ready(function($) {
-    //        $('.clickable-row').click(function() {
-    //            console.log('clicked');
-    //        });
-    //});
+	$(document).on("click", ".clickable-row", function() {
+		var id = $(this).attr("id");
+		//console.log(id);
+		
+		getAnimal(id);
+	});
+	
     function addAnimal(){
         window.location.assign("http://" + window.location.host + "/addanimal");
+    }
+	function addWeight(){
+        window.location.assign("http://" + window.location.host + "/addweight");
     }
     function logout() {
         window.localStorage.removeItem('token');

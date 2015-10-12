@@ -124,13 +124,9 @@ router.post('/checktoken', function(req, res) {
 
 });
 
-router.post('/viewweights', function(req, res) {
-  console.log("Viewing weights for " + req.body.id);
-});
-
-router.get('/viewanimal', function(req, res) {
+router.post('/viewanimal', function(req, res) {
 	console.log("Viewing animal " + req.body.id);
-	var animal = Animal.find({ id: req.body.id }, function(err, animal) {
+	var animal = Animal.find({ _id: req.body.id }, function(err, animal) {
 		res.json(animal);
 	});
 });
@@ -172,15 +168,15 @@ router.post('/addweight', function(req, res) {
 
 router.post('/viewanimals', function(req, res) {
 	console.log("Viewing animals for " + req.decoded._id);
-	var animals = Animal.find({ managedBy: req.decoded._id }, function(err, animals) {
+	Animal.find({ managedBy: req.decoded._id }, function(err, animals) {
 		res.json(animals);
 	});
 
 });
 
 router.post('/viewweights', function(req, res) {
-	console.log("Viewing weights for " + req.decoded.id);
-	var weights = Weight.find({ id: req.decoded.id }, function(err, weights) {
+	console.log("Viewing weights for " + req.body.id);
+	Weight.find({ id: req.body.id }, function(err, weights) {
 		res.json(weights);
 	});
 

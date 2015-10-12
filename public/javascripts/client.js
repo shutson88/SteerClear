@@ -94,6 +94,9 @@ function addanimal() {
 
 }
 
+
+
+
 function getCurrentDate() {
 	var today = new Date();
 	var dd = today.getDate();
@@ -134,6 +137,7 @@ function addWeight() {
 		}
 
 	}
+	
 	xhttp.open("POST", "http://" + window.location.host + "/api/addweight", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(
