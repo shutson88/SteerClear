@@ -17,13 +17,13 @@ function getAnimals(){
         	console.log(json);
         	for(var i in obj.animals){
         		console.log(obj.animals[i].name);
-
+				greeting();
 	        	var tableRef = document.getElementById('animal-table').getElementsByTagName('tbody')[0];
 
 				// Insert a row in the table at the last row
 				var newRow   = tableRef.insertRow(tableRef.rows.length);
-				newRow.className='.clickable-row';
-				//newRow.setAttribute("onClick", "<script>console.log("test")</script>");
+				newRow.className='clickable-row';
+				newRow.setAttribute("id", obj.animals[i]._id);
 				// Insert a cell in the row at index 0
 				var id  = newRow.insertCell(0);
 				var name = newRow.insertCell(1);
@@ -45,15 +45,96 @@ function getAnimals(){
 
 }
 
-function getWeights(){
+function getAnimal(id) {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			obj = JSON.parse(xhttp.responseText)[0];
+			var tableRef;
+			document.getElementById("greeting").innerHTML = obj.name;
+			console.log(obj._id);
+			var weights;
+
+			
+			getWeights(obj._id, function(data) {
+				weights = data.weights;
+				console.log(weights);
+				console.log(weights.length);
+				for(var i = 0; i < weights.length; i++){
+					console.log(weights[i]);
+					tableRef = document.getElementById('animal-table').getElementsByTagName('tbody')[0];
+				
+					// Insert a row in the table at the last row
+					var newRow   = tableRef.insertRow(tableRef.rows.length);
+					newRow.className='clickable-row';
+					
+					// Insert a cell in the row at index 0
+					var idCell  = newRow.insertCell(0);
+					var dateCell = newRow.insertCell(1);
+					var weightCell = newRow.insertCell(2);
+				
+					// Append a text node to the cell
+					var newText  = document.createTextNode(weights[i].id);
+					idCell.appendChild(newText);
+					var date = new Date(weights[i].date);
+					newText  = document.createTextNode(date.toDateString());
+					dateCell.appendChild(newText);
+					newText  = document.createTextNode(weights[i].weight);
+					weightCell.appendChild(newText);
+				}				
+			
+			
+			
+			});
+			//document.getElementById('addingButton').innerHTML = "Add Weight";
+			//document.getElementById('addingButton').onClick = 
+			table = document.getElementById('animal-table');
+			table.innerHTML = "";
+			var body = table.createTBody();
+			var header = table.createTHead();
+			var headerRow = header.insertRow(0);
+			var cell = headerRow.insertCell(0);
+			cell.innerHTML = "<b>ID</b>";
+			cell = headerRow.insertCell(1);
+			cell.innerHTML = "<b>Date</b>";
+			cell = headerRow.insertCell(2);
+			cell.innerHTML = "<b>Weight</b>";
+
+		}
+
+	}
+	xhttp.open("POST", "http://" + window.location.host + "/api/viewanimal", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send(
+		"id="+id +
+		"&token="+window.localStorage.getItem('token'));
+		
+
+
+	
+}
+
+
+
+
+
+function getWeights(id, callback){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-        	//TODO: Parse json and display it
+        	var json = "{\"weights\":"+xhttp.responseText+"}";
+        	var obj = JSON.parse(json);
+			//console.log(obj);
+
+			callback.apply(this, [obj]);
+			
+			
     	}
     }
 	xhttp.open("POST", "http://" + window.location.host + "/api/viewweights", true); 
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send("token="+window.localStorage.getItem('token'));
+	xhttp.send(
+		"id="+id +
+		"&token="+window.localStorage.getItem('token'));
 
 }
