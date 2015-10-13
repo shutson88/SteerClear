@@ -56,6 +56,11 @@ router.get('/index', function(req, res) {
     res.render('index.html');
 });
 
+router.get('/animal', function(req, res) {
+	console.log(JSON.stringify(req.param('id')));
+	res.render('animal.html', {id: JSON.stringify(req.param('id'))});
+});
+
 //api call to register a user
 router.post('/register', function(req, res) {
     
