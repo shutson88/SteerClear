@@ -3,12 +3,19 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = mongoose.model('AnimalType', new Schema({
-	type: {
+	animal: {
         type: String,
-        required: true
+        required: true,
+		unique: true,
+		lowercase: true
     },
-	breed: {
-		type: String[],
-		required: true,
-	}
+	breed: [
+  			{
+				name: {
+					type: String,
+					lowercase: true,
+					unique: true
+				}
+			}
+		]
 }));

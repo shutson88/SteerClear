@@ -21,6 +21,7 @@ var tokenAuth   = require('../middleware/authenticate')
 var User        = require('../models/user'); // get our mongoose model
 var Animal 		= require('../models/animal');
 var Weight 		= require('../models/weight');
+var AnimalType  = require('../models/type')
 // get an instance of the router for api routes
 var router = express.Router();
 
@@ -89,8 +90,8 @@ router.post('/addanimal', function(req, res) {
 			res.json({success: false, message: "User does not exist"});
 		} else {
 			//TODO: check if each field exists before creating and saving object
-			
-			
+
+
 			Animal({
 				_id: req.body.id,
 				managedBy: req.body.managedBy.toLowerCase(),
@@ -109,13 +110,13 @@ router.post('/addanimal', function(req, res) {
 					console.log(req.body.name + ' saved successfully');
 					res.json({ success: true });
 				}
-			});			
-			
-			
+			});
+
+
 		}
-		
+
 	});
-	
+
 
 });
 
@@ -139,8 +140,8 @@ router.post('/addweight', function(req, res) {
 			res.json({success: false, message: "Animal does not exist"});
 		} else {
 			//TODO: check if each field exists before creating and saving object
-			
-			
+
+
 			Weight({
 				id: req.body.id,
 				weight: req.body.weight,
@@ -157,11 +158,11 @@ router.post('/addweight', function(req, res) {
 					console.log('weight saved successfully');
 					res.json({ success: true });
 				}
-			});			
-			
-			
+			});
+
+
 		}
-		
+
 	});
 });
 
@@ -180,6 +181,23 @@ router.post('/viewweights', function(req, res) {
 		res.json(weights);
 	});
 
+});
+
+router.post('/addbreed', function(req, res) {
+
+    // Finds and updates existing model in collection or creates one if it doesn't exist
+    // Can have duplicate breeds in each animal type
+    AnimalType.findOneAndUpdate(
+        {animal: req.body.animal},
+        {$push: {"breed": {name: req.body.breed}}},
+        {safe: true, upsert: true, new : true},
+        function(err, model) {
+            // console.log(err);
+            // res.json({success: false, message: "An error occurred"});
+        }
+    );
+    console.log('breed saved successfully');
+    res.json({ success: true });
 });
 
 // Export for use in server.js
