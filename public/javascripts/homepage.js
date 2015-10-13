@@ -14,9 +14,9 @@ function getAnimals(){
         if (xhttp.readyState == 4 && xhttp.status == 200) {
         	var json = "{\"animals\":"+xhttp.responseText+"}";
         	var obj = JSON.parse(json);
-        	console.log(json);
+        	//console.log(json);
         	for(var i in obj.animals){
-        		console.log(obj.animals[i].name);
+        		//console.log(obj.animals[i].name);
 				greeting();
 	        	var tableRef = document.getElementById('animal-table').getElementsByTagName('tbody')[0];
 
@@ -55,16 +55,16 @@ function getAnimal(id) {
 			obj = JSON.parse(xhttp.responseText)[0];
 			var tableRef;
 			document.getElementById("greeting").innerHTML = obj.name;
-			console.log(obj._id);
+			//console.log(obj._id);
 			var weights;
 
 			
 			getWeights(obj._id, function(data) {
 				weights = data.weights;
-				console.log(weights);
-				console.log(weights.length);
+				//console.log(weights);
+				//console.log(weights.length);
 				for(var i = 0; i < weights.length; i++){
-					console.log(weights[i]);
+					//console.log(weights[i]);
 					tableRef = document.getElementById('animal-table').getElementsByTagName('tbody')[0];
 				
 					// Insert a row in the table at the last row

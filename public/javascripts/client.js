@@ -84,18 +84,26 @@ function addanimal() {
 		managedBy = localStorage.getItem("username");
 	}
 
-	
+	if(!document.getElementById("id").value ||
+		!document.getElementById("name").value ||
+		!document.getElementById("type").value ||
+		!document.getElementById("breed").value) {
+				
+		console.log("Missing info, can't add!");
+	} else {
+		xhttp.open("POST", "http://" + window.location.host + "/api/addanimal", true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send(
+			"id="+document.getElementById("id").value +
+			"&managedBy="+managedBy +
+			"&name="+document.getElementById("name").value +
+			"&type="+document.getElementById("type").value +
+			"&breed="+document.getElementById("breed").value +
+			"&token="+window.localStorage.getItem('token'));		
+	}
 
 	
-	xhttp.open("POST", "http://" + window.location.host + "/api/addanimal", true);
-	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send(
-		"id="+document.getElementById("id").value +
-		"&managedBy="+managedBy +
-		"&name="+document.getElementById("name").value +
-		"&type="+document.getElementById("type").value +
-		"&breed="+document.getElementById("breed").value +
-		"&token="+window.localStorage.getItem('token'));
+
 		
 
 
@@ -147,14 +155,21 @@ function addweight() {
 		}
 
 	}
-	
-	xhttp.open("POST", "http://" + window.location.host + "/api/addweight", true);
-	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send(
-		"id="+id +
-		"&weight="+document.getElementById("weight").value +
-		"&date="+document.getElementById("date").value +
-		"&token="+window.localStorage.getItem('token'));
+	if(!document.getElementById("id").value ||
+		!document.getElementById("date").value ||
+		!document.getElementById("weight").value) {
+				
+		console.log("Missing info, can't add!");
+	} else {
+		xhttp.open("POST", "http://" + window.location.host + "/api/addweight", true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send(
+			"id="+id +
+			"&weight="+document.getElementById("weight").value +
+			"&date="+document.getElementById("date").value +
+			"&token="+window.localStorage.getItem('token'));		
+	}
+
 	
 	
 }
