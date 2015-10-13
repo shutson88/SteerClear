@@ -33,8 +33,8 @@
         </div>
     </nav>
     <div class="jumbotron"  style="padding:40px;">
-        <h1 id="greeting"></h1>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+        <button type="button" class="btn btn-default" onClick="logout()">Logout</button>
+		<h1 id="greeting"></h1>
         <div class="panel panel-default">
             <table class="table table-hover" id="animal-table">
                 <thead>
@@ -54,7 +54,7 @@
 				</tr>
                 </tbody>
             </table>
-            <button type="button" onClick="logout()">Logout</button>
+            
             <button type="button" id="addAnimalBtn" class="btn btn-default" onClick="addanimal()">Add Animal</button>
 
 			
@@ -69,7 +69,6 @@
 		var id = $(this).attr("id");
 		window.sessionStorage.setItem("animalID", id);
 		window.location.assign("http://" + window.location.host + "/animal");
-		//getAnimal(id);
 	});
 
 </script>
