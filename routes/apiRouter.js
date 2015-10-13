@@ -188,16 +188,21 @@ router.post('/addbreed', function(req, res) {
     // Finds and updates existing model in collection or creates one if it doesn't exist
     // Can have duplicate breeds in each animal type
     AnimalType.findOneAndUpdate(
-        {animal: req.body.animal},
+        {type: req.body.type},
         {$push: {"breed": {name: req.body.breed}}},
         {safe: true, upsert: true, new : true},
         function(err, model) {
-            // console.log(err);
-            // res.json({success: false, message: "An error occurred"});
+            if(err) {
+				console.log(err);
+				res.json({success: false, message: "An error occurred"});
+			} else {
+				console.log("{" + req.body.type + ", " + req.body.breed + "}" + " saved successfully");
+				res.json({ success: true });				
+			}
+
         }
     );
-    console.log('breed saved successfully');
-    res.json({ success: true });
+
 });
 
 // Export for use in server.js

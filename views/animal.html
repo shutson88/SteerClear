@@ -9,27 +9,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script>
         
-        var token = window.localStorage.getItem('token');
-        if(token) {
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-
-				if(xhttp.readyState == 4) {
-                    var json = JSON.parse(xhttp.responseText)
-                    if(json.success === false) {
-						window.location.replace("http://" + window.location.host + '/signin');
-                    }
-                }
-			
-            }
-			xhttp.open("POST", "http://" + window.location.host + "/api/checktoken", true);
-			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhttp.send("token="+token);
-           
-        } else {
-            console.log("http://" + window.location.host + '/signin');
-            window.location.assign("http://" + window.location.host + '/signin');
-        }
+        checkToken(function() {
+			var id = window.sessionStorage.getItem("animalID");
+			console.log(id);
+			if(!id) {
+				alert("No ID found, did you select an animal?");
+				window.location.replace("http://" + window.location.host + "/index");
+			}		
+		
+		});
 
 
     </script>
@@ -80,21 +68,22 @@
 </div>
 <script>
 	
-	var id = <%- id %>;
-	console.log("id: " + id);
-    document.getElementById("date").value = getCurrentDate();
-	document.getElementById("id").value = id;
-    getAnimal(id);
-	$(document).on("click", ".clickable-row", function() {
-		var id = $(this).attr("id");
-		//getAnimal(id);
-	});
+	if(id) {
+		console.log("id: " + id);
+		document.getElementById("date").value = getCurrentDate();
+		document.getElementById("id").value = id;
+		getAnimal(id);
+		$(document).on("click", ".clickable-row", function() {
+			var id = $(this).attr("id");
+			//getAnimal(id);
+		});	
+	
+	}
+	//var id = window.sessionStorage.getItem("animalID");
 
 
-    function logout() {
-        window.localStorage.removeItem('token');
-        window.location.assign("http://" + window.location.host + "/index");
-    }
+
+
 </script>
 </body>
 </html>
