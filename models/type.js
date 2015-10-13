@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = mongoose.model('AnimalType', new Schema({
-	animal: {
+	type: {
         type: String,
         required: true,
 		unique: true,

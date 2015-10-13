@@ -9,27 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script>
         
-        var token = window.localStorage.getItem('token');
-        if(token) {
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-
-				if(xhttp.readyState == 4) {
-                    var json = JSON.parse(xhttp.responseText)
-                    if(json.success === false) {
-						window.location.replace("http://" + window.location.host + '/signin');
-                    }
-                }
-			
-            }
-			xhttp.open("POST", "http://" + window.location.host + "/api/checktoken", true);
-			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhttp.send("token="+token);
-           
-        } else {
-            console.log("http://" + window.location.host + '/signin');
-            window.location.assign("http://" + window.location.host + '/signin');
-        }
+        checkToken();
 
 
     </script>
@@ -87,15 +67,11 @@
     getAnimals();
 	$(document).on("click", ".clickable-row", function() {
 		var id = $(this).attr("id");
-		window.location.assign("http://" + window.location.host + "/animal?id=" + id);
+		window.sessionStorage.setItem("animalID", id);
+		window.location.assign("http://" + window.location.host + "/animal");
 		//getAnimal(id);
 	});
 
-
-    function logout() {
-        window.localStorage.removeItem('token');
-        window.location.assign("http://" + window.location.host + "/index");
-    }
 </script>
 </body>
 </html>

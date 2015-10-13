@@ -27,6 +27,44 @@ function login() {
   xhttp.send("username="+document.getElementById("username").value+"&password="+document.getElementById("password").value);
 }
 
+function logout() {
+	window.sessionStorage.removeItem("animalID");
+	window.localStorage.removeItem('token');
+	window.location.assign("http://" + window.location.host + "/index");
+}
+
+function checkToken(callback) {
+    var token = window.localStorage.getItem('token');
+    if(token) {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+
+			if(xhttp.readyState == 4) {
+                var json = JSON.parse(xhttp.responseText)
+                if(json.success === false) {
+					alert("token expired");
+					
+					window.location.replace("http://" + window.location.host + '/signin');
+					if(callback) callback();
+					
+                }
+				if(callback) callback();
+            }
+		
+        }
+		xhttp.open("POST", "http://" + window.location.host + "/api/checktoken", true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send("token="+token);
+       
+    } else {
+        console.log("http://" + window.location.host + '/signin');
+        window.location.assign("http://" + window.location.host + '/signin');
+    }	
+	
+	
+}
+
+
 function register() {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {

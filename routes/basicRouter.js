@@ -57,8 +57,7 @@ router.get('/index', function(req, res) {
 });
 
 router.get('/animal', function(req, res) {
-	console.log(JSON.stringify(req.param('id')));
-	res.render('animal.html', {id: JSON.stringify(req.param('id'))});
+	res.render('animal.html');
 });
 
 //api call to register a user
