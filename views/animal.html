@@ -9,16 +9,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script>
         
-        checkToken(function() {
-			var id = window.sessionStorage.getItem("animalID");
-			console.log(id);
-			if(!id) {
-				alert("No ID found, did you select an animal?");
-				window.location.replace("http://" + window.location.host + "/index");
-			}		
-		
-		});
-
+        checkToken();
+		var id = window.sessionStorage.getItem("animalID");
+		console.log(id);
+		if(!id) {
+			alert("No ID found, did you select an animal?");
+			window.location.replace("http://" + window.location.host + "/index");
+		}
 
     </script>
 </head>
@@ -41,8 +38,8 @@
         </div>
     </nav>
     <div class="jumbotron"  style="padding:40px;">
-        <h1 id="greeting"></h1>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+        <button type="button" class="btn btn-default" onClick="logout()">Logout</button>
+		<h1 id="greeting"></h1>
         <div class="panel panel-default">
             <table class="table table-hover" id="animal-table">
                 <thead>
@@ -60,7 +57,7 @@
 				</tr>
                 </tbody>
             </table>
-            <button type="button" onClick="logout()">Logout</button>
+            
 			<button type="button" id="addWeightBtn" class="btn btn-default" onClick="addweight()">Add Weight</button>
 			
         </div>
@@ -68,18 +65,17 @@
 </div>
 <script>
 	
-	if(id) {
+	
+	if(typeof id == 'string') {
 		console.log("id: " + id);
 		document.getElementById("date").value = getCurrentDate();
 		document.getElementById("id").value = id;
 		getAnimal(id);
 		$(document).on("click", ".clickable-row", function() {
 			var id = $(this).attr("id");
-			//getAnimal(id);
 		});	
 	
 	}
-	//var id = window.sessionStorage.getItem("animalID");
 
 
 

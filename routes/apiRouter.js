@@ -55,7 +55,7 @@ router.post('/authenticate', function(req, res) {
 
         // if user is found and password is right
         // create a token
-        var token = jwt.sign(user, app.get('superSecret'), {
+        var token = jwt.sign({user: user}, app.get('superSecret'), {
           expiresInMinutes: 1440 // expires in 24 hours
         });
 
@@ -168,8 +168,8 @@ router.post('/addweight', function(req, res) {
 
 
 router.post('/viewanimals', function(req, res) {
-	console.log("Viewing animals for " + req.decoded._id);
-	Animal.find({ managedBy: req.decoded._id }, function(err, animals) {
+	console.log("Viewing animals for " + req.decoded.user._id);
+	Animal.find({ managedBy: req.decoded.user._id }, function(err, animals) {
 		res.json(animals);
 	});
 
