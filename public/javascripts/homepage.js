@@ -21,13 +21,14 @@ function getAnimals(){
 	        	var tableRef = document.getElementById('animal-table').getElementsByTagName('tbody')[0];
 
 				// Insert a row in the table at the last row
-				var newRow   = tableRef.insertRow(tableRef.rows.length);
+				var newRow   = tableRef.insertRow(1);
 				newRow.className='clickable-row';
 				newRow.setAttribute("id", obj.animals[i]._id);
 				// Insert a cell in the row at index 0
 				var id  = newRow.insertCell(0);
 				var name = newRow.insertCell(1);
-				var lastWeight = newRow.insertCell(2);
+				var type = newRow.insertCell(2);
+				var breed = newRow.insertCell(3);
 
 				// Append a text node to the cell
 				var newText  = document.createTextNode(obj.animals[i]._id);
@@ -35,7 +36,9 @@ function getAnimals(){
 				newText  = document.createTextNode(obj.animals[i].name);
 				name.appendChild(newText);
 				newText  = document.createTextNode(obj.animals[i].type);
-				lastWeight.appendChild(newText);
+				type.appendChild(newText);
+				newText = document.createTextNode(obj.animals[i].breed);
+				breed.appendChild(newText);
         	}
     	}
     }
@@ -65,7 +68,7 @@ function getAnimal(id) {
 					tableRef = document.getElementById('animal-table').getElementsByTagName('tbody')[0];
 				
 					// Insert a row in the table at the last row
-					var newRow   = tableRef.insertRow(tableRef.rows.length);
+					var newRow   = tableRef.insertRow(1);
 					newRow.className='clickable-row';
 					
 					// Insert a cell in the row at index 0
@@ -86,19 +89,7 @@ function getAnimal(id) {
 			
 			
 			});
-			//document.getElementById('addingButton').innerHTML = "Add Weight";
-			//document.getElementById('addingButton').onClick = 
-			table = document.getElementById('animal-table');
-			table.innerHTML = "";
-			var body = table.createTBody();
-			var header = table.createTHead();
-			var headerRow = header.insertRow(0);
-			var cell = headerRow.insertCell(0);
-			cell.innerHTML = "<b>ID</b>";
-			cell = headerRow.insertCell(1);
-			cell.innerHTML = "<b>Date</b>";
-			cell = headerRow.insertCell(2);
-			cell.innerHTML = "<b>Weight</b>";
+
 
 		}
 

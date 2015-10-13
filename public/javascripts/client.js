@@ -57,6 +57,7 @@ function register() {
 }
 
 function addanimal() {
+
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -66,11 +67,9 @@ function addanimal() {
 				alert(obj.message);
 			}
 			else {
+				window.location.assign("http://" + window.location.host + "/index");
 
-				document.getElementById("successDiv").textContent = "Added successfully...redirecting in 2 seconds...";
-				setTimeout(function() {
-					window.location.replace("http://" + window.location.host + "/index");
-				}, 2000);
+				
 
 
 
@@ -78,15 +77,24 @@ function addanimal() {
 		}
 
 	}
+	var managedBy;
+	if(document.getElementById("managedBy")) {
+		managedBy = document.getElementById("managedBy").value;
+	} else {
+		managedBy = localStorage.getItem("username");
+	}
+
+	
+
+	
 	xhttp.open("POST", "http://" + window.location.host + "/api/addanimal", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(
 		"id="+document.getElementById("id").value +
-		"&managedBy="+document.getElementById("managedBy").value +
+		"&managedBy="+managedBy +
 		"&name="+document.getElementById("name").value +
 		"&type="+document.getElementById("type").value +
 		"&breed="+document.getElementById("breed").value +
-		"&date="+document.getElementById("date").value +
 		"&token="+window.localStorage.getItem('token'));
 		
 
@@ -110,13 +118,15 @@ function getCurrentDate() {
 		mm='0' + mm;
 	}
 	today = mm+'/'+dd+'/'+yyyy;
-	document.getElementById("date").value = today;
+	return today;
+	//document.getElementById("date").value = today;
 	
 	
 }
 
-function addWeight() {
+function addweight() {
 	var xhttp = new XMLHttpRequest();
+	var id = document.getElementById("id").value;
 	xhttp.onreadystatechange = function() {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
 			var obj = JSON.parse(xhttp.responseText);
@@ -125,11 +135,11 @@ function addWeight() {
 				alert(obj.message);
 			}
 			else {
-
-				document.getElementById("successDiv").textContent = "Added successfully...redirecting in 2 seconds...";
-				setTimeout(function() {
-					window.location.replace("http://" + window.location.host + "/index");
-				}, 2000);
+				window.location.replace("http://" + window.location.host + "/animal?id=" + id);
+				//document.getElementById("successDiv").textContent = "Added successfully...redirecting in 2 seconds...";
+				//setTimeout(function() {
+				//	window.location.replace("http://" + window.location.host + "/index");
+				//}, 2000);
 
 
 
@@ -141,7 +151,7 @@ function addWeight() {
 	xhttp.open("POST", "http://" + window.location.host + "/api/addweight", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(
-		"id="+document.getElementById("id").value +
+		"id="+id +
 		"&weight="+document.getElementById("weight").value +
 		"&date="+document.getElementById("date").value +
 		"&token="+window.localStorage.getItem('token'));

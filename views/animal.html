@@ -60,34 +60,33 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Type</th>
-					<th>Breed</th>
+                    <th>Date</th>
+                    <th>Weight</th>
                 </tr>
                 </thead>
                 <tbody>
 				<tr>
-				<td><input id="id" type="text" style="width:100%"/></td>
-				<td><input id="name" type="text" style="width:100%"/></td>
-				<td><input id="type" type="text" style="width:100%"/></td>
-				<td><input id="breed" type="text" style="width:100%"/></td>
+					<td><input id="id" type="text" style="width:100%"/></td>
+					<td><input id="date" type="text" style="width:100%"/></td>
+					<td><input id="weight" type="text" style="width:100%"/></td>
 				</tr>
                 </tbody>
             </table>
             <button type="button" onClick="logout()">Logout</button>
-            <button type="button" id="addAnimalBtn" class="btn btn-default" onClick="addanimal()">Add Animal</button>
-
+			<button type="button" id="addWeightBtn" class="btn btn-default" onClick="addweight()">Add Weight</button>
 			
         </div>
     </div>
 </div>
 <script>
-
-    
-    getAnimals();
+	
+	var id = <%- id %>;
+	console.log("id: " + id);
+    document.getElementById("date").value = getCurrentDate();
+	document.getElementById("id").value = id;
+    getAnimal(id);
 	$(document).on("click", ".clickable-row", function() {
 		var id = $(this).attr("id");
-		window.location.assign("http://" + window.location.host + "/animal?id=" + id);
 		//getAnimal(id);
 	});
 
