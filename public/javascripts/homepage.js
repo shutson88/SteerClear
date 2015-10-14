@@ -2,7 +2,7 @@ function greeting(){
 	// Check browser support
 	if (typeof(Storage) !== "undefined") {
 	    // Retrieve
-	    document.getElementById("greeting").innerHTML = "Hello, " + localStorage.getItem("username");
+	    document.getElementById("greeting").innerHTML = "Hello, " + sessionStorage.getItem("username");
 	} else {
 	    document.getElementById("greeting").innerHTML = "Welcome";
 	}
@@ -44,7 +44,7 @@ function getAnimals(){
     }
 	xhttp.open("POST", "http://" + window.location.host + "/api/viewanimals", true); //TODO: doesn't work if I set to GET, server returns 403 Forbidden
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send("token="+window.localStorage.getItem('token'));
+	xhttp.send("token="+window.sessionStorage.getItem('token'));
 
 }
 
@@ -98,7 +98,7 @@ function getAnimal(id) {
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(
 		"id="+id +
-		"&token="+window.localStorage.getItem('token'));
+		"&token="+window.sessionStorage.getItem('token'));
 		
 
 
@@ -126,6 +126,6 @@ function getWeights(id, callback){
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(
 		"id="+id +
-		"&token="+window.localStorage.getItem('token'));
+		"&token="+window.sessionStorage.getItem('token'));
 
 }

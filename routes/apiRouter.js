@@ -29,12 +29,12 @@ var router = express.Router();
 // Routes
 // ====================
 
-// route to show a random message (GET http://localhost:8080/api/)
+// route to show a random message 
 router.get('/', function(req, res) {
   res.json({ message: 'Welcome to the coolest API on earth!' });
 });
 
-// route to authenticate a user (POST http://localhost:8080/api/authenticate)
+// route to authenticate a user 
 router.post('/authenticate', function(req, res) {
 
   // find the user
@@ -81,7 +81,7 @@ router.get('/users', function(req, res) {
 // route middleware to verify a token
 router.use(tokenAuth);
 
-// route to add an animal (GET http://localhost:8080/api/addanimal)
+// route to add an animal 
 router.post('/addanimal', function(req, res) {
     User.findOne({
 		_id: req.body.managedBy.toLowerCase()

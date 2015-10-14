@@ -13,8 +13,8 @@ function login() {
     	}
     	else{
     		token = obj.token;
-			window.localStorage.setItem('token', token);
-			window.localStorage.setItem('username', document.getElementById("username").value);
+			window.sessionStorage.setItem('token', token);
+			window.sessionStorage.setItem('username', document.getElementById("username").value);
     		window.location.assign("http://" + window.location.host + "/index");
     	}
 
@@ -29,12 +29,12 @@ function login() {
 
 function logout() {
 	window.sessionStorage.removeItem("animalID");
-	window.localStorage.removeItem('token');
+	window.sessionStorage.removeItem('token');
 	window.location.assign("http://" + window.location.host + "/index");
 }
 
 function checkToken(callback) {
-    var token = window.localStorage.getItem('token');
+    var token = window.sessionStorage.getItem('token');
     if(token) {
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
@@ -119,7 +119,7 @@ function addanimal() {
 	if(document.getElementById("managedBy")) {
 		managedBy = document.getElementById("managedBy").value;
 	} else {
-		managedBy = localStorage.getItem("username");
+		managedBy = sessionStorage.getItem("username");
 	}
 
 	if(!document.getElementById("id").value ||
@@ -137,7 +137,7 @@ function addanimal() {
 			"&name="+document.getElementById("name").value +
 			"&type="+document.getElementById("type").value +
 			"&breed="+document.getElementById("breed").value +
-			"&token="+window.localStorage.getItem('token'));		
+			"&token="+window.sessionStorage.getItem('token'));		
 	}
 
 	
@@ -205,7 +205,7 @@ function addweight() {
 			"id="+id +
 			"&weight="+document.getElementById("weight").value +
 			"&date="+document.getElementById("date").value +
-			"&token="+window.localStorage.getItem('token'));		
+			"&token="+window.sessionStorage.getItem('token'));		
 	}
 
 	
