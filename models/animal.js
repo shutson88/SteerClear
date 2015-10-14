@@ -16,7 +16,6 @@ module.exports = mongoose.model('Animal', new Schema({
 	name: {
 		type: String,
 		required: true,
-		lowercase: true
 	},
 	type: {
 		type: String,
