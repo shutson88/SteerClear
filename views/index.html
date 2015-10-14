@@ -49,8 +49,15 @@
 				<tr>
 				<td><input id="id" type="text" style="width:100%"/></td>
 				<td><input id="name" type="text" style="width:100%"/></td>
-				<td><input id="type" type="text" style="width:100%"/></td>
-				<td><input id="breed" type="text" style="width:100%"/></td>
+				<td>
+					<select id="typeSelect" style="width:100%;height:100%;">
+						<option selected disabled>Choose Type</option>
+					</select>
+				</td>
+				<td>
+					<select id="breedSelect" style="width:100%;height:100%;" disabled="true">						
+					</select>				
+				</td>
 				</tr>
                 </tbody>
             </table>
@@ -63,12 +70,23 @@
 </div>
 <script>
 
-    
+    getTypes();
     getAnimals();
 	$(document).on("click", ".clickable-row", function() {
 		var id = $(this).attr("id");
 		window.sessionStorage.setItem("animalID", id);
 		window.location.assign("http://" + window.location.host + "/animal");
+	});
+	
+	$(document).on("change", "#typeSelect", function() {
+		console.log($("#typeSelect option:selected").text());
+		var type = this.value;
+		var types = JSON.parse(window.sessionStorage.getItem("types"));
+		$("#breedSelect").empty();
+		for(var i = 0; i < types[type].length; i++) {
+			$("#breedSelect").append($("<option id='breed'></option>").text(types[type][i].breed));
+		}
+		$("#breedSelect").attr("disabled", false);
 	});
 
 </script>

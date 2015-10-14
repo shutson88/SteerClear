@@ -135,8 +135,8 @@ function addanimal() {
 			"id="+document.getElementById("id").value +
 			"&managedBy="+managedBy +
 			"&name="+document.getElementById("name").value +
-			"&type="+document.getElementById("type").value +
-			"&breed="+document.getElementById("breed").value +
+			"&type="+$("#typeSelect option:selected").text() +
+			"&breed="+$("#breedSelect option:selected").text() +
 			"&token="+window.sessionStorage.getItem('token'));		
 	}
 
@@ -165,7 +165,6 @@ function getCurrentDate() {
 	}
 	today = mm+'/'+dd+'/'+yyyy;
 	return today;
-	//document.getElementById("date").value = today;
 	
 	
 }
@@ -181,11 +180,8 @@ function addweight() {
 				alert(obj.message);
 			}
 			else {
-				window.location.replace("http://" + window.location.host + "/animal?id=" + id);
-				//document.getElementById("successDiv").textContent = "Added successfully...redirecting in 2 seconds...";
-				//setTimeout(function() {
-				//	window.location.replace("http://" + window.location.host + "/index");
-				//}, 2000);
+				window.location.replace("http://" + window.location.host + "/animal");
+
 
 
 
@@ -210,6 +206,44 @@ function addweight() {
 
 	
 	
+}
+
+function getTypes() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			var obj = JSON.parse("{\"res\":"+xhttp.responseText+"}");
+			var types = {};
+			for(var i = 0; i < obj.res.types.length; i++) {
+				types[obj.res.types[i].type] = obj.res.types[i].breeds;
+				
+			}
+			console.log(types);
+			if(obj.res.success != true) {
+				alert(obj.res.message);
+			}
+			else {
+				window.sessionStorage.setItem("types", JSON.stringify(types));
+				var typeSelect = document.getElementById("typeSelect");
+				var breedSelect = document.getElementById("breedSelect");
+				for (var key in types) {
+					var typeOpt = document.createElement('option');
+					typeOpt.id = "type";
+					typeOpt.value = key;
+					typeOpt.innerHTML = key;
+					typeSelect.appendChild(typeOpt);
+				}
+				
+				
+				
+				
+			}
+		}
+	}
+
+	xhttp.open("POST", "http://" + window.location.host + "/api/viewtypes", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("token="+window.sessionStorage.getItem('token'));		
 }
 
 function loadHomepage(){

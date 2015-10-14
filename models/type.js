@@ -9,13 +9,13 @@ module.exports = mongoose.model('AnimalType', new Schema({
 		unique: true,
 		lowercase: true
     },
-	breed: [
-  			{
-				name: {
-					type: String,
-					lowercase: true,
-					unique: true
-				}
-			}
-		]
+
+	breeds: [
+		{
+			_id:false,
+			breed: {type: String, lowercase: true, unique: true}		
+		}
+	
+	
+	]
 }));
