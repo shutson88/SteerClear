@@ -189,7 +189,7 @@ router.post('/addbreed', function(req, res) {
     // Can have duplicate breeds in each animal type
     AnimalType.findOneAndUpdate(
         {type: req.body.type},
-        {$push: {"breed": {name: req.body.breed}}},
+        {$addToSet: { breeds: {breed: req.body.breed}}},
         {safe: true, upsert: true, new : true},
         function(err, model) {
             if(err) {
@@ -203,6 +203,22 @@ router.post('/addbreed', function(req, res) {
         }
     );
 
+});
+
+router.post('/viewtypes', function(req, res) {
+	console.log("Sending types");
+	AnimalType.find({}, function(err, types) {
+		if(err) {
+			console.log(err);
+			res.json({success: false, message: "An error occurred"});
+		} else {
+			console.log(types);
+			res.json({ success: true, types: types});
+		}
+		
+	});
+	
+	
 });
 
 // Export for use in server.js
