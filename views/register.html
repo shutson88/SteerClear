@@ -3,24 +3,17 @@
 <script src="/javascripts/client.js"></script>
 <body>
 
-
-
+<form name="register" action="http://localhost:8080/register" method="post">
   Username:<br>
   <input name="username" id="username">
-  <br>
   <br>
   Password:<br>
   <input type="password" name="password" id="password">
   <br>
-  <button type="button" onclick='authenticate()'>Log In</button>
-
-<br><br>
-<form name="register">
-	<input type="submit" value="Register">
+  <input type="submit" value="Register">
 </form>
-
 <script>
-document.register.action = window.location.href + 'register';
+document.register.action = window.location.href;
 console.log(document.register.action);
 </script>
 
