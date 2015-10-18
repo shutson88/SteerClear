@@ -41,21 +41,27 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Type</th>
-					<th>Breed</th>
+                    <th>Type <a id="aNewType" onClick="newType()">(new)</a></th>
+					<th>Breed <a id="aNewBreed" onClick="newBreed()">(new)</a></th>
                 </tr>
                 </thead>
                 <tbody>
 				<tr>
 				<td><input id="id" type="text" style="width:100%"/></td>
 				<td><input id="name" type="text" style="width:100%"/></td>
-				<td>
+				<!-- <td id="tdTypeText" style="display:none"></td> -->
+				<!-- <td id="tdBreedText" style="display:none"></td> -->
+				<td id="tdTypeSelect">
+					<input id="newType" type="text" style="width:100%;display:none"/>
 					<select id="typeSelect" style="width:100%;height:100%;">
 						<option selected disabled>Choose Type</option>
+						<option>New Type</option>
 					</select>
 				</td>
-				<td>
-					<select id="breedSelect" style="width:100%;height:100%;" disabled="true">						
+				<td id="tdBreedSelect">
+					<input id="newBreed" type="text" style="width:100%;display:none"/>
+					<select id="breedSelect" style="width:100%;height:100%;" disabled="true">
+						
 					</select>				
 				</td>
 				</tr>
@@ -77,6 +83,20 @@
 		window.sessionStorage.setItem("animalID", id);
 		window.location.assign("http://" + window.location.host + "/animal");
 	});
+	
+	function newType() {
+		document.getElementById("typeSelect").setAttribute("style", "display:none");
+		document.getElementById("newType").setAttribute("style", "display:block;width:100%;");
+		
+
+	};
+	
+	function newBreed() {
+		document.getElementById("breedSelect").setAttribute("style", "display:none");
+		document.getElementById("newBreed").setAttribute("style", "display:block;width:100%;");
+
+	};
+	
 	
 	$(document).on("change", "#typeSelect", function() {
 		console.log($("#typeSelect option:selected").text());
