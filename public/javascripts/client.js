@@ -112,11 +112,26 @@ function addanimal() {
 	} else {
 		managedBy = sessionStorage.getItem("username");
 	}
+	var type;
+	var breed;
+	if(document.getElementById("newType").style.display == 'none') {
+		type = $("#typeSelect option:selected").text();
+	} else {
+		type = document.getElementById("newType").value;
+	}
+	if(document.getElementById("newBreed").style.display == 'none') {
+		breed = $("#breedSelect option:selected").text();
+	} else {
+		breed = document.getElementById("newBreed").value;
+	}
+
+	console.log(type)
+	console.log(breed);
 
 	if(!document.getElementById("id").value ||
 		!document.getElementById("name").value ||
-		!document.getElementById("type").value ||
-		!document.getElementById("breed").value) {
+		!type ||
+		!breed) {
 
 		console.log("Missing info, can't add!");
 	} else {
@@ -126,8 +141,8 @@ function addanimal() {
 			"id="+document.getElementById("id").value +
 			"&managedBy="+managedBy +
 			"&name="+document.getElementById("name").value +
-			"&type="+$("#typeSelect option:selected").text() +
-			"&breed="+$("#breedSelect option:selected").text() +
+			"&type="+type +
+			"&breed="+breed +
 			"&token="+window.sessionStorage.getItem('token'));
 	}
 }
