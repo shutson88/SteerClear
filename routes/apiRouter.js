@@ -25,16 +25,43 @@ var AnimalType  = require('../models/type')
 // get an instance of the router for api routes
 var router = express.Router();
 
-// ====================
-// Routes
-// ====================
+// ===================================================
+// Open Routes
+// ===================================================
 
-// route to show a random message 
+// route to show a random message
 router.get('/', function(req, res) {
-  res.json({ message: 'Welcome to the coolest API on earth!' });
+  res.json({ message: 'Welcome to the API for SteerCleere!' });
 });
 
-// route to authenticate a user 
+// Registers a user
+router.post('/user', function(req, res) {
+
+	//TODO: check if each field exists before creating and saving object
+	User({
+		_id: req.body.username,
+		password: bcrypt.hashSync(req.body.password),
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email
+	}).save(function(err) {
+		if(err) {
+			if(err && err.code !== 11000) {
+				console.log(err);
+				res.json({success: false, message: "Another error occurred"});
+			}
+			if(err && err.code === 11000) {
+				console.log(err);
+				res.json({success: false, message: "Username/email already taken"});
+			};
+		} else {
+			console.log(req.body.username + ' saved successfully');
+			res.json({ success: true});
+		}
+	});
+});
+
+// Route to authenticate a user
 router.post('/authenticate', function(req, res) {
 
   // find the user
@@ -73,66 +100,108 @@ router.post('/authenticate', function(req, res) {
 // TODO: Remove before deployment
 // FOR DEV USE ONLY!
 router.get('/users', function(req, res) {
-    var users = User.find(function(err, animals) {
-		res.json(animals);
+    var users = User.find(function(err, users) {
+		res.json(users);
 	});
 })
+
+// ===================================================
+// Middleware token check
+// ===================================================
 
 // route middleware to verify a token
 router.use(tokenAuth);
 
-// route to add an animal 
-router.post('/addanimal', function(req, res) {
-    User.findOne({
-		_id: req.body.managedBy.toLowerCase()
-	}, function(err, user) {
-		if (!user) {
-			res.json({success: false, message: "User does not exist"});
-		} else {
-			//TODO: check if each field exists before creating and saving object
+// ===================================================
+// Authorized API Routes
+// ===================================================
 
 
-			Animal({
-				_id: req.body.id,
-				managedBy: req.body.managedBy.toLowerCase(),
-				name: req.body.name,
-				type: req.body.type,
-				breed: req.body.breed
-			}).save(function(err) {
-				if(err) {
-					if(err && err.code !== 11000) {
-						res.json({success: false, message: "Another error occurred"});
-					}
-					if(err && err.code === 11000) {
-						res.json({success: false, message: "Duplicate animal"});
-					}
-				} else {
-					console.log(req.body.name + ' saved successfully');
-					res.json({ success: true });
-				}
-			});
 
-
-		}
-
-	});
-
-
-});
-
+// Test function to test if token authentication worked
 router.post('/checktoken', function(req, res) {
 	res.json({success: true});
-
 });
 
-router.post('/viewanimal', function(req, res) {
-	console.log("Viewing animal " + req.body.id);
-	var animal = Animal.find({ _id: req.body.id }, function(err, animal) {
-		res.json(animal);
+// ==================
+// User
+// ==================
+
+// Gets users information
+router.get('/user', function(req, res) {
+	console.log("Viewing user " + req.headers['username']);
+	var user = User.find({ _id: req.headers['username'] }, function(err, user) {
+		res.json(user);
 	});
 });
 
-router.post('/addweight', function(req, res) {
+// ==================
+// Animals
+// ==================
+
+// Gets information for all animals belonging to a user
+router.get('/animals', function(req, res) {
+	console.log("Viewing animals for " + req.decoded.user._id);
+	Animal.find({ managedBy: req.decoded.user._id }, function(err, animals) {
+		res.json(animals);
+	});
+});
+
+// Gets information for  specific animal
+router.get('/animals/:id', function(req, res) {
+    var animal_id = req.params.id;
+
+	console.log("Viewing animal: " + animal_id);
+    var animal = Animal.findOne({ _id: animal_id }, function(err, animal) {
+        if(animal && animal.managedBy === req.decoded.user._id){
+            res.json(animal);
+        }
+        else{
+            res.json({success: false, message: 'You do not have access to this animal.'});
+        }
+	});
+});
+
+// Add animal for user
+router.post('/animals', function(req, res) {
+
+	//TODO: check if each field exists before creating and saving object
+
+	Animal({
+		_id: req.body.id,
+		managedBy: req.decoded.user._id,
+		name: req.body.name,
+		type: req.body.type,
+		breed: req.body.breed
+	}).save(function(err) {
+		if(err) {
+			if(err && err.code !== 11000) {
+				res.json({success: false, message: "Another error occurred"});
+			}
+			if(err && err.code === 11000) {
+				res.json({success: false, message: "Duplicate animal"});
+			}
+		} else {
+			console.log(req.body.name + ' saved successfully');
+			res.json({ success: true });
+		}
+	});
+});
+
+// ==================
+// Weights
+// ==================
+
+// View all the weights for a single animal
+router.get('/weights', function(req, res) {
+    console.log("Getting weights for animal: " +  req.headers['id']);
+    Weight.find({id: req.headers['id']}, function(err, weights) {
+		res.json(weights);
+	});
+});
+
+// Add a weight for a specific animal
+router.post('/weights', function(req, res) {
     Animal.findOne({
 		_id: req.body.id.toLowerCase()
 	}, function(err, animal) {
@@ -140,7 +209,6 @@ router.post('/addweight', function(req, res) {
 			res.json({success: false, message: "Animal does not exist"});
 		} else {
 			//TODO: check if each field exists before creating and saving object
-
 
 			Weight({
 				id: req.body.id,
@@ -159,31 +227,30 @@ router.post('/addweight', function(req, res) {
 					res.json({ success: true });
 				}
 			});
-
-
 		}
-
 	});
 });
 
+// ==================
+// Breeds
+// ==================
 
-router.post('/viewanimals', function(req, res) {
-	console.log("Viewing animals for " + req.decoded.user._id);
-	Animal.find({ managedBy: req.decoded.user._id }, function(err, animals) {
-		res.json(animals);
+// Get all the animal types
+router.get('/breeds', function(req, res) {
+	console.log("Sending types");
+	AnimalType.find({}, function(err, types) {
+		if(err) {
+			console.log(err);
+			res.json({success: false, message: "An error occurred"});
+		} else {
+			console.log(types);
+			res.json({ success: true, types: types});
+		}
 	});
-
 });
 
-router.post('/viewweights', function(req, res) {
-	console.log("Viewing weights for " + req.body.id);
-	Weight.find({ id: req.body.id }, function(err, weights) {
-		res.json(weights);
-	});
-
-});
-
-router.post('/addbreed', function(req, res) {
+// Add a type and/or breed to the databse
+router.post('/breeds', function(req, res) {
 
     // Finds and updates existing model in collection or creates one if it doesn't exist
     // Can have duplicate breeds in each animal type
@@ -197,28 +264,11 @@ router.post('/addbreed', function(req, res) {
 				res.json({success: false, message: "An error occurred"});
 			} else {
 				console.log("{" + req.body.type + ", " + req.body.breed + "}" + " saved successfully");
-				res.json({ success: true });				
+				res.json({ success: true });
 			}
 
         }
     );
-
-});
-
-router.post('/viewtypes', function(req, res) {
-	console.log("Sending types");
-	AnimalType.find({}, function(err, types) {
-		if(err) {
-			console.log(err);
-			res.json({success: false, message: "An error occurred"});
-		} else {
-			console.log(types);
-			res.json({ success: true, types: types});
-		}
-		
-	});
-	
-	
 });
 
 // Export for use in server.js

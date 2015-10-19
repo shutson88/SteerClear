@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = mongoose.model('Weight', new Schema({
+	// ID of the animal weighed
 	id: {
 		type: String,
 		required: true,
@@ -16,5 +17,5 @@ module.exports = mongoose.model('Weight', new Schema({
 		type: Date,
 		required: true
 	}
-	
+
 }));
