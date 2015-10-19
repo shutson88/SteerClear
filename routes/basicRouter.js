@@ -60,34 +60,5 @@ router.get('/animal', function(req, res) {
 	res.render('animal.html');
 });
 
-//api call to register a user
-router.post('/register', function(req, res) {
-    
-	//TODO: check if each field exists before creating and saving object
-	User({
-		_id: req.body.username,
-		password: bcrypt.hashSync(req.body.password),
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email
-	}).save(function(err) {
-		if(err) {
-			if(err && err.code !== 11000) {
-				console.log(err);
-				res.json({success: false, message: "Another error occurred"});
-			}
-			if(err && err.code === 11000) {
-				console.log(err);
-				res.json({success: false, message: "Username/email already taken"});
-			};
-		} else {
-			console.log(req.body.username + ' saved successfully');
-			res.json({ success: true});
-		}
-
-	});
-
-});
-
 // Export for use in server.js
 module.exports = router
