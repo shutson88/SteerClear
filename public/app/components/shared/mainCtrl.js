@@ -1,14 +1,7 @@
 'use strict';
 
 angular.module('app.main', ['ngRoute'])
-/*
-  .config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/home', {
-      templateUrl: 'home.html',
-      controller: 'MainCtrl'
-    });
-  }])
-*/
+
   .controller('MainCtrl', ['$rootScope', '$location', 'Auth', function($rootScope, $location, Auth) {
 
     var vm = this;
@@ -35,7 +28,7 @@ angular.module('app.main', ['ngRoute'])
           vm.processing = false;
 
           if(data.success){
-            $location.path('/users');
+            $location.path('/dashboard');
           } else {
             vm.error = data.message;
           }

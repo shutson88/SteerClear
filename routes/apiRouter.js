@@ -21,7 +21,7 @@ var tokenAuth   = require('../middleware/authenticate')
 var User        = require('../models/user'); // get our mongoose model
 var Animal 		= require('../models/animal');
 var Weight 		= require('../models/weight');
-var AnimalType  = require('../models/type')
+var AnimalType  = require('../models/type');
 // get an instance of the router for api routes
 var router = express.Router();
 
