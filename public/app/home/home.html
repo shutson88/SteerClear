@@ -1,5 +1,12 @@
-<p>This is the partial for view 2.</p>
-<p>
-  Showing of 'interpolate' filter:
-  {{ 'Current version is v%VERSION%.' | interpolate }}
-</p>
+<div class="jumbotron text-center">
+    <h1>SteerCleere</h1>
+
+    <div ng-if="!main.loggedIn">
+        <p>Signin to your dashboard.</p>
+        <a href="/signin" class="btn btn-primary">Signin</a>
+    </div>
+
+    <div ng-if="main.loggedIn">
+        <a href="/dashboard" class="btn btn-primary">View Dashboard</a>
+    </div>
+</div>

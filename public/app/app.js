@@ -6,7 +6,10 @@ angular.module('app', [
   'authService',
   'app.main',
   'userService',
-  'app.signin'
+  'animalService',
+  'app.signin',
+  'app.dashboard',
+  'app.home'
 ]).
   config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider,
                                                                          $locationProvider,

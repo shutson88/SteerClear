@@ -23,12 +23,15 @@
     <!-- services -->
     <script src="components/services/authService.js"></script>
     <script src="components/services/userService.js"></script>
+    <script src="components/services/animalService.js"></script>
 
     <!-- controller -->
     <script src="components/shared/mainCtrl.js"></script>
 
     <!-- modules -->
     <script src="signin/signin.js"></script>
+    <script src="dashboard/dashboard.js"></script>
+    <script src="home/home.js"></script>
 
     <!-- app -->
     <script src="app.js"></script>
@@ -46,17 +49,9 @@
                     SteerCleere
                 </a>
             </div>
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="/users">
-                        <span class="glyphicon glyphicon-user"></span>
-                        Users
-                    </a>
-                </li>
-            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li ng-if="!main.loggedIn">
-                    <a href="/login">Login</a>
+                    <a href="/signin">Login</a>
                 </li>
                 <li ng-if="main.loggedIn" class="navbar-text">
                     Hello {{ main.user.name }}!
