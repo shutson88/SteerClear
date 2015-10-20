@@ -26,10 +26,10 @@ angular.module('authService', [])
     };
 
     authFactory.generateUser = function(username, password) {
-      return $http.post('/register', {
+      return $http.post('/api/user', {
         username: username,
         password: password,
-        email: 'bogus@email.com',
+        email: username + password + '@email.com',
         first_name: 'earthworm',
         last_name: 'jim'
       })

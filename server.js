@@ -34,10 +34,6 @@ app.use(morgan('dev'));
 // Routers ===============
 // =======================
 
-// address:port/*
-var basicRoutes = require('./routes/basicRouter');
-app.use('/', basicRoutes);
-
 // API ROUTES -------------------
 // get an instance of the router for api routes
 var apiRoutes = express.Router();
