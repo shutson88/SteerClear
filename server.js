@@ -6,9 +6,9 @@ var app         = express();
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 var mongoose    = require('mongoose'); // MongoDB connection module
-var path 		= require('path')
-var favicon 	= require('serve-favicon');
-var config = require('./config'); // get our config file
+var path 				= require('path');
+var favicon 		= require('serve-favicon');
+var config 			= require('./config'); // get our config file
 
 
 
@@ -17,10 +17,8 @@ var config = require('./config'); // get our config file
 // =======================
 var port = process.env.PORT || 8080; // used to create, sign, and verify tokens
 app.use(express.static(__dirname + '/public'));
-app.set('views', __dirname + '/views');
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-app.use(favicon(path.join(__dirname + '/public/images/favicon.ico')))
+app.use(express.static(__dirname + '/public/app'));
+app.use(favicon(path.join(__dirname + '/public/images/favicon.ico')));
 mongoose.connect(config.database); // connect to database
 var db = mongoose.connection;
 app.set('superSecret', config.secret); // secret variable
@@ -31,9 +29,6 @@ app.use(bodyParser.json());
 
 // use morgan to log requests to the console
 app.use(morgan('dev'));
-
-//Serve up public files
-app.use(express.static('public'));
 
 // =======================
 // Routers ===============
@@ -50,6 +45,10 @@ var apiRoutes = express.Router();
 // address:port/api/*
 var apiRoutes = require('./routes/apiRouter');
 app.use('/api', apiRoutes);
+
+app.get('*', function(req, res, next) {
+	res.sendFile(path.join(__dirname, '/public/app', 'index.html'));
+});
 
 // =======================
 // start the server ======

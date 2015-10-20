@@ -22,10 +22,8 @@ var router = express.Router();
 // Routes
 // ====================
 // GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/
-router.get('/', function(req, res) {
-    res.render('index.html');
-});
 
+/*
 // GET http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/about
 router.get('/about', function(req, res) {
     res.render('about.html');
@@ -59,6 +57,7 @@ router.get('/index', function(req, res) {
 router.get('/animal', function(req, res) {
 	res.render('animal.html');
 });
+*/
 
 //api call to register a user
 router.post('/register', function(req, res) {
@@ -79,7 +78,7 @@ router.post('/register', function(req, res) {
 			if(err && err.code === 11000) {
 				console.log(err);
 				res.json({success: false, message: "Username/email already taken"});
-			};
+			}
 		} else {
 			console.log(req.body.username + ' saved successfully');
 			res.json({ success: true});
@@ -90,4 +89,4 @@ router.post('/register', function(req, res) {
 });
 
 // Export for use in server.js
-module.exports = router
+module.exports = router;
