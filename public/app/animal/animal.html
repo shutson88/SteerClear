@@ -1,32 +1,32 @@
+<script src="/javascripts/client.js"></script>
 <div class="page-header">
     <h1>
-        Animals
+        {{ animal.animalID }}
         <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
             <span class="glyphicon glyphicon-plus"></span>
-            New User
+            Add new weight
         </button>
     </h1>
     <div uib-collapse="!addUserCollapsed">
         <form class="form-inline" role="form">
             <div class="form-group">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="user.addAnimal()">
+                    <button class="btn btn-default" type="button" ng-click="animal.addWeight()">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
                 </span>
 
                 <div class="form-group">
-                    <input type="text" class="form-control" ng-model="user.add_id" placeholder="ID">
+                    <input type="text" class="form-control" ng-model="animal.weight" placeholder="Weight (lbs)">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" ng-model="user.addName" placeholder="Name">
+                    <input type="text" class="form-control" ng-model="animal.date" placeholder="Date">
+                    <button type="button" ng-click="animal.getCurrentDate()">Today</button>
                 </div>
                 <!--<div class="form-group">-->
-                    <!--<input type="text" class="form-control" ng-model="user.addUsername" placeholder="username">-->
+                <!--<input type="text" class="form-control" ng-model="user.addUsername" placeholder="username">-->
                 <!--</div>-->
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="user.addBreed" placeholder="Breed">
-                </div>
+
             </div>
         </form>
     </div>
@@ -40,11 +40,11 @@
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-            <input type="text" class="form-control" ng-model="user.searchAnimals" placeholder="Search Animals">
+            <input type="text" class="form-control" ng-model="animal.searchAnimals" placeholder="Search Animals">
         </div>
     </div>
 </form>
-<table class="table table-bordered table-striped" ng-show="user.animals">
+<table class="table table-bordered table-striped" ng-show="animal.animals">
     <thead>
     <tr>
         <th>
@@ -56,21 +56,21 @@
         </th>
         <th>
             <a href="#" ng-click="user.sortType = 'name'; user.sortReverse = !user.sortReverse">
-                Name
+                Date
                 <span ng-show="user.sortType == 'name' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == 'name' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
         <!--<th>-->
-            <!--<a href="#" ng-click="user.sortType = 'username'; user.sortReverse = !user.sortReverse">-->
-                <!--username-->
-                <!--<span ng-show="user.sortType == 'username' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>-->
-                <!--<span ng-show="user.sortType == 'username' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>-->
-            <!--</a>-->
+        <!--<a href="#" ng-click="user.sortType = 'username'; user.sortReverse = !user.sortReverse">-->
+        <!--username-->
+        <!--<span ng-show="user.sortType == 'username' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>-->
+        <!--<span ng-show="user.sortType == 'username' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>-->
+        <!--</a>-->
         <!--</th>-->
         <th>
             <a href="#" ng-click="user.sortType = 'breed'; user.sortReverse = !user.sortReverse">
-                Breed
+                Weight
                 <span ng-show="user.sortType == 'breed' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == 'breed' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
@@ -80,12 +80,12 @@
     </thead>
     <tbody>
     <!-- LOOP OVER THE USERS -->
-    <tr ng-repeat="animal in user.animals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals">
-        <td>{{ animal._id }}</td>
-        <td>{{ animal.name }}</td>
-        <td>{{ animal.breed}}</td>
+    <tr ng-repeat="animal in animal.animals | orderBy:animal.sortType:animal.sortReverse | filter:animal.searchAnimals">
+        <td>{{ animal.id }}</td>
+        <td>{{ animal.date }}</td>
+        <td>{{ animal.weight}}</td>
         <td class="col-sm-2">
-            <a ng-href="/animal/{{ animal._id }}" class="btn btn-danger">Edit</a>
+            <a ng-href="/animal" class="btn btn-danger">Edit</a>
         </td>
     </tr>
     </tbody>

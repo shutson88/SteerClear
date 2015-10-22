@@ -51,4 +51,9 @@ angular.module('app.main', ['ngRoute'])
       $location.path('/signin');
     };
 
+    vm.editAnimal = function() {
+
+      $location.path('/signin');
+    };
+
   }]);

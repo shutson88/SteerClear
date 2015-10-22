@@ -200,6 +200,18 @@ router.get('/weights', function(req, res) {
 	});
 });
 
+// View all the weights for a single animal
+router.get('/weights/:id', function(req, res) {
+
+	var animal_id = req.params.id;
+
+	console.log("Viewing weights for animal: " + animal_id);
+	var animal = Weight.find({ id: animal_id }, function(err, weights) {
+		res.json(weights);
+
+	});
+});
+
 // Add a weight for a specific animal
 router.post('/weights', function(req, res) {
     Animal.findOne({
@@ -212,6 +224,38 @@ router.post('/weights', function(req, res) {
 
 			Weight({
 				id: req.body.id,
+				weight: req.body.weight,
+				date: req.body.date
+			}).save(function(err) {
+				if(err) {
+					if(err && err.code !== 11000) {
+						res.json({success: false, message: "Another error occurred"});
+					}
+					if(err && err.code === 11000) { //TODO: shouldn't need this
+						res.json({success: false, message: "Duplicate found?"});
+					}
+				} else {
+					console.log('weight saved successfully');
+					res.json({ success: true });
+				}
+			});
+		}
+	});
+});
+
+router.post('/weights/:id', function(req, res) {
+	var animal_id = req.params.id;
+	console.log("date: "+req.body.date);
+	Animal.findOne({
+		_id: animal_id
+	}, function(err, animal) {
+		if (!animal) {
+			res.json({success: false, message: "Animal "+animal_id+" does not exist"});
+		} else {
+			//TODO: check if each field exists before creating and saving object
+
+			Weight({
+				id: animal_id,
 				weight: req.body.weight,
 				date: req.body.date
 			}).save(function(err) {

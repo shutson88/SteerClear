@@ -7,10 +7,12 @@ angular
     var animalFactory = {};
 
     animalFactory.get = function(id) {
+      console.log("ID is "+ id);
       return $http.get('/api/animals/id');
     };
 
     animalFactory.get = function() {
+      console.log("Here still");
       return $http.get('/api/animals');
     };
 
