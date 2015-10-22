@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.dashboard', ['ngRoute', 'animalService'])
+angular.module('app.dashboard', ['ngRoute', 'animalService', 'ui.bootstrap'])
 
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/dashboard', {
@@ -16,12 +16,12 @@ angular.module('app.dashboard', ['ngRoute', 'animalService'])
     vm.sortType = 'breed';
     vm.sortReverse = false;
     vm.searchAnimals = '';
+    vm.addUserCollapsed = true;
 
     Animal.get()
       .success(function (data) {
         vm.animals = data;
       });
-
 
   }]);
 

@@ -128,9 +128,9 @@ router.post('/checktoken', function(req, res) {
 // ==================
 
 // Gets users information
-router.get('/user', function(req, res) {
-	console.log("Viewing user " + req.headers['username']);
-	var user = User.find({ _id: req.headers['username'] }, function(err, user) {
+router.get('/users/:username', function(req, res) {
+	console.log("Viewing user " + req.params.username);
+	var user = User.findOne({ _id: req.params.username }, function(err, user) {
 		res.json(user);
 	});
 });
