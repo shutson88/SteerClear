@@ -49,28 +49,28 @@
     <tr>
         <th>
             <a href="#" ng-click="user.sortType = '_id'; user.sortReverse = !user.sortReverse">
-                _id
+                ID
                 <span ng-show="user.sortType == '_id' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == '_id' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
         <th>
             <a href="#" ng-click="user.sortType = 'name'; user.sortReverse = !user.sortReverse">
-                name
+                Name
                 <span ng-show="user.sortType == 'name' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == 'name' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <th>
-            <a href="#" ng-click="user.sortType = 'username'; user.sortReverse = !user.sortReverse">
-                username
-                <span ng-show="user.sortType == 'username' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
-                <span ng-show="user.sortType == 'username' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
-            </a>
-        </th>
+        <!--<th>-->
+            <!--<a href="#" ng-click="user.sortType = 'username'; user.sortReverse = !user.sortReverse">-->
+                <!--username-->
+                <!--<span ng-show="user.sortType == 'username' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>-->
+                <!--<span ng-show="user.sortType == 'username' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>-->
+            <!--</a>-->
+        <!--</th>-->
         <th>
             <a href="#" ng-click="user.sortType = 'breed'; user.sortReverse = !user.sortReverse">
-                breed
+                Breed
                 <span ng-show="user.sortType == 'breed' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == 'breed' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
@@ -83,7 +83,6 @@
     <tr ng-repeat="animal in user.animals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals">
         <td>{{ animal._id }}</td>
         <td>{{ animal.name }}</td>
-        <td>{{ animal.username }}</td>
         <td>{{ animal.breed}}</td>
         <td class="col-sm-2">
             <a ng-href="/users/{{ animal._id }}" class="btn btn-danger">Edit</a>
