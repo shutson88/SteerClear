@@ -12,9 +12,9 @@ angular.module('app.main', ['ngRoute'])
     $rootScope.$on('$routeChangeStart', function() {
       vm.loggedIn = Auth.isLoggedIn();
 
-      Auth.getUser()
+      Auth.getUser(Auth.username)
         .then(function(data) {
-          vm.user = data;
+          vm.user = data.data;
         });
     });
 

@@ -12,13 +12,9 @@
           crossorigin="anonymous">
     <link href="app.css" rel="stylesheet">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
-            integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
-            crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-route.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-css/1.0.7/angular-css.min.js"></script>
+    <script src="assets/js/ui-bootstrap-0.14.2.min.js"></script>
 
     <!-- services -->
     <script src="components/services/authService.js"></script>
@@ -54,7 +50,7 @@
                     <a href="/signin">Login</a>
                 </li>
                 <li ng-if="main.loggedIn" class="navbar-text">
-                    Hello {{ main.user.name }}!
+                    Hello {{ main.user.first_name }}!
                 </li>
                 <li ng-if="main.loggedIn">
                     <a href="#" ng-click="main.doLogout()">Logout</a>
