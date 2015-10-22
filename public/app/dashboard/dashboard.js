@@ -16,7 +16,7 @@ angular.module('app.dashboard', ['ngRoute', 'animalService', 'ui.bootstrap'])
     vm.sortType = 'breed';
     vm.sortReverse = false;
     vm.searchAnimals = '';
-    vm.addUserCollapsed = true;
+    vm.addUserCollapsed = false;
 
     Animal.get()
       .success(function (data) {

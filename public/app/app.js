@@ -9,6 +9,7 @@ angular.module('app', [
   'animalService',
   'app.signin',
   'app.dashboard',
+  'app.animal',
   'app.home'
 ]).
   config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider,
