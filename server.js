@@ -46,6 +46,11 @@ var apiRoutes = express.Router();
 var apiRoutes = require('./routes/apiRouter');
 app.use('/api', apiRoutes);
 
+app.get('/*', function(req, res, next) {
+	res.sendFile(path.join(__dirname, '/public/app', 'index.html'));
+});
+
+
 app.get('/dashboard', function(req, res, next) {
 	res.sendFile(path.join(__dirname, '/public/app', 'index.html'));
 });
