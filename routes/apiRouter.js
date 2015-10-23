@@ -37,6 +37,9 @@ router.get('/', function(req, res) {
 // Registers a user
 router.post('/user', function(req, res) {
 
+	
+
+
 	//TODO: check if each field exists before creating and saving object
 	User({
 		_id: req.body.username,
@@ -64,6 +67,9 @@ router.post('/user', function(req, res) {
 // Route to authenticate a user
 router.post('/authenticate', function(req, res) {
 
+	
+
+
   // find the user
   User.findOne({
     _id: req.body.username.toLowerCase()
@@ -90,7 +96,11 @@ router.post('/authenticate', function(req, res) {
         res.json({
           success: true,
           message: 'Enjoy your token!',
-          token: token
+          token: token,
+		  username: user._id,
+		  fname: user.first_name,
+		  lname: user.last_name,
+		  email: user.email
         });
       }
     }
@@ -166,7 +176,13 @@ router.get('/animals/:id', function(req, res) {
 router.post('/animals', function(req, res) {
 
 	//TODO: check if each field exists before creating and saving object
-
+	
+	console.log(req.body.id);
+	console.log(req.decoded.user._id);
+	console.log(req.body.name);
+	console.log(req.body.type);
+	console.log(req.body.breed);
+	
 	Animal({
 		_id: req.body.id,
 		managedBy: req.decoded.user._id,

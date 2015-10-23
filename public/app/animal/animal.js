@@ -53,6 +53,23 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
         //});
       }
 
+	  vm.calculate = function($scope) {
+		  if(vm.targetWeight) {
+			  console.log("target weight");
+			  
+		  } else if(vm.targetDate) {
+			  console.log("target date");
+			  
+		  }
+		  
+		  
+		  
+		  
+		  
+		  
+	  }
+	  
+	  
       vm.getCurrentDate = function() {
         var today = new Date();
         var dd = today.getDate();

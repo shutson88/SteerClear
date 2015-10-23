@@ -1,21 +1,25 @@
 'use strict';
 
 angular.module('app.main', ['ngRoute', 'ngCookies'])
-    .controller('MainCtrl', ['$rootScope', '$location', 'Auth', '$cookies', function($rootScope, $location, Auth, $cookies) {
+    .controller('MainCtrl', ['$rootScope', '$location', 'Auth', 'AuthToken', '$cookies', function($rootScope, $location, Auth, AuthToken, $cookies) {
 
     var vm = this;
-
+	vm.user = {};
+	console.log(vm.user);
     vm.loggedIn = Auth.isLoggedIn();
 
     // check to see if a user is logged in on every request
     $rootScope.$on('$routeChangeStart', function() {
       vm.loggedIn = Auth.isLoggedIn();
 
+		vm.user = AuthToken.getData();
 
-      Auth.getUser(Auth.username)
-        .then(function(data) {
-          vm.user = data.data;
-        });
+      //Auth.getUser(Auth.username)
+      //  .then(function(data) {
+		//  vm.user = data.data;
+		//  console.log(data);
+		// // console.log(Auth.username);
+      //  });
     });
 
     vm.doLogin = function() {
@@ -29,7 +33,9 @@ angular.module('app.main', ['ngRoute', 'ngCookies'])
             //Expires in 1 day
             var expireDate = new Date();
             expireDate.setDate(expireDate.getDate() + 1);
-              console.log('Username in MainCtrl: '+Auth.username);
+            //console.log('Username in MainCtrl: '+Auth.username);
+			
+			
             $cookies.put('username', Auth.username, {'expires': expireDate});
 
           if(data.success){

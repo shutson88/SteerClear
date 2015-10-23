@@ -20,8 +20,8 @@ angular.module('authService', [])
         password: password
       })
         .success(function (data) {
-          AuthToken.setToken(data.token);
-          authFactory.username = username;
+          AuthToken.setData(data);
+
           return data;
         });
     };
@@ -40,7 +40,7 @@ angular.module('authService', [])
     };
 
     authFactory.logout = function () {
-      AuthToken.setToken();
+      AuthToken.setData();
     };
 
     authFactory.isLoggedIn = function () {
@@ -53,7 +53,8 @@ angular.module('authService', [])
 
     authFactory.getUser = function() {
       if(AuthToken.getToken()) {
-        return $http.get('api/users/' + authFactory.username, {cache: true});
+		  console.log(AuthToken.getData());
+        return $http.get('api/users/' + AuthToken.getData().username, {cache: true});
       } else {
         return $q.reject({ message: 'User has no token.' });
       }
@@ -71,14 +72,33 @@ angular.module('authService', [])
     var authTokenFactory = {};
 
     authTokenFactory.getToken = function() {
-      return $window.localStorage.getItem('token');
+      return $window.sessionStorage.getItem('token');
     };
-
-    authTokenFactory.setToken = function(token) {
-      if(token) {
-        $window.sessionStorage.setItem('token', token)
+	
+	authTokenFactory.getData = function() {
+		var data = {};
+		data.username = $window.sessionStorage.getItem('username');
+		data.fname = $window.sessionStorage.getItem('fname');
+		data.lname = $window.sessionStorage.getItem('lname');
+		data.email = $window.sessionStorage.getItem('email');
+		return data;
+		
+	};
+	
+	
+    authTokenFactory.setData = function(data) {
+      if(data) {
+        $window.sessionStorage.setItem('token', data.token);
+		$window.sessionStorage.setItem('username', data.username);
+		$window.sessionStorage.setItem('fname', data.fname);
+		$window.sessionStorage.setItem('lname', data.lname);
+		$window.sessionStorage.setItem('email', data.email);
       } else {
         $window.sessionStorage.removeItem('token');
+		$window.sessionStorage.removeItem('username');
+		$window.sessionStorage.removeItem('fname');
+		$window.sessionStorage.removeItem('lname');
+		$window.sessionStorage.removeItem('email');
       }
     };
 
