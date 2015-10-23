@@ -69,10 +69,11 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 		  for(var i = 0; i < regressionData.length; i++) {
 			  var second = new Date(regressionData[i][0]);
 			  var first = new Date(referenceDate);
-
+			regressionData[i][0] = Math.round((second-first)/(1000*60*60*24));
 			  console.log("Days since start : " + Math.round((second-first)/(1000*60*60*24)));		
 			
 		  }
+		  //TODO: ensure that each date is unique so that the data can be used to form a regression line
 		  console.log(regressionData);
 		  
 		  if(vm.targetWeight) {
