@@ -7,6 +7,7 @@ angular.module('app', [
   'app.main',
   'userService',
   'animalService',
+  'filter',
   'app.signin',
   'app.dashboard',
   'app.animal',

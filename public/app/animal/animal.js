@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap'])
+angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filter'])
 
     .config(['$routeProvider', function ($routeProvider) {
       $routeProvider.when('/animal/:animalID', {
