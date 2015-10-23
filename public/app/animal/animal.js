@@ -54,6 +54,27 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
       }
 
 	  vm.calculate = function($scope) {
+		  var regressionData = new Array();
+
+		  for(var i = 0; i < vm.animals.length; i++) {
+			  
+			  regressionData[i] = [vm.animals[i].date, vm.animals[i].weight]; //build array [date, weight] for regression fitting
+		  }
+		  regressionData.sort(function(a,b) {
+			 return new Date(a[0]) - new Date(b[0]); //sort array from earliest to latest
+			  
+		  });
+		  var referenceDate = regressionData[0][0]; //take the earliest date as a referece
+		  
+		  for(var i = 0; i < regressionData.length; i++) {
+			  var second = new Date(regressionData[i][0]);
+			  var first = new Date(referenceDate);
+
+			  console.log("Days since start : " + Math.round((second-first)/(1000*60*60*24)));		
+			
+		  }
+		  console.log(regressionData);
+		  
 		  if(vm.targetWeight) {
 			  console.log("target weight");
 			  
