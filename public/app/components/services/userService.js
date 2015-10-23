@@ -10,6 +10,7 @@ angular.module('userService', [])
 
     //Get a single user
     userFactory.get = function(id) {
+		
       return $http.get(serverAddress + '/api/users/' + id);
     };
 

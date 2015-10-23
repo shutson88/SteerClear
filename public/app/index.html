@@ -45,7 +45,7 @@
             <div class="navbar-header">
                 <a href="/" class="navbar-brand">
                     <span class="glyphicon glyphicon-piggy-bank text-danger"></span>
-                    SteerCleere
+                    SteerClear
                 </a>
             </div>
             <ul class="nav navbar-nav navbar-right">
@@ -53,7 +53,7 @@
                     <a href="/signin">Login</a>
                 </li>
                 <li ng-if="main.loggedIn" class="navbar-text">
-                    Hello {{ main.user.first_name }}!
+                    Hello {{ main.user.fname }}!
                 </li>
                 <li ng-if="main.loggedIn">
                     <a href="#" ng-click="main.doLogout()">Logout</a>
