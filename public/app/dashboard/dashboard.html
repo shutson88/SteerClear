@@ -9,11 +9,6 @@
     <div uib-collapse="!addUserCollapsed">
         <form class="form-inline" role="form">
             <div class="form-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="user.addAnimal()">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                </span>
 
                 <div class="form-group">
                     <input type="text" class="form-control" ng-model="user.add_id" placeholder="ID">
@@ -27,6 +22,9 @@
                 <div class="form-group">
                     <input type="text" class="form-control" ng-model="user.addBreed" placeholder="Breed">
                 </div>
+                    <button class="btn btn-default" type="button" ng-click="user.addAnimal();addUserCollapsed = !addUserCollapsed">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
             </div>
         </form>
     </div>

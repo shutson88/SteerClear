@@ -30,6 +30,11 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'ngCookies', 'animalS
 				.success(function (data) {
 					vm.animals = data;
 					console.log("Data: "+JSON.stringify(data));
+          //Reset fields
+          vm.add_id = '';
+          vm.addName = '';
+          vm.addType = '';
+          vm.addBreed = '';
 				});
 			})
 	
