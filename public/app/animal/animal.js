@@ -83,12 +83,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 			  console.log("target date");
 			  
 		  }
-		  
-		  
-		  
-		  
-		  
-		  
+
 	  }
 	  
 	  

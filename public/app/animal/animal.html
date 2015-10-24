@@ -26,19 +26,18 @@
     <div uib-collapse="!addUserCollapsed">
         <form class="form-inline" role="form">
             <div class="form-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="animal.addWeight()">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                </span>
 
                 <div class="form-group">
                     <input type="text" class="form-control" ng-model="animal.weight" placeholder="Weight (lbs)">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" ng-model="animal.date" placeholder="Date">
-                    <button type="button" ng-click="animal.getCurrentDate()">Today</button>
+                    <input type="date" class="form-control" ng-model="animal.date" placeholder="Date">
+                    <!--<button type="button" ng-click="animal.getCurrentDate()">Today</button>-->
                 </div>
+                <button class="btn btn-default" type="button" ng-click="animal.addWeight()">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+
                 <!--<div class="form-group">-->
                 <!--<input type="text" class="form-control" ng-model="user.addUsername" placeholder="username">-->
                 <!--</div>-->
