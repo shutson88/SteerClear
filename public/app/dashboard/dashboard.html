@@ -85,6 +85,9 @@
         <td class="col-sm-2">
             <a ng-href="/animal/{{ animal._id }}" class="btn btn-danger">Edit</a>
         </td>
+		<td class="col-sm-2">
+			<button class="btn btn-default" type="button" ng-click="user.removeFromUser( animal._id )">Remove</button>
+		</td>
     </tr>
     </tbody>
 </table>

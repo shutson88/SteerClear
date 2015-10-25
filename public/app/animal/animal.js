@@ -52,7 +52,11 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
         //  $scope.status = status;
         //});
       }
+		
 
+		
+	
+	
 	  vm.calculate = function($scope) {
 		  var regressionData = new Array();
 

@@ -176,6 +176,32 @@ router.get('/animals/:id', function(req, res) {
 	});
 });
 
+router.delete('/animals/:id', function(req, res) {
+	console.log("removing " + req.params.id + " from user");
+	var animal_id = req.params.id;
+	
+	Animal.findOne({ _id: animal_id }, function(err, animal) {
+		//console.log(animal);		
+		if(animal && animal.managedBy === req.decoded.user._id) {
+			console.log("updating animal");
+			animal.managedBy = "nobody";
+			console.log(animal.managedBy);
+			animal.save(function(err) {
+				if (err) { console.log(err); }
+			});
+			res.json({succeess: true});
+			
+		} else {
+			//console.log(animal.managedBy);
+			res.json({success: false, message: 'You do not have access to this animal.'});
+		}
+		
+		
+	});
+	
+	
+});
+
 // Add animal for user
 router.post('/animals', function(req, res) {
 
