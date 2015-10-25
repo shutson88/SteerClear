@@ -73,7 +73,7 @@
                 <span ng-show="user.sortType == 'breed' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <th class="col-sm-2"></th>
+        <!-- <th class="col-sm-2"></th> -->
     </tr>
     </thead>
     <tbody>
@@ -83,7 +83,7 @@
         <td>{{ animal.name }}</td>
         <td>{{ animal.breed}}</td>
         <td class="col-sm-2">
-            <a ng-href="/animal/{{ animal._id }}" class="btn btn-danger">Edit</a>
+            <a ng-href="/animal/{{ animal._id }}" class="btn btn-danger">Weights</a>
         </td>
 		<td class="col-sm-2">
 			<button class="btn btn-default" type="button" ng-click="user.removeFromUser( animal._id )">Remove</button>
