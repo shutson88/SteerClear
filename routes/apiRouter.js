@@ -176,6 +176,38 @@ router.get('/animals/:id', function(req, res) {
 	});
 });
 
+router.delete('/animals/:id', function(req, res) {
+	console.log("removing " + req.params.id + " from user");
+	var animal_id = req.params.id;
+	
+	Animal.findOne({ _id: animal_id }, function(err, animal) {
+		
+		if(animal && animal.managedBy === req.decoded.user._id) {
+			console.log("updating animal");
+			animal.managedBy = "nobody";
+			console.log(animal.managedBy);
+			animal.save(function(err) {
+				if (err) { 
+					console.log(err); 
+					res.json({success: false});
+				} else {
+					res.json({succeess: true});
+				}
+				
+			});
+			
+			
+		} else {
+			//console.log(animal.managedBy);
+			res.json({success: false, message: 'You do not have access to this animal.'});
+		}
+		
+		
+	});
+	
+	
+});
+
 // Add animal for user
 router.post('/animals', function(req, res) {
 
@@ -187,25 +219,48 @@ router.post('/animals', function(req, res) {
 	console.log(req.body.type);
 	console.log(req.body.breed);
 
-	Animal({
-		_id: req.body.id,
-		managedBy: req.decoded.user._id,
-		name: req.body.name,
-		type: req.body.type,
-		breed: req.body.breed
-	}).save(function(err) {
-		if(err) {
-			if(err && err.code !== 11000) {
-				res.json({success: false, message: "Another error occurred"});
-			}
-			if(err && err.code === 11000) {
-				res.json({success: false, message: "Duplicate animal"});
-			}
+	Animal.findOne({_id: req.body.id}, function(err, animal) {
+		if(animal) {
+			animal.managedBy = req.decoded.user._id;
+			animal.save(function(err) {
+				if (err) { 
+					console.log(err); 
+					res.json({success: false});
+				} else {
+					res.json({succeess: true});
+				}
+				
+			});
+			
 		} else {
-			console.log(req.body.name + ' saved successfully');
-			res.json({ success: true });
+			
+			Animal({
+				_id: req.body.id,
+				managedBy: req.decoded.user._id,
+				name: req.body.name,
+				type: req.body.type,
+				breed: req.body.breed
+			}).save(function(err) {
+				if(err) {
+					if(err && err.code !== 11000) {
+						res.json({success: false, message: "Another error occurred"});
+					}
+					if(err && err.code === 11000) {
+						res.json({success: false, message: "Duplicate animal"});
+					}
+				} else {
+					console.log(req.body.name + ' saved successfully');
+					res.json({ success: true });
+				}
+			});	
+			
+			
+			
 		}
-	});
+		
+		
+	})
+	
 });
 
 // ==================

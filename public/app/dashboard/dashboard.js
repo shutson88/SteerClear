@@ -29,7 +29,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'ngCookies', 'animalS
 			$http.get('/api/animals')
 				.success(function (data) {
 					vm.animals = data;
-					console.log("Data: "+JSON.stringify(data));
+					//console.log("Data: "+JSON.stringify(data));
           //Reset fields
           vm.add_id = '';
           vm.addName = '';
@@ -39,6 +39,28 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'ngCookies', 'animalS
 			})
 	
 	}
+	
+	vm.removeFromUser = function(id) {
+	console.log("removing " + id + " from user");
+	$http.delete("http://" + window.location.host + "/api/animals/" + id)
+		.success(function(data, status, headers, config) {
+			$http.get('/api/animals')
+				.success(function(data) {
+					vm.animals = data;
+					//console.log(data);
+					
+				});
+			
+			
+		});
+	
+	
+	
+	
+	
+	
+	};
+	
     Animal.get()
       .success(function (data) {
         vm.animals = data;

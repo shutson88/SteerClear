@@ -53,9 +53,15 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
         //  $scope.status = status;
         //});
       }
+		
 
     vm.getAverageArray = function(){
       var regressionData = new Array();
+		
+	
+	
+	  vm.calculate = function($scope) {
+		  var regressionData = new Array();
 
       for(var i = 0; i < vm.animals.length; i++) {
 

@@ -122,7 +122,7 @@
                 <span ng-show="animal.sortType == 'breed' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <th class="col-sm-2"></th>
+        <!-- <th class="col-sm-2"></th> -->
     </tr>
     </thead>
     <tbody>
@@ -131,9 +131,10 @@
         <td>{{ animal.id }}</td>
         <td>{{ animal.date | myDate }}</td>
         <td>{{ animal.weight}}</td>
-        <td class="col-sm-2">
+        <!-- <td class="col-sm-2">
             <a ng-href="/animal" class="btn btn-danger">Edit</a>
-        </td>
+        </td> -->
+
     </tr>
     </tbody>
 </table>
