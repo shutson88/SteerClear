@@ -26,13 +26,13 @@ angular.module('authService', [])
         });
     };
 
-    authFactory.generateUser = function(username, password) {
-      return $http.post('/register', {
+    authFactory.generateUser = function(username, password, email, fname, lname) {
+      return $http.post('/api/user', {
         username: username,
         password: password,
-        email: 'bogus@email.com',
-        first_name: 'earthworm',
-        last_name: 'jim'
+        email: email,
+        first_name: fname,
+        last_name: lname
       })
         .success(function (data) {
           return data;
