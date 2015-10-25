@@ -7,13 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2107C93F1BD2D945006003BE /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107C93E1BD2D945006003BE /* UserViewController.swift */; };
+		2107C9411BD2DB68006003BE /* AnimalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107C9401BD2DB68006003BE /* AnimalModel.swift */; };
+		211205531BDC2CBF001D037B /* DashbordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211205521BDC2CBF001D037B /* DashbordViewController.swift */; };
+		211205551BDC87FC001D037B /* AddAnimalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211205541BDC87FC001D037B /* AddAnimalViewController.swift */; };
+		2126BBE71BCB5696007E726B /* toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2126BBE61BCB5696007E726B /* toast.swift */; };
+		2126BBE81BCB5696007E726B /* toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2126BBE61BCB5696007E726B /* toast.swift */; };
+		2126BBE91BCB5696007E726B /* toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2126BBE61BCB5696007E726B /* toast.swift */; };
+		21796C641BC1EE47006DBDAD /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21796C631BC1EE47006DBDAD /* UserDataModel.swift */; };
+		2186227D1BDAD470001BF9DE /* Registration ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2186227C1BDAD470001BF9DE /* Registration ViewController.swift */; };
 		219632771BC1E6A30025DB78 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219632761BC1E6A30025DB78 /* AppDelegate.swift */; };
-		219632791BC1E6A30025DB78 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219632781BC1E6A30025DB78 /* ViewController.swift */; };
+		219632791BC1E6A30025DB78 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219632781BC1E6A30025DB78 /* LoginViewController.swift */; };
 		2196327C1BC1E6A30025DB78 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2196327A1BC1E6A30025DB78 /* Main.storyboard */; };
 		2196327E1BC1E6A30025DB78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2196327D1BC1E6A30025DB78 /* Assets.xcassets */; };
 		219632811BC1E6A30025DB78 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2196327F1BC1E6A30025DB78 /* LaunchScreen.storyboard */; };
 		2196328C1BC1E6A30025DB78 /* stearClearTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2196328B1BC1E6A30025DB78 /* stearClearTests.swift */; };
 		219632971BC1E6A30025DB78 /* stearClearUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219632961BC1E6A30025DB78 /* stearClearUITests.swift */; };
+		6DAC4AD05F4B50B8FE4E1FEF /* Pods_stearClear.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB60CAAFB71CFF2E3F93D2F4 /* Pods_stearClear.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +44,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2107C93E1BD2D945006003BE /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		2107C9401BD2DB68006003BE /* AnimalModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimalModel.swift; path = stearClear/AnimalModel.swift; sourceTree = "<group>"; };
+		211205521BDC2CBF001D037B /* DashbordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashbordViewController.swift; sourceTree = "<group>"; };
+		211205541BDC87FC001D037B /* AddAnimalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAnimalViewController.swift; sourceTree = "<group>"; };
+		2126BBE61BCB5696007E726B /* toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = toast.swift; sourceTree = "<group>"; };
+		21796C631BC1EE47006DBDAD /* UserDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserDataModel.swift; path = stearClear/UserDataModel.swift; sourceTree = "<group>"; };
+		2186227C1BDAD470001BF9DE /* Registration ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Registration ViewController.swift"; sourceTree = "<group>"; };
 		219632731BC1E6A30025DB78 /* stearClear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = stearClear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		219632761BC1E6A30025DB78 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		219632781BC1E6A30025DB78 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		219632781BC1E6A30025DB78 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2196327B1BC1E6A30025DB78 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2196327D1BC1E6A30025DB78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		219632801BC1E6A30025DB78 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +64,9 @@
 		219632921BC1E6A30025DB78 /* stearClearUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = stearClearUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		219632961BC1E6A30025DB78 /* stearClearUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stearClearUITests.swift; sourceTree = "<group>"; };
 		219632981BC1E6A30025DB78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5D4E79BF60A20C56921229E1 /* Pods-stearClear.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stearClear.release.xcconfig"; path = "Pods/Target Support Files/Pods-stearClear/Pods-stearClear.release.xcconfig"; sourceTree = "<group>"; };
+		7898BD8683421B79CB023A52 /* Pods-stearClear.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stearClear.debug.xcconfig"; path = "Pods/Target Support Files/Pods-stearClear/Pods-stearClear.debug.xcconfig"; sourceTree = "<group>"; };
+		EB60CAAFB71CFF2E3F93D2F4 /* Pods_stearClear.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_stearClear.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DAC4AD05F4B50B8FE4E1FEF /* Pods_stearClear.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,13 +95,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2186227E1BDAEF1E001BF9DE /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				21796C631BC1EE47006DBDAD /* UserDataModel.swift */,
+				2107C9401BD2DB68006003BE /* AnimalModel.swift */,
+			);
+			name = Modals;
+			sourceTree = "<group>";
+		};
 		2196326A1BC1E6A30025DB78 = {
 			isa = PBXGroup;
 			children = (
 				219632751BC1E6A30025DB78 /* stearClear */,
+				2186227E1BDAEF1E001BF9DE /* Modals */,
 				2196328A1BC1E6A30025DB78 /* stearClearTests */,
 				219632951BC1E6A30025DB78 /* stearClearUITests */,
 				219632741BC1E6A30025DB78 /* Products */,
+				E3D1733C8BE0F28D022946F9 /* Pods */,
+				8F3476851FD0509EA12FD16E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,8 +130,13 @@
 		219632751BC1E6A30025DB78 /* stearClear */ = {
 			isa = PBXGroup;
 			children = (
+				2186227C1BDAD470001BF9DE /* Registration ViewController.swift */,
+				211205541BDC87FC001D037B /* AddAnimalViewController.swift */,
+				211205521BDC2CBF001D037B /* DashbordViewController.swift */,
 				219632761BC1E6A30025DB78 /* AppDelegate.swift */,
-				219632781BC1E6A30025DB78 /* ViewController.swift */,
+				2126BBE61BCB5696007E726B /* toast.swift */,
+				219632781BC1E6A30025DB78 /* LoginViewController.swift */,
+				2107C93E1BD2D945006003BE /* UserViewController.swift */,
 				2196327A1BC1E6A30025DB78 /* Main.storyboard */,
 				2196327D1BC1E6A30025DB78 /* Assets.xcassets */,
 				2196327F1BC1E6A30025DB78 /* LaunchScreen.storyboard */,
@@ -125,6 +163,23 @@
 			path = stearClearUITests;
 			sourceTree = "<group>";
 		};
+		8F3476851FD0509EA12FD16E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EB60CAAFB71CFF2E3F93D2F4 /* Pods_stearClear.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E3D1733C8BE0F28D022946F9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7898BD8683421B79CB023A52 /* Pods-stearClear.debug.xcconfig */,
+				5D4E79BF60A20C56921229E1 /* Pods-stearClear.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +187,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2196329B1BC1E6A30025DB78 /* Build configuration list for PBXNativeTarget "stearClear" */;
 			buildPhases = (
+				EE2E781C5FECE1AD30CF7382 /* Check Pods Manifest.lock */,
 				2196326F1BC1E6A30025DB78 /* Sources */,
 				219632701BC1E6A30025DB78 /* Frameworks */,
 				219632711BC1E6A30025DB78 /* Resources */,
+				8CE2F8A1157D591551E26345 /* Embed Pods Frameworks */,
+				EBE898C7160A87721E579DF7 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -250,13 +308,68 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8CE2F8A1157D591551E26345 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-stearClear/Pods-stearClear-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EBE898C7160A87721E579DF7 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-stearClear/Pods-stearClear-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EE2E781C5FECE1AD30CF7382 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2196326F1BC1E6A30025DB78 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				219632791BC1E6A30025DB78 /* ViewController.swift in Sources */,
+				219632791BC1E6A30025DB78 /* LoginViewController.swift in Sources */,
+				2107C9411BD2DB68006003BE /* AnimalModel.swift in Sources */,
+				2107C93F1BD2D945006003BE /* UserViewController.swift in Sources */,
+				2126BBE71BCB5696007E726B /* toast.swift in Sources */,
+				21796C641BC1EE47006DBDAD /* UserDataModel.swift in Sources */,
+				2186227D1BDAD470001BF9DE /* Registration ViewController.swift in Sources */,
 				219632771BC1E6A30025DB78 /* AppDelegate.swift in Sources */,
+				211205531BDC2CBF001D037B /* DashbordViewController.swift in Sources */,
+				211205551BDC87FC001D037B /* AddAnimalViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2196328C1BC1E6A30025DB78 /* stearClearTests.swift in Sources */,
+				2126BBE81BCB5696007E726B /* toast.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +387,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				219632971BC1E6A30025DB78 /* stearClearUITests.swift in Sources */,
+				2126BBE91BCB5696007E726B /* toast.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +509,7 @@
 		};
 		2196329C1BC1E6A30025DB78 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7898BD8683421B79CB023A52 /* Pods-stearClear.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = stearClear/Info.plist;
@@ -405,6 +521,7 @@
 		};
 		2196329D1BC1E6A30025DB78 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5D4E79BF60A20C56921229E1 /* Pods-stearClear.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = stearClear/Info.plist;
@@ -481,6 +598,7 @@
 				2196329D1BC1E6A30025DB78 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2196329E1BC1E6A30025DB78 /* Build configuration list for PBXNativeTarget "stearClearTests" */ = {
 			isa = XCConfigurationList;
@@ -489,6 +607,7 @@
 				219632A01BC1E6A30025DB78 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		219632A11BC1E6A30025DB78 /* Build configuration list for PBXNativeTarget "stearClearUITests" */ = {
 			isa = XCConfigurationList;
@@ -497,6 +616,7 @@
 				219632A31BC1E6A30025DB78 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
