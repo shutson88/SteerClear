@@ -29,6 +29,7 @@
 
     <!-- modules -->
     <script src="signin/signin.js"></script>
+	<script src="signin/register.js"></script>
     <script src="dashboard/dashboard.js"></script>
     <script src="home/home.js"></script>
     <script src="animal/animal.js"></script>
@@ -53,6 +54,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li ng-if="!main.loggedIn">
                     <a href="/signin">Login</a>
+					<a href="/register">Register</a>
                 </li>
                 <li ng-if="main.loggedIn" class="navbar-text">
                     Hello {{ main.user.fname }}!

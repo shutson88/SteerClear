@@ -9,6 +9,7 @@ angular.module('app', [
   'animalService',
   'filter',
   'app.signin',
+  'app.register',
   'app.dashboard',
   'app.animal',
   'app.home'

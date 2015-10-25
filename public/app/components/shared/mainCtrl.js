@@ -46,12 +46,30 @@ angular.module('app.main', ['ngRoute', 'ngCookies'])
         });
     };
 
-    vm.createTestUser = function() {
+	vm.goToRegister = function() {
+		$location.path('/register');		
+	};
+	
+	vm.goToLogin = function() {
+		$location.path('/signin');
+	}
+	
+    vm.registerUser = function() {
       vm.error = '';
 
-      Auth.generateUser(vm.loginData.username, vm.loginData.password)
+      Auth.generateUser(vm.loginData.username, 
+						vm.loginData.password,
+						vm.loginData.email,
+						vm.loginData.fname,
+						vm.loginData.lname)
         .success(function(data) {
-          vm.error = data.message;
+          if(data.success) {
+			  $location.path('/signin');
+		  } else {
+			vm.error = data.message;
+		  }
+		  
+		  
         })
     };
 
