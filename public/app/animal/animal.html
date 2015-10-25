@@ -2,9 +2,18 @@
 <div class="page-header">
     <h1>
         {{ animal.animalID }}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{animal.data}}</h3>
+            </div>
+        </div>
         <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
             <span class="glyphicon glyphicon-plus"></span>
             Add new weight
+        </button>
+        <button type="button" class="btn btn-default" ng-click="rangeDateCollapsed = !rangeDateCollapsed">
+            <span class="glyphicon glyphicon-stats"></span>
+            Calculate Average Daily Gains
         </button>
 		<form class="form-inline" role="form">
 			<div class="form-group">
@@ -36,6 +45,28 @@
                 </div>
                 <button class="btn btn-default" type="button" ng-click="animal.addWeight()">
                     <span class="glyphicon glyphicon-plus"></span>
+                </button>
+
+                <!--<div class="form-group">-->
+                <!--<input type="text" class="form-control" ng-model="user.addUsername" placeholder="username">-->
+                <!--</div>-->
+
+            </div>
+        </form>
+    </div>
+    <div uib-collapse="!rangeDateCollapsed">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+
+                <div class="form-group">
+                    <input type="date" class="form-control" ng-model="animal.start_date" placeholder="Start Date">
+                </div>
+                <div class="form-group">
+                    <input type="date" class="form-control" ng-model="animal.end_date" placeholder="End Date">
+                    <!--<button type="button" ng-click="animal.getCurrentDate()">Today</button>-->
+                </div>
+                <button class="btn btn-default" type="button" ng-click="animal.averageGainInRange()">
+                    Calculate
                 </button>
 
                 <!--<div class="form-group">-->

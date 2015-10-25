@@ -20,6 +20,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
       vm.sortReverse = false;
       vm.searchAnimals = '';
       vm.addUserCollapsed = false;
+      vm.rangeDateCollapsed = false;
 
       $http.get('/api/weights/'+vm.animalID)
           .success(function (data) {
@@ -53,17 +54,17 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
         //});
       }
 
-	  vm.calculate = function($scope) {
-		  var regressionData = new Array();
+    vm.getAverageArray = function(){
+      var regressionData = new Array();
 
-		  for(var i = 0; i < vm.animals.length; i++) {
-			  
-			  regressionData.push([vm.animals[i].date, vm.animals[i].weight]); //build array [date, weight] for regression fitting
-		  }
-		  regressionData.sort(function(a,b) {
-			 return new Date(a[0]) - new Date(b[0]); //sort array from earliest to latest
-		  });
-      console.log("Regression data:" + regressionData);
+      for(var i = 0; i < vm.animals.length; i++) {
+
+        regressionData.push([vm.animals[i].date, vm.animals[i].weight]); //build array [date, weight] for regression fitting
+      }
+
+      regressionData.sort(function(a,b) {
+        return new Date(a[0]) - new Date(b[0]); //sort array from earliest to latest
+      });
 
       //Calculate average of each day to make unique date array
       var averageDates = new Array();
@@ -91,8 +92,16 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
           averageWeight = regressionData[i][1];
         }
       }
+      console.log("getAvgArray:" + averageDates);
+      return averageDates;
+
+
+    }
+
+	  vm.calculate = function($scope) {
+
       //console.log("Average dates"+averageDates);
-      regressionData = averageDates;
+      var regressionData = vm.getAverageArray();
 
       //console.log("Regression data:" + regressionData);
 		  var referenceDate = regressionData[0][0]; //take the earliest date as a referece
@@ -116,6 +125,40 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 		  }
 
 	  }
+
+    vm.averageGainInRange = function(){
+      if(!vm.start_date || !vm.end_date){
+        vm.data = "Please enter start date and end date."
+      }
+      else if(vm.start_date > vm.end_date){
+        vm.data = "Start date must be before end date."
+      }
+      else{
+        var averageDates = vm.getAverageArray();
+
+        //console.log("averageDates: " + averageDates);
+
+        var dailyGains = new Array();
+        for(var i = 0; i < averageDates.length; i++){
+          console.log(averageDates[i][1]);
+
+          if(i < averageDates.length-1 && new Date(averageDates[i][0]) >= new Date(vm.start_date) && new Date(vm.end_date) >= new Date(averageDates[i+1][0])) {
+            dailyGains.push(averageDates[i+1][1] - averageDates[i][1])
+          }
+        }
+        var averageDailyGain = 0;
+        //console.log("Daily gains: " + dailyGains);
+        for(var i = 0; i < dailyGains.length; i++){
+          averageDailyGain += dailyGains[i];
+        }
+        if(dailyGains.length === 0){
+          vm.data = "Average daily weight gain: 0";
+        }
+        else {
+          vm.data = "Average daily weight gain: " + averageDailyGain / dailyGains.length;
+        }
+      }
+    }
 
 
     }]);
