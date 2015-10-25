@@ -31,29 +31,33 @@ var router = express.Router();
 
 // route to show a random message
 router.get('/', function(req, res) {
-  res.json({ message: 'Welcome to the API for SteerCleere!' });
+	res.json({ message: 'Welcome to the API for SteerCleere!' });
 });
 
 // Registers a user
 router.post('/user', function(req, res) {
 
-	
+
 
 
 	//TODO: check if each field exists before creating and saving object
 	User({
 		_id: req.body.username,
 		password: bcrypt.hashSync(req.body.password),
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email
+		first_name: req.body.first_name,
+		last_name: req.body.last_name,
+		email: req.body.email
 	}).save(function(err) {
 		if(err) {
-			if(err && err.code !== 11000) {
-				console.log(err);
+			//Invalid email detected
+			if(err.errors && err.errors.email.properties.path === "email"){
+				res.json({success: false, message: "Email is not valid"});
+			}
+			else if(err && err.code !== 11000) {
+				console.log(JSON.stringify(err.errors.email.properties.path));
 				res.json({success: false, message: "Another error occurred"});
 			}
-			if(err && err.code === 11000) {
+			else if(err && err.code === 11000) {
 				console.log(err);
 				res.json({success: false, message: "Username/email already taken"});
 			};
@@ -67,50 +71,50 @@ router.post('/user', function(req, res) {
 // Route to authenticate a user
 router.post('/authenticate', function(req, res) {
 
-	
 
 
-  // find the user
-  User.findOne({
-    _id: req.body.username.toLowerCase()
-  }, function(err, user) {
 
-    if (err) throw err;
+	// find the user
+	User.findOne({
+		_id: req.body.username.toLowerCase()
+	}, function(err, user) {
 
-    if (!user) {
-      res.json({ success: false, message: 'Authentication failed. User not found.' });
-    } else if (user) {
+		if (err) throw err;
 
-      // check if password matches
-      if (!bcrypt.compareSync(req.body.password, user.password)) { // Checks given password with stored encrypted oneS
-        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
-      } else {
+		if (!user) {
+			res.json({ success: false, message: 'Authentication failed. User not found.' });
+		} else if (user) {
 
-        // if user is found and password is right
-        // create a token
-        var token = jwt.sign({user: user}, app.get('superSecret'), {
-          expiresInMinutes: 1440 // expires in 24 hours
-        });
+			// check if password matches
+			if (!bcrypt.compareSync(req.body.password, user.password)) { // Checks given password with stored encrypted oneS
+				res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+			} else {
 
-        // return the information including token as JSON
-        res.json({
-          success: true,
-          message: 'Enjoy your token!',
-          token: token,
-		  username: user._id,
-		  fname: user.first_name,
-		  lname: user.last_name,
-		  email: user.email
-        });
-      }
-    }
-  });
+				// if user is found and password is right
+				// create a token
+				var token = jwt.sign({user: user}, app.get('superSecret'), {
+					expiresInMinutes: 1440 // expires in 24 hours
+				});
+
+				// return the information including token as JSON
+				res.json({
+					success: true,
+					message: 'Enjoy your token!',
+					token: token,
+					username: user._id,
+					fname: user.first_name,
+					lname: user.last_name,
+					email: user.email
+				});
+			}
+		}
+	});
 });
 
 // TODO: Remove before deployment
 // FOR DEV USE ONLY!
 router.get('/users', function(req, res) {
-    var users = User.find(function(err, users) {
+	var users = User.find(function(err, users) {
 		res.json(users);
 	});
 })
@@ -159,16 +163,16 @@ router.get('/animals', function(req, res) {
 
 // Gets information for  specific animal
 router.get('/animals/:id', function(req, res) {
-    var animal_id = req.params.id;
+	var animal_id = req.params.id;
 
 	console.log("Viewing animal: " + animal_id);
-    var animal = Animal.findOne({ _id: animal_id }, function(err, animal) {
-        if(animal && animal.managedBy === req.decoded.user._id){
-            res.json(animal);
-        }
-        else{
-            res.json({success: false, message: 'You do not have access to this animal.'});
-        }
+	var animal = Animal.findOne({ _id: animal_id }, function(err, animal) {
+		if(animal && animal.managedBy === req.decoded.user._id){
+			res.json(animal);
+		}
+		else{
+			res.json({success: false, message: 'You do not have access to this animal.'});
+		}
 	});
 });
 
@@ -176,13 +180,13 @@ router.get('/animals/:id', function(req, res) {
 router.post('/animals', function(req, res) {
 
 	//TODO: check if each field exists before creating and saving object
-	
+
 	console.log(req.body.id);
 	console.log(req.decoded.user._id);
 	console.log(req.body.name);
 	console.log(req.body.type);
 	console.log(req.body.breed);
-	
+
 	Animal({
 		_id: req.body.id,
 		managedBy: req.decoded.user._id,
@@ -210,8 +214,8 @@ router.post('/animals', function(req, res) {
 
 // View all the weights for a single animal
 router.get('/weights', function(req, res) {
-    console.log("Getting weights for animal: " +  req.headers['id']);
-    Weight.find({id: req.headers['id']}, function(err, weights) {
+	console.log("Getting weights for animal: " +  req.headers['id']);
+	Weight.find({id: req.headers['id']}, function(err, weights) {
 		res.json(weights);
 	});
 });
@@ -230,7 +234,7 @@ router.get('/weights/:id', function(req, res) {
 
 // Add a weight for a specific animal
 router.post('/weights', function(req, res) {
-    Animal.findOne({
+	Animal.findOne({
 		_id: req.body.id.toLowerCase()
 	}, function(err, animal) {
 		if (!animal) {
@@ -312,14 +316,14 @@ router.get('/breeds', function(req, res) {
 // Add a type and/or breed to the databse
 router.post('/breeds', function(req, res) {
 
-    // Finds and updates existing model in collection or creates one if it doesn't exist
-    // Can have duplicate breeds in each animal type
-    AnimalType.findOneAndUpdate(
-        {type: req.body.type},
-        {$addToSet: { breeds: {breed: req.body.breed}}},
-        {safe: true, upsert: true, new : true},
-        function(err, model) {
-            if(err) {
+	// Finds and updates existing model in collection or creates one if it doesn't exist
+	// Can have duplicate breeds in each animal type
+	AnimalType.findOneAndUpdate(
+		{type: req.body.type},
+		{$addToSet: { breeds: {breed: req.body.breed}}},
+		{safe: true, upsert: true, new : true},
+		function(err, model) {
+			if(err) {
 				console.log(err);
 				res.json({success: false, message: "An error occurred"});
 			} else {
@@ -327,8 +331,8 @@ router.post('/breeds', function(req, res) {
 				res.json({ success: true });
 			}
 
-        }
-    );
+		}
+	);
 });
 
 // Export for use in server.js
