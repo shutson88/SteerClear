@@ -58,12 +58,43 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
 		  for(var i = 0; i < vm.animals.length; i++) {
 			  
-			  regressionData[i] = [vm.animals[i].date, vm.animals[i].weight]; //build array [date, weight] for regression fitting
+			  regressionData.push([vm.animals[i].date, vm.animals[i].weight]); //build array [date, weight] for regression fitting
 		  }
 		  regressionData.sort(function(a,b) {
 			 return new Date(a[0]) - new Date(b[0]); //sort array from earliest to latest
-			  
 		  });
+      console.log("Regression data:" + regressionData);
+
+      //Calculate average of each day to make unique date array
+      var averageDates = new Array();
+      var currentDate = regressionData[0][0];
+      var averageWeight = 0;
+      var averageSum = 0;
+
+      console.log("Current date: " + currentDate);
+      console.log(regressionData.length);
+      for (var i = 0; i < regressionData.length; i++){
+        if(currentDate === regressionData[i][0]){
+          averageWeight += regressionData[i][1];
+          averageSum++;
+        }
+        else{
+          averageDates.push([currentDate, averageWeight/averageSum]);
+          currentDate = regressionData[i][0];
+          averageWeight = regressionData[i][1];
+          averageSum = 1;
+        }
+        if(i === regressionData.length - 1){
+
+          averageDates.push([currentDate, averageWeight/averageSum]);
+          currentDate = regressionData[i][0];
+          averageWeight = regressionData[i][1];
+        }
+      }
+      //console.log("Average dates"+averageDates);
+      regressionData = averageDates;
+
+      //console.log("Regression data:" + regressionData);
 		  var referenceDate = regressionData[0][0]; //take the earliest date as a referece
 		  
 		  for(var i = 0; i < regressionData.length; i++) {
@@ -85,27 +116,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 		  }
 
 	  }
-	  
-	  
-      vm.getCurrentDate = function() {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1;
-        var yyyy = today.getFullYear();
 
-        if(dd < 10) {
-          dd='0' + dd;
-        }
-        if(mm < 10) {
-          mm='0' + mm;
-        }
-        today = mm+'/'+dd+'/'+yyyy;
-        console.log(today);
-        console.log(vm.weight);
-        vm.date = today;
-
-
-      }
 
     }]);
 

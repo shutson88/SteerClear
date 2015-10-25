@@ -38,17 +38,17 @@
                 {{ register.error }}
             </div>
 
-			<!-- SIGNUP BUTTON -->
-            <button type="submit" class="btn btn-block btn-primary" ng-click="register.goToLogin()">
-                <span>Login</span>
-            </button>
-
-			
 
             <!-- SIGNUP BUTTON -->
             <button type="submit" class="btn btn-block btn-primary" ng-click="register.registerUser()">
                 <span>Register</span>
             </button>
+
+            <!-- Return to  Login -->
+            <br/>
+            <a ng-href="/signin">
+                <span>Return To login</span>
+            </a>
 
         </form>
     </div>
