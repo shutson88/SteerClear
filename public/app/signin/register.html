@@ -49,6 +49,10 @@
                 </div>
             </div>
 
+            <div class="alert alert-danger" ng-if="register.error">
+                {{ register.error }}
+            </div>
+
             <!-- SIGNUP BUTTON -->
             <button type="submit" class="btn btn-block btn-primary" ng-disabled="registerForm.$invalid">
                 <span>Register</span>
