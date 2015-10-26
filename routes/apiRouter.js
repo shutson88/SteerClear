@@ -50,11 +50,10 @@ router.post('/user', function(req, res) {
 	}).save(function(err) {
 		if(err) {
 			//Invalid email detected
-			if(err.errors && err.errors.email.properties.path === "email"){
+			if(err.errors && err.errors.email &&  err.errors.email.properties.path === "email"){
 				res.json({success: false, message: "Email is not valid"});
 			}
 			else if(err && err.code !== 11000) {
-				console.log(JSON.stringify(err.errors.email.properties.path));
 				res.json({success: false, message: "Another error occurred"});
 			}
 			else if(err && err.code === 11000) {

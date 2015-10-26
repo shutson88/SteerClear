@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.dashboard', ['ngRoute', 'authService', 'ngCookies', 'animalService', 'ui.bootstrap'])
+angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.bootstrap'])
 
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/dashboard', {
@@ -10,10 +10,9 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'ngCookies', 'animalS
     });
   }])
 
-  .controller('DashboardCtrl', ['Animal', 'AuthToken', '$http', '$cookies', function (Animal, AuthToken, $http, $cookies) {
+  .controller('DashboardCtrl', ['Animal', 'AuthToken', '$http', function (Animal, AuthToken, $http) {
     var vm = this;
 
-    console.log($cookies.get('username'));
     vm.sortType = 'breed';
     vm.sortReverse = false;
     vm.searchAnimals = '';
