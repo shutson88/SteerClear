@@ -2,45 +2,55 @@
     <div class="jumbotron">
         <h1>Register</h1>
 
-        <form>
+        <form name="registerForm" ng-submit="register.registerUser(registerForm.$valid)" novalidate>
 
             <!-- USERNAME INPUT -->
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error': registerForm.username.$touched && registerForm.username.$invalid }">
                 <label>Username</label>
-                <input type="text" class="form-control" ng-model="register.loginData.username">
+                <input type="text" name="username" class="form-control" ng-model="register.loginData.username" required>
+                <div class="help-block" ng-messages="registerForm.username.$error" ng-show="registerForm.username.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
             </div>
 
             <!-- PASSWORD INPUT -->
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error': registerForm.password.$touched && registerForm.password.$invalid }">
                 <label>Password</label>
-                <input type="password" class="form-control" ng-model="register.loginData.password">
+                <input type="password" name="password" class="form-control" ng-model="register.loginData.password" required>
+                <div class="help-block" ng-messages="registerForm.password.$error" ng-show="registerForm.password.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
             </div>
-			
+
 			<!-- EMAIL INPUT -->
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error': registerForm.email.$touched && registerForm.email.$invalid }">
                 <label>Email</label>
-                <input type="text" class="form-control" ng-model="register.loginData.email">
+                <input type="email" name="email" class="form-control" ng-model="register.loginData.email" required>
+                <div class="help-block" ng-messages="registerForm.email.$error" ng-show="registerForm.email.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
             </div>
-			
+
 			<!-- FIRST NAME INPUT -->
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error': registerForm.first_name.$touched && registerForm.first_name.$invalid }">
                 <label>First name</label>
-                <input type="text" class="form-control" ng-model="register.loginData.fname">
+                <input type="text" name="first_name" class="form-control" ng-model="register.loginData.fname" required>
+                <div class="help-block" ng-messages="registerForm.first_name.$error" ng-show="registerForm.first_name.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
             </div>
-			
+
 			<!-- LAST NAME INPUT -->
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error': registerForm.last_name.$touched && registerForm.last_name.$invalid }">
                 <label>Last name</label>
-                <input type="text" class="form-control" ng-model="register.loginData.lname">
+                <input type="text" name="last_name" class="form-control" ng-model="register.loginData.lname" required>
+                <div class="help-block" ng-messages="registerForm.last_name.$error" ng-show="registerForm.last_name.$touched">
+                    <div ng-messages-include="partials/messages.html"></div>
+                </div>
             </div>
-
-            <div class="alert alert-danger" ng-if="register.error">
-                {{ register.error }}
-            </div>
-
 
             <!-- SIGNUP BUTTON -->
-            <button type="submit" class="btn btn-block btn-primary" ng-click="register.registerUser()">
+            <button type="submit" class="btn btn-block btn-primary" ng-disabled="registerForm.$invalid">
                 <span>Register</span>
             </button>
 
