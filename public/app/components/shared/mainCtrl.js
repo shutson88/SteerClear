@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('app.main', ['ngRoute', 'ngCookies'])
-    .controller('MainCtrl', ['$rootScope', '$location', 'Auth', 'AuthToken', '$cookies', function($rootScope, $location, Auth, AuthToken, $cookies) {
+angular.module('app.main', ['ngRoute'])
+    .controller('MainCtrl', ['$rootScope', '$location', 'Auth', 'AuthToken', function($rootScope, $location, Auth, AuthToken) {
 
     var vm = this;
 	vm.user = {};
@@ -12,14 +12,8 @@ angular.module('app.main', ['ngRoute', 'ngCookies'])
     $rootScope.$on('$routeChangeStart', function() {
       vm.loggedIn = Auth.isLoggedIn();
 
-		vm.user = AuthToken.getData();
+		  vm.user = AuthToken.getData();
 
-      //Auth.getUser(Auth.username)
-      //  .then(function(data) {
-		//  vm.user = data.data;
-		//  console.log(data);
-		// // console.log(Auth.username);
-      //  });
     });
 
     vm.doLogin = function() {
@@ -34,9 +28,6 @@ angular.module('app.main', ['ngRoute', 'ngCookies'])
             var expireDate = new Date();
             expireDate.setDate(expireDate.getDate() + 1);
             //console.log('Username in MainCtrl: '+Auth.username);
-			
-			
-            $cookies.put('username', Auth.username, {'expires': expireDate});
 
           if(data.success){
             $location.path('/dashboard');
@@ -52,25 +43,29 @@ angular.module('app.main', ['ngRoute', 'ngCookies'])
 	
 	vm.goToLogin = function() {
 		$location.path('/signin');
-	}
+	};
 	
-    vm.registerUser = function() {
-      vm.error = '';
+    vm.registerUser = function(isValid) {
+      if(isValid) {
+        vm.error = '';
 
-      Auth.generateUser(vm.loginData.username, 
-						vm.loginData.password,
-						vm.loginData.email,
-						vm.loginData.fname,
-						vm.loginData.lname)
-        .success(function(data) {
-          if(data.success) {
-			  $location.path('/signin');
-		  } else {
-			vm.error = data.message;
-		  }
-		  
-		  
-        })
+        Auth.generateUser(vm.loginData.username,
+          vm.loginData.password,
+          vm.loginData.email,
+          vm.loginData.fname,
+          vm.loginData.lname)
+          .success(function (data) {
+            if (data.success) {
+              $location.path('/signin');
+            } else {
+              vm.error = data.message;
+            }
+
+
+          })
+      } else {
+        console.log('Form is not Valid');
+      }
     };
 
     vm.doLogout = function() {
