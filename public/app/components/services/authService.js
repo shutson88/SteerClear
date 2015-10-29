@@ -14,6 +14,21 @@ angular.module('authService', [])
   .factory('Auth', function ($http, $q, AuthToken) {
     var authFactory = {};
 
+	
+	authFactory.verifyPermission = function(id) {
+		$http.get('/api/users' + id)
+			.success(function(data) {
+				if(data.managedBy === AuthToken.getData().username) {
+					return true;
+					
+				} else {
+					return false;
+				}
+				
+			});
+		
+	}
+	
     authFactory.login = function (username, password) {
       return $http.post('/api/authenticate', {
         username: username,
