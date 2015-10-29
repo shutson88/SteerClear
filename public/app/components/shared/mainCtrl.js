@@ -54,7 +54,8 @@ angular.module('app.main', ['ngRoute'])
           vm.loginData.password,
           vm.loginData.email,
           vm.loginData.fname,
-          vm.loginData.lname)
+          vm.loginData.lname,
+		  vm.loginData.isAdmin)
           .success(function (data) {
             if (data.success) {
               $location.path('/signin');

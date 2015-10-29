@@ -24,7 +24,14 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	Animal.getAll(vm.id)
 			.success(function (data) {
 				console.log(data);
-			vm.animals = data;
+				if(data.success === false) {
+					
+				} else {
+					vm.animals = data;
+				}
+				
+				
+				
 		});
     vm.sortType = 'breed';
     vm.sortReverse = false;

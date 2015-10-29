@@ -27,19 +27,25 @@ var router = express.Router();
 
 
 
-var verifyPermission = function(sourceID, destID) {
-	User.findOne({_id: destID, managedBy: sourceID}, function(err, users) {
-		if(users) {
-			return false;
-		} else if(!user) {
-			return true;
-		}
+var verifyPermission = function(sourceID, destID, callback) {
+	if(sourceID == destID) {
+		return true;
+	} else {
+		console.log("Checking if " + sourceID + " is managed by " + destID);
 		
-		
-		
-		
-	});
 	
+		User.findOne({_id: sourceID, managedBy: destID}, function(err, user) {
+			if(user) {
+				callback(true);
+			} else if(!user) {
+				callback(false);
+			}
+			
+			
+			
+			
+		});
+	}
 	
 }
 
@@ -149,7 +155,7 @@ router.use(tokenAuth);
 // Gets users assigned to supervisor
 router.get('/users/:supervisor', function(req, res) {
 	console.log("Viewing youth managed by: " + req.params.supervisor);
-	var users = User.find({}, function(err, users) { //TODO: add proper filtering for users
+	var users = User.find({ managedBy: req.params.supervisor }, function(err, users) { 
 		//console.log(users);
 		res.json(users);
 	});
@@ -166,7 +172,7 @@ router.post('/checktoken', function(req, res) {
 // ==================
 
 // Gets users information
-router.get('/users/:username', function(req, res) {
+router.get('/user/:username', function(req, res) {
 	console.log("Viewing user " + req.params.username);
 	var user = User.findOne({ _id: req.params.username }, function(err, user) {
 		res.json(user);
@@ -174,7 +180,7 @@ router.get('/users/:username', function(req, res) {
 });
 
 router.put('/users/:username', function(req, res) {
-	console.log("Updating user" + req.params.username);
+	console.log("Updating user " + req.params.username);
 	User.findOne({ _id: req.params.username}, function(err, user) {
 		
 		user.managedBy = req.body.id;
@@ -201,17 +207,23 @@ router.put('/users/:username', function(req, res) {
 
 // Gets information for all animals belonging to a user
 router.get('/animals/:id', function(req, res) {
-	console.log("Viewing animals for " + req.params.id);
-	if(verifyPermission(req.params.id, req.decoded.user._id)) {
-		
-	
-	
-		Animal.find({ managedBy: req.params.id }, function(err, animals) {
+	//console.log("Viewing animals for " + req.params.id);
+	console.log("Sent id: " + req.params.id);
+	console.log("Decoded id: " + req.decoded.user._id);
+	verifyPermission(req.params.id, req.decoded.user._id, function(status) {
+		console.log("Verification: " + status);
+		if(status === true) {
+			Animal.find({ managedBy: req.params.id }, function(err, animals) {
 			res.json(animals);
 		});
-	} else {
-		res.json({success: false, message: "You do not have permission to access this user"});
-	}
+		} else {
+			res.json({success: false, message: "You do not have permission to access this user's animals"});
+		}
+		
+		
+	});
+	
+
 });
 
 // Gets information for  specific animal
@@ -219,6 +231,7 @@ router.get('/animal/:id', function(req, res) {
 	var animal_id = req.params.id;
 
 	console.log("Viewing animal: " + animal_id);
+		
 	var animal = Animal.findOne({ _id: animal_id }, function(err, animal) {
 		if(animal && animal.managedBy === req.decoded.user._id){
 			res.json(animal);
@@ -267,13 +280,6 @@ router.post('/animals', function(req, res) {
 
 	//TODO: check if each field exists before creating and saving object
 
-	//console.log(req.body.id);
-	//console.log(req.body.managedBy);
-	//console.log(req.body.name);
-	//console.log(req.body.type);
-	//console.log(req.body.breed);
-	console.log(req.decoded.user._id);
-	console.log(req.body.managedBy);
 	if(req.decoded.user._id != req.body.managedBy) {
 		res.json({success: false, message: "You do not have access to add an animal for this user"});
 	} else {
@@ -342,11 +348,26 @@ router.get('/weights/:id', function(req, res) {
 
 	var animal_id = req.params.id;
 
-	console.log("Viewing weights for animal: " + animal_id);
-	var animal = Weight.find({ id: animal_id }, function(err, weights) {
-		res.json(weights);
+	Animal.findOne({_id: animal_id}, function(err, animal) {
+		verifyPermission(animal.managedBy, req.decoded.user._id, function(status) {
+			if(status === true) {
+				console.log("Viewing weights for animal: " + animal_id);
+				var animal = Weight.find({ id: animal_id }, function(err, weights) {
+					res.json(weights);
+    
+				});
+			} else {
+				res.json({success: false, message: "You do not have access to this animal's weights"});
+			}
+			
+		});
+		
 
+		
 	});
+	
+	
+
 });
 
 // Add a weight for a specific animal

@@ -49,6 +49,10 @@
                 </div>
             </div>
 
+			<label>Is Admin?
+				<input type="checkbox" ng-model="register.loginData.isAdmin">
+			</label>
+			
             <div class="alert alert-danger" ng-if="register.error">
                 {{ register.error }}
             </div>

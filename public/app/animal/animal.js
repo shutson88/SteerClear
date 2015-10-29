@@ -24,8 +24,14 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
     $http.get('/api/weights/'+vm.animalID)
       .success(function (data) {
-        vm.animals = data;
-        console.log("Data: "+JSON.stringify(data));
+        if(data.success === false) {
+			console.log(data.message);
+			alert(data.message);
+		} else {
+			vm.animals = data;
+		}
+		
+        //console.log("Data: "+JSON.stringify(data));
       });
 
     vm.addWeight = function($scope){
