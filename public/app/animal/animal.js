@@ -41,23 +41,13 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
           console.log(data);
           $http.get('/api/weights/'+vm.animalID)
             .success(function (data) {
-              vm.animals = data;
+              
+			  
+			  vm.animals = data;
               console.log("Data: "+JSON.stringify(data));
             });
         })
-      //$http({
-      //  url: "http://" + window.location.host + "/api/weights/"+vm.id,
-      //  method: "POST",
-      //  data: {
-      //    date: vm.date,
-      //    weight: vm.weight
-      //  },
-      //  headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      //}).success(function (data, status, headers, config) {
-      //  console.log(data); // assign  $scope.persons here as promise is resolved here
-      //}).error(function (data, status, headers, config) {
-      //  $scope.status = status;
-      //});
+
     }
 
 

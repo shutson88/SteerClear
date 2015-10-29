@@ -370,40 +370,40 @@ router.get('/weights/:id', function(req, res) {
 
 });
 
+
+//router.post('/weights', function(req, res) {
+//	Animal.findOne({
+//		_id: req.body.id.toLowerCase()
+//	}, function(err, animal) {
+//		if (!animal) {
+//			res.json({success: false, message: "Animal does not exist"});
+//		} else {
+//			//TODO: check if each field exists before creating and saving object
+//
+//			Weight({
+//				id: req.body.id,
+//				weight: req.body.weight,
+//				date: req.body.date
+//			}).save(function(err) {
+//				if(err) {
+//					if(err && err.code !== 11000) {
+//						res.json({success: false, message: "Another error occurred"});
+//					}
+//					if(err && err.code === 11000) { //TODO: shouldn't need this
+//						res.json({success: false, message: "Duplicate found?"});
+//					}
+//				} else {
+//					console.log('weight saved successfully');
+//					res.json({ success: true });
+//				}
+//			});
+//		}
+//	});
+//});
+
 // Add a weight for a specific animal
-router.post('/weights', function(req, res) {
-	Animal.findOne({
-		_id: req.body.id.toLowerCase()
-	}, function(err, animal) {
-		if (!animal) {
-			res.json({success: false, message: "Animal does not exist"});
-		} else {
-			//TODO: check if each field exists before creating and saving object
-
-			Weight({
-				id: req.body.id,
-				weight: req.body.weight,
-				date: req.body.date
-			}).save(function(err) {
-				if(err) {
-					if(err && err.code !== 11000) {
-						res.json({success: false, message: "Another error occurred"});
-					}
-					if(err && err.code === 11000) { //TODO: shouldn't need this
-						res.json({success: false, message: "Duplicate found?"});
-					}
-				} else {
-					console.log('weight saved successfully');
-					res.json({ success: true });
-				}
-			});
-		}
-	});
-});
-
 router.post('/weights/:id', function(req, res) {
 	var animal_id = req.params.id;
-	console.log("date: "+req.body.date);
 	Animal.findOne({
 		_id: animal_id
 	}, function(err, animal) {
@@ -411,24 +411,33 @@ router.post('/weights/:id', function(req, res) {
 			res.json({success: false, message: "Animal "+animal_id+" does not exist"});
 		} else {
 			//TODO: check if each field exists before creating and saving object
+			if(animal.managedBy !== req.decoded.user._id) {
+				res.json({success: false, message: "You do not have permission to add a weight for this animal"});
+				
+			} else {
+				Weight({
+						id: animal_id,
+						weight: req.body.weight,
+						date: req.body.date
+					}).save(function(err) {
+						if(err) {
+							if(err && err.code !== 11000) {
+								res.json({success: false, message: "Another error occurred"});
+							}
+							if(err && err.code === 11000) { //TODO: shouldn't need this
+								res.json({success: false, message: "Duplicate found?"});
+							}
+						} else {
+							console.log('weight saved successfully');
+							res.json({ success: true });
+						}
+					});
+				
+			}
 
-			Weight({
-				id: animal_id,
-				weight: req.body.weight,
-				date: req.body.date
-			}).save(function(err) {
-				if(err) {
-					if(err && err.code !== 11000) {
-						res.json({success: false, message: "Another error occurred"});
-					}
-					if(err && err.code === 11000) { //TODO: shouldn't need this
-						res.json({success: false, message: "Duplicate found?"});
-					}
-				} else {
-					console.log('weight saved successfully');
-					res.json({ success: true });
-				}
-			});
+			
+			
+			
 		}
 	});
 });
