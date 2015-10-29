@@ -110,13 +110,7 @@ router.post('/authenticate', function(req, res) {
 	});
 });
 
-// TODO: Remove before deployment
-// FOR DEV USE ONLY!
-router.get('/users', function(req, res) {
-	var users = User.find(function(err, users) {
-		res.json(users);
-	});
-})
+
 
 // ===================================================
 // Middleware token check
@@ -129,6 +123,15 @@ router.use(tokenAuth);
 // Authorized API Routes
 // ===================================================
 
+
+// Gets users assigned to supervisor
+router.get('/users/:supervisor', function(req, res) {
+	console.log("Viewing youth managed by: " + req.params.supervisor);
+	var users = User.find({}, function(err, users) {
+		//console.log(users);
+		res.json(users);
+	});
+})
 
 
 // Test function to test if token authentication worked
@@ -153,15 +156,15 @@ router.get('/users/:username', function(req, res) {
 // ==================
 
 // Gets information for all animals belonging to a user
-router.get('/animals', function(req, res) {
-	console.log("Viewing animals for " + req.decoded.user._id);
-	Animal.find({ managedBy: req.decoded.user._id }, function(err, animals) {
+router.get('/animals/:id', function(req, res) {
+	console.log("Viewing animals for " + req.params.id);
+	Animal.find({ managedBy: req.params.id }, function(err, animals) {
 		res.json(animals);
 	});
 });
 
 // Gets information for  specific animal
-router.get('/animals/:id', function(req, res) {
+router.get('/animal/:id', function(req, res) {
 	var animal_id = req.params.id;
 
 	console.log("Viewing animal: " + animal_id);

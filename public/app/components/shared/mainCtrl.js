@@ -7,7 +7,8 @@ angular.module('app.main', ['ngRoute'])
 	vm.user = {};
 	console.log(vm.user);
     vm.loggedIn = Auth.isLoggedIn();
-
+	vm.isAdmin = Auth.isAdmin();
+	
     // check to see if a user is logged in on every request
     $rootScope.$on('$routeChangeStart', function() {
       vm.loggedIn = Auth.isLoggedIn();

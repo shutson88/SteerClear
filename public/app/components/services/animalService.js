@@ -6,15 +6,15 @@ angular
   .factory('Animal', function($http) {
     var animalFactory = {};
 
-    animalFactory.get = function(id) {
+    animalFactory.getOne = function(id) {
       console.log("ID is "+ id);
-      return $http.get('/api/animals/id');
+      return $http.get('/api/animal/' + id);
     };
 
-    animalFactory.get = function() {
-      console.log("Here still");
-      return $http.get('/api/animals');
-    };
+    animalFactory.getAll = function(id) {
+      console.log("Getting animals for " + id);
+      return $http.get('/api/animals/' + id);
+    }; 
 
     return animalFactory;
   });

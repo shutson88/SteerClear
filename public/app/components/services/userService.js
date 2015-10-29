@@ -14,9 +14,10 @@ angular.module('userService', [])
       return $http.get(serverAddress + '/api/users/' + id);
     };
 
-    //Get all users
-    userFactory.get = function() {
-      return $http.get(serverAddress + '/api/users/');
+    //Get youth managed by a supervisor
+    userFactory.getYouth = function(supervisor) {
+		console.log("Getting youth for " + supervisor);
+      return $http.get(serverAddress + '/api/users/' + supervisor);
     };
 
     //TODO: Update user

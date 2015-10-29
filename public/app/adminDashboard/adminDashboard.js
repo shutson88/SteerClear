@@ -1,37 +1,18 @@
 'use strict';
 
-angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.bootstrap'])
+angular.module('app.adminDashboard', ['ngRoute', 'authService', 'userService', 'ui.bootstrap'])
 
   .config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/dashboard/:id?', {
-      templateUrl: 'dashboard/dashboard.html',
-      controller: 'DashboardCtrl',
-      controllerAs: 'user'
+    $routeProvider.when('/adminDashboard', {
+      templateUrl: 'adminDashboard/adminDashboard.html',
+      controller: 'adminDashboardCtrl',
+      controllerAs: 'admin'
     });
   }])
 
-  .controller('DashboardCtrl', ['Animal', 'AuthToken', '$routeParams', '$http', function (Animal, AuthToken, $routeParams, $http) {
+  .controller('adminDashboardCtrl', ['User', 'AuthToken', '$http', function (User, AuthToken, $http) {
     var vm = this;
-	console.log($routeParams.id);
-	if($routeParams.id) {
-		vm.id = $routeParams.id;
-		console.log("View dashboard for " + vm.id);
-		Animal.getAll(vm.id)
-			.success(function (data) {
-				console.log(data);
-			vm.animals = data;
-		});
-		
-		
-	} else {
-		
-		Animal.getAll(AuthToken.getData().username)
-			.success(function (data) {
-				console.log(data);
-			vm.animals = data;
-		});
-		
-	}
+
     vm.sortType = 'breed';
     vm.sortReverse = false;
     vm.searchAnimals = '';
@@ -79,6 +60,11 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	
 	};
 	
+    User.getYouth(AuthToken.getData().username)
+      .success(function (data) {
+		  console.log(data);
+        vm.youths = data;
+      });
     
 
   }]);

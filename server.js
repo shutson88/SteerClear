@@ -49,11 +49,11 @@ app.get('/*', function(req, res, next) {
 
 app.get('/dashboard', function(req, res, next) {
 	res.sendFile(path.join(__dirname, '/public/app', 'index.html'));
-});
+}); 
 
-//app.get('*', function(req, res, next) {
-//	res.sendFile(path.join(__dirname, '/public/app', 'index.html'));
-//});
+/* app.get('*', function(req, res, next) {
+	res.sendFile(path.join(__dirname, '/public/app', 'index.html'));
+}); */
 
 // =======================
 // start the server ======

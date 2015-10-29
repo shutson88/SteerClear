@@ -12,6 +12,7 @@ angular.module('app', [
   'app.signin',
   'app.register',
   'app.dashboard',
+  'app.adminDashboard',
   'app.animal',
   'app.home'
 ]).
