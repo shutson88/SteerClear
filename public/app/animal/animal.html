@@ -1,3 +1,12 @@
+<style>
+    .selected {
+        background-color:transparent;
+        border-style: outset;
+        box-shadow: 0 0 30px black;
+        color:black;
+        font-weight:bold;
+    }
+</style>
 <script src="/javascripts/client.js"></script>
 <div class="page-header">
     <h1>
@@ -90,7 +99,7 @@
         </div>
     </div>
 </form>
-<table class="table table-bordered table-striped" ng-show="animal.animals">
+<table class="table table-hover table-bordered table-striped" ng-show="animal.animals">
     <thead>
     <tr>
         <th>
@@ -127,10 +136,10 @@
     </thead>
     <tbody>
     <!-- LOOP OVER THE USERS -->
-    <tr ng-repeat="animal in animal.animals | orderBy:animal.sortType:animal.sortReverse | filter:animal.searchAnimals">
-        <td>{{ animal.id }}</td>
-        <td>{{ animal.date | myDate }}</td>
-        <td>{{ animal.weight}}</td>
+    <tr ng-repeat="a in animal.animals | orderBy:animal.sortType:animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date, animal)" ng-click="animal.calculateADG(a.date, $event)">
+        <td>{{ a.id }}</td>
+        <td>{{ a.date | myDate }}</td>
+        <td>{{ a.weight}}</td>
         <!-- <td class="col-sm-2">
             <a ng-href="/animal" class="btn btn-danger">Edit</a>
         </td> -->

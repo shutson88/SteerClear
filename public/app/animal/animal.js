@@ -10,7 +10,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     });
   }])
 
-  .controller('AnimalCtrl', ['$routeParams', '$http', function ($routeParams, $http) {
+  .controller('AnimalCtrl', ['$routeParams', '$http', '$scope', function ($routeParams, $http, $scope) {
     var vm = this;
 
     vm.animalID = $routeParams.animalID;
@@ -21,6 +21,12 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     vm.searchAnimals = '';
     vm.addUserCollapsed = false;
     vm.rangeDateCollapsed = false;
+    vm.selectedRow = null;
+    vm.selectedRow2 = null;
+    $scope.setClickedRow = function(index){
+      console.log("SJIFSAJI");
+      vm.selectedRow = index;
+    }
 
     $http.get('/api/weights/'+vm.animalID)
       .success(function (data) {
@@ -159,6 +165,43 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
         else {
           vm.data = "Average daily weight gain: " + averageDailyGain / numDays;
         }
+      }
+    }
+
+
+    //When two rows are selected, calculate the ADG in that date range
+    vm.calculateADG = function(date, $event){
+
+      if(vm.selectedRow == null || (vm.selectedRow != date && !$event.shiftKey)) {
+        vm.selectedRow = date;
+      }
+      else if(vm.selectedRow != date && $event.shiftKey){
+        vm.selectedRow2 = date;
+      }
+
+      if(vm.selectedRow != null && vm.selectedRow2 != null){
+
+        vm.start_date = vm.selectedRow;
+        vm.end_date = vm.selectedRow2;
+
+        vm.selectedRow = null;
+        vm.selectedRow2 = null;
+
+        console.log("VM: "+ JSON.stringify(vm));
+
+
+        vm.averageGainInRange();
+      }
+    }
+
+    vm.highlight = function(date){
+      console.log("Row1: " + vm.selectedRow);
+      console.log("Row2: " + vm.selectedRow2);
+      if(date == vm.selectedRow){
+        return "selected";
+      }
+      if(date == vm.selectedRow2 && date != vm.selectedRow){
+        return "selected";
       }
     }
 
