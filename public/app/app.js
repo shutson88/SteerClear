@@ -8,6 +8,7 @@ angular.module('app', [
   'app.main',
   'userService',
   'animalService',
+  'typeService',
   'filter',
   'app.signin',
   'app.register',

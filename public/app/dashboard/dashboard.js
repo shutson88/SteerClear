@@ -25,7 +25,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 			.success(function (data) {
 				console.log(data);
 				if(data.success === false) {
-					
+					console.log(data.message);
 				} else {
 					vm.animals = data;
 				}
@@ -79,7 +79,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	
 	vm.removeFromUser = function(id) {
 	console.log("removing " + id + " from user");
-	$http.delete("http://" + window.location.host + "/api/animals/" + id)
+	$http.delete("http://" + window.location.host + "/api/animal/" + id)
 		.success(function(data, status, headers, config) {
 			console.log(data);
 			if(data.success) {

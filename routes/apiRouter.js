@@ -29,7 +29,7 @@ var router = express.Router();
 
 var verifyPermission = function(sourceID, destID, callback) {
 	if(sourceID == destID) {
-		return true;
+		callback(true);
 	} else {
 		console.log("Checking if " + sourceID + " is managed by " + destID);
 		
@@ -205,7 +205,7 @@ router.put('/users/:username', function(req, res) {
 // Animals
 // ==================
 
-// Gets information for all animals belonging to a user
+// Gets information for ALL animals belonging to a user
 router.get('/animals/:id', function(req, res) {
 	//console.log("Viewing animals for " + req.params.id);
 	console.log("Sent id: " + req.params.id);
@@ -226,7 +226,7 @@ router.get('/animals/:id', function(req, res) {
 
 });
 
-// Gets information for  specific animal
+// Gets information for ONE animal
 router.get('/animal/:id', function(req, res) {
 	var animal_id = req.params.id;
 
@@ -242,8 +242,8 @@ router.get('/animal/:id', function(req, res) {
 	});
 });
 
-router.delete('/animals/:id', function(req, res) {
-	//if(req.decoded._id != req.)
+router.delete('/animal/:id', function(req, res) {
+	
 	console.log("removing " + req.params.id + " from user");
 	var animal_id = req.params.id;
 	
@@ -369,37 +369,6 @@ router.get('/weights/:id', function(req, res) {
 	
 
 });
-
-
-//router.post('/weights', function(req, res) {
-//	Animal.findOne({
-//		_id: req.body.id.toLowerCase()
-//	}, function(err, animal) {
-//		if (!animal) {
-//			res.json({success: false, message: "Animal does not exist"});
-//		} else {
-//			//TODO: check if each field exists before creating and saving object
-//
-//			Weight({
-//				id: req.body.id,
-//				weight: req.body.weight,
-//				date: req.body.date
-//			}).save(function(err) {
-//				if(err) {
-//					if(err && err.code !== 11000) {
-//						res.json({success: false, message: "Another error occurred"});
-//					}
-//					if(err && err.code === 11000) { //TODO: shouldn't need this
-//						res.json({success: false, message: "Duplicate found?"});
-//					}
-//				} else {
-//					console.log('weight saved successfully');
-//					res.json({ success: true });
-//				}
-//			});
-//		}
-//	});
-//});
 
 // Add a weight for a specific animal
 router.post('/weights/:id', function(req, res) {

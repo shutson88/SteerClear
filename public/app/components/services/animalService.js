@@ -16,5 +16,6 @@ angular
       return $http.get('/api/animals/' + id);
     }; 
 
+		
     return animalFactory;
   });
