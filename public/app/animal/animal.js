@@ -137,8 +137,8 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
       }
       else {
         var averageDates = vm.getAverageArray();
-
-        //console.log("averageDates: " + averageDates);
+        //console.log("Days: "+ (new Date(vm.end_date) - new Date(vm.start_date))/ (1000 * 3600 * 24));
+        var numDays = (new Date(vm.end_date) - new Date(vm.start_date))/ (1000 * 3600 * 24);
 
         var dailyGains = new Array();
         for (var i = 0; i < averageDates.length; i++) {
@@ -157,7 +157,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
           vm.data = "Average daily weight gain: 0";
         }
         else {
-          vm.data = "Average daily weight gain: " + averageDailyGain / dailyGains.length;
+          vm.data = "Average daily weight gain: " + averageDailyGain / numDays;
         }
       }
     }
