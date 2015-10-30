@@ -41,14 +41,14 @@ angular.module('authService', [])
         });
     };
 
-    authFactory.generateUser = function(username, password, email, fname, lname, isAdmin) {
+    authFactory.generateUser = function(username, password, email, fname, lname, isAdmin, adminCode) {
       return $http.post('/api/user', {
         username: username,
         password: password,
         email: email,
         first_name: fname,
         last_name: lname,
-		admin: isAdmin
+		admin_code: adminCode
       })
         .success(function (data) {
           return data;

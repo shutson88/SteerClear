@@ -10,52 +10,55 @@
             Add Type/Breed
         </button>
     </h1>
-    <div uib-collapse="!addUserCollapsed">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="admin.addUsername" placeholder="Username">
-                </div>
-
-                <button class="btn btn-default" type="button" ng-click="admin.addYouth();addUserCollapsed = !addUserCollapsed">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            </div>
-        </form>
-    </div>
-	<div uib-collapse="!addTypeCollapsed">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-
-               
-                    <select class="form-control" name="typeSelect" ng-model="admin.selectTypes" ng-change="admin.getBreedOptions()">
-						<option value="">Select Existing Type</option>
-						<option ng-repeat="(type, value) in admin.existingTypes" value = "{{type}}">{{type}}</option>
-						
-					</select>
-					<input type="text" class="form-control" ng-model="admin.textType" placeholder="Add New Type">
-               
-			</div>	
-			
-			<div class="form-group">	
-				<select class="form-control" name="typeSelect" ng-model="admin.selectBreed">
-						<option value="">Select Existing Breed</option>
-						<option ng-repeat="breed in admin.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
-						
-					</select>
+	<div class="form-group">
+		<div uib-collapse="!addUserCollapsed">
+			<form class="form-inline" role="form">
+				<div class="form-group">
+	
+					<div class="form-group">
+						<input type="text" class="form-control" ng-model="admin.addUsername" placeholder="Username">
+					</div>
+	
+					<button class="btn btn-default" type="button" ng-click="admin.addYouth();addUserCollapsed = !addUserCollapsed">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="form-group">
+		<div uib-collapse="!addTypeCollapsed">
+			<form class="form-inline" role="form">
+				<div class="form-group">
+	
 				
+						<select class="form-control" name="typeSelect" ng-model="admin.selectTypes" ng-change="admin.getBreedOptions()">
+							<option value="">Select Existing Type</option>
+							<option ng-repeat="(type, value) in admin.existingTypes" value = "{{type}}">{{type}}</option>
+							
+						</select>
+						<input type="text" class="form-control" ng-model="admin.textType" placeholder="Add New Type">
 				
-                    <input type="text" class="form-control" ng-model="admin.textBreed" placeholder="Add New Breed">
-                
-				
-
-                <button class="btn btn-default" type="button" ng-click="admin.addType();addTypeCollapsed = !addTypeCollapsed">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            </div>
-        </form>
-    </div>
+				</div>
+				<div class="form-group">	
+					<select class="form-control" name="typeSelect" ng-model="admin.selectBreed">
+							<option value="">Select Existing Breed</option>
+							<option ng-repeat="breed in admin.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
+							
+						</select>
+					
+					
+						<input type="text" class="form-control" ng-model="admin.textBreed" placeholder="Add New Breed">
+					
+					
+	
+					<button class="btn btn-default" type="button" ng-click="admin.addType();addTypeCollapsed = !addTypeCollapsed">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 <!-- LOADING MESSAGE -->
 <div class="jumbotron text-center" ng-show="admin.processing"><span class="glyphicon glyphicon-repeat spinner"></span>

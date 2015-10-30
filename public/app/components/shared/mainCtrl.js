@@ -32,7 +32,7 @@ angular.module('app.main', ['ngRoute'])
 
           if(data.success){
 			  
-            $location.path('/dashboard');
+            $location.path('/');
           } else {
             vm.error = data.message;
           }
@@ -56,7 +56,8 @@ angular.module('app.main', ['ngRoute'])
           vm.loginData.email,
           vm.loginData.fname,
           vm.loginData.lname,
-		  vm.loginData.isAdmin)
+		  vm.loginData.isAdmin,
+		  vm.loginData.adminCode)
           .success(function (data) {
             if (data.success) {
               $location.path('/signin');

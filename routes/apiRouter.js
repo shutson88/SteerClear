@@ -39,15 +39,22 @@ var verifyPermission = function(sourceID, destID, callback) {
 				callback(true);
 			} else if(!user) {
 				callback(false);
-			}
-			
-			
-			
-			
+			}	
 		});
+	}	
+}
+
+var verifyAdmin = function(code) {
+	if(code == 123456) { //perform some check on the code to verify it
+		return true;
+	} else {
+		return false
 	}
 	
-}
+};
+
+
+
 
 // ===================================================
 // Open Routes
@@ -66,6 +73,14 @@ router.post('/user', function(req, res) {
 	if(req.body.managedBy) {
 		managedBy = req.body.managedBy;
 	}
+	var isAdmin = false;
+	if(verifyAdmin(req.body.admin_code) === true) {
+		isAdmin = true;
+		
+	} else {
+		isAdmin = false;
+	}
+	
 	//TODO: check if each field exists before creating and saving object
 	User({
 		_id: req.body.username,
@@ -74,7 +89,7 @@ router.post('/user', function(req, res) {
 		last_name: req.body.last_name,
 		managedBy: managedBy,
 		email: req.body.email,
-		admin: req.body.admin //TODO: come up with more secure way to define an admin
+		admin: isAdmin 
 	}).save(function(err) {
 		if(err) {
 			console.log(err);
