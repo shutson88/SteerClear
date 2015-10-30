@@ -73,7 +73,8 @@ router.post('/user', function(req, res) {
 		first_name: req.body.first_name,
 		last_name: req.body.last_name,
 		managedBy: managedBy,
-		email: req.body.email
+		email: req.body.email,
+		admin: req.body.admin //TODO: come up with more secure way to define an admin
 	}).save(function(err) {
 		if(err) {
 			console.log(err);
@@ -131,7 +132,8 @@ router.post('/authenticate', function(req, res) {
 					username: user._id,
 					fname: user.first_name,
 					lname: user.last_name,
-					email: user.email
+					email: user.email,
+					admin: user.admin
 				});
 			}
 		}
@@ -423,7 +425,7 @@ router.get('/breeds', function(req, res) {
 			console.log(err);
 			res.json({success: false, message: "An error occurred"});
 		} else {
-			console.log(types);
+			//console.log(types);
 			res.json({ success: true, types: types});
 		}
 	});
@@ -434,21 +436,27 @@ router.post('/breeds', function(req, res) {
 
 	// Finds and updates existing model in collection or creates one if it doesn't exist
 	// Can have duplicate breeds in each animal type
-	AnimalType.findOneAndUpdate(
-		{type: req.body.type},
-		{$addToSet: { breeds: {breed: req.body.breed}}},
-		{safe: true, upsert: true, new : true},
-		function(err, model) {
-			if(err) {
-				console.log(err);
-				res.json({success: false, message: "An error occurred"});
-			} else {
-				console.log("{" + req.body.type + ", " + req.body.breed + "}" + " saved successfully");
-				res.json({ success: true });
+	
+	if(req.decoded.user.admin === true) {
+		console.log("This user is an admin");
+	
+	
+		AnimalType.findOneAndUpdate(
+			{type: req.body.type},
+			{$addToSet: { breeds: {breed: req.body.breed}}},
+			{safe: true, upsert: true, new : true},
+			function(err, model) {
+				if(err) {
+					console.log(err);
+					res.json({success: false, message: "An error occurred"});
+				} else {
+					//console.log("{" + req.body.type + ", " + req.body.breed + "}" + " saved successfully");
+					res.json({ success: true });
+				}
+	
 			}
-
-		}
-	);
+		);
+	}
 });
 
 // Export for use in server.js

@@ -31,6 +31,7 @@ angular.module('app.main', ['ngRoute'])
             //console.log('Username in MainCtrl: '+Auth.username);
 
           if(data.success){
+			  
             $location.path('/dashboard');
           } else {
             vm.error = data.message;

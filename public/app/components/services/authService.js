@@ -68,13 +68,12 @@ angular.module('authService', [])
     };
 
 	authFactory.isAdmin = function () {
-		return true;
-		/* if(AuthToken.getData().admin == true) {
+		if(AuthToken.getData().admin == 'true') {
 			return true;
 			
 		} else {
 			return false;
-		} */
+		}
 		
 		
 	};
@@ -116,7 +115,8 @@ angular.module('authService', [])
 	
 	
     authTokenFactory.setData = function(data) {
-      if(data) {
+      console.log(data);
+	  if(data) {
         $window.sessionStorage.setItem('token', data.token);
 		$window.sessionStorage.setItem('username', data.username);
 		$window.sessionStorage.setItem('fname', data.fname);
@@ -129,6 +129,7 @@ angular.module('authService', [])
 		$window.sessionStorage.removeItem('fname');
 		$window.sessionStorage.removeItem('lname');
 		$window.sessionStorage.removeItem('email');
+		$window.sessionStorage.removeItem('admin');
       }
     };
 
