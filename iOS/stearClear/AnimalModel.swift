@@ -15,7 +15,7 @@ class Animal {
     var type: String!
     var breed: String!
     var date: Int!
-    var latestWeight: Int!
+    var weight: [Int:String]!
     
     init() {
         id = String()
@@ -24,7 +24,7 @@ class Animal {
         type = String()
         breed = String()
         date = Int()
-        latestWeight = Int()
+        weight = [Int:String]()
     }
     
 }

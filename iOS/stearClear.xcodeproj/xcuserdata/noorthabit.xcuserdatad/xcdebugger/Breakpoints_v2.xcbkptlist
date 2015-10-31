@@ -10,13 +10,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "stearClear/LoginViewController.swift"
-            timestampString = "467428387.719639"
+            timestampString = "467742794.46034"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "prepareForSegue(_:sender:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "stearClear.LoginViewController.prepareForSegue (stearClear.LoginViewController)(__ObjC.UIStoryboardSegue, sender : Swift.Optional&lt;Swift.AnyObject&gt;) -&gt; ()"
+                  moduleName = "stearClear"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noorthabit/Documents/SteerClear/iOS/stearClear/LoginViewController.swift"
+                  timestampString = "468015165.390448"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "635">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "stearClear.LoginViewController.prepareForSegue (stearClear.LoginViewController)(__ObjC.UIStoryboardSegue, sender : Swift.Optional&lt;Swift.AnyObject&gt;) -&gt; ()"
+                  moduleName = "stearClear"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noorthabit/Documents/SteerClear/iOS/stearClear/LoginViewController.swift"
+                  timestampString = "468015165.390734"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "696">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

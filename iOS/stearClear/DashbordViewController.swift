@@ -13,6 +13,7 @@ import Alamofire
 class DashbordTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     var user = User()
     
+    @IBOutlet weak var animalsTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Uncomment the following line to preserve selection between presentations
@@ -20,6 +21,13 @@ class DashbordTableViewController: UIViewController, UITableViewDataSource, UITa
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.animalsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(true)
+        syncUserData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,11 +55,40 @@ class DashbordTableViewController: UIViewController, UITableViewDataSource, UITa
         cell.detailTextLabel?.text = animal.name
         cell.textLabel?.text = animal.type
         cell.separatorInset = UIEdgeInsetsZero
-
         return cell
     }
     
+    func syncUserData(){
+        let parameters = [
+            "token":"\(self.user.token)"
+        ]
+        let url = "http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/api/animals"
+        Alamofire.request(.GET, url, parameters: parameters).responseJSON { response in
+            print(response.result)   // result of response serialization
+            
+            if let JSON = response.result.value {
+                self.user.animals.removeAll()
+                self.user.addAnimal(JSON.count)
+                print(JSON[0])
+                
+                for i in 0..<JSON.count{
+                    self.user.animals[i].name = String(JSON[i]["name"]!!)
+                    self.user.animals[i].breed = String(JSON[i]["breed"]!!)
+                    self.user.animals[i].type = String(JSON[i]["type"]!!)
+                    self.user.animals[i].managedBy = String(JSON[i]["managedBy"]!!)
+                    self.user.animals[i].date = Int(String(JSON[i]["type"]!!))
+                    
+                    print(JSON)
+                    
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.animalsTableView.reloadData()
+                    }
+                }
+            }
+        }
+    }
     
+
     /*override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         switch segue.identifier!{

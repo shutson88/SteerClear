@@ -16,20 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dvN-FZ-F9t">
-                                <rect key="frame" x="20" y="285" width="335" height="40"/>
-                                <animations/>
-                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CVa-8I-cIN">
-                                <rect key="frame" x="20" y="349" width="335" height="40"/>
-                                <animations/>
-                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qkE-1T-ypV">
                                 <rect key="frame" x="139" y="569" width="96" height="30"/>
                                 <animations/>
@@ -41,8 +27,26 @@
                                     <action selector="signUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nG5-Ro-dGV"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cowface" translatesAutoresizingMaskIntoConstraints="NO" id="alU-K4-DxI">
+                                <rect key="frame" x="137" y="72" width="100" height="100"/>
+                                <animations/>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dvN-FZ-F9t">
+                                <rect key="frame" x="20" y="186" width="335" height="40"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CVa-8I-cIN">
+                                <rect key="frame" x="20" y="250" width="335" height="40"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HLk-uE-tsn">
-                                <rect key="frame" x="20" y="447" width="335" height="39"/>
+                                <rect key="frame" x="20" y="348" width="335" height="39"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="23"/>
@@ -51,25 +55,21 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="singIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="O6Z-Hh-UMW"/>
+                                    <action selector="signIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QjL-c9-beG"/>
                                 </connections>
                             </button>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6y4-lv-uNB">
-                                <rect key="frame" x="20" y="403" width="51" height="31"/>
+                                <rect key="frame" x="20" y="304" width="51" height="31"/>
                                 <animations/>
                                 <color key="onTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Remember Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="54S-fU-q4t">
-                                <rect key="frame" x="77" y="408" width="112" height="21"/>
+                                <rect key="frame" x="77" y="309" width="112" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cowface" translatesAutoresizingMaskIntoConstraints="NO" id="alU-K4-DxI">
-                                <rect key="frame" x="101" y="91" width="173" height="153"/>
-                                <animations/>
-                            </imageView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.98185945680628273" green="0.98185945680628273" blue="0.98185945680628273" alpha="1" colorSpace="calibratedRGB"/>
@@ -89,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="290.5" y="240.5"/>
+            <point key="canvasLocation" x="290.5" y="275.5"/>
         </scene>
         <!--Registration View Controller-->
         <scene sceneID="fWm-jh-34I">
@@ -103,26 +103,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s5E-US-uyS">
-                                <rect key="frame" x="19" y="146" width="162" height="45"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="39"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93b-Uo-eeT">
-                                <rect key="frame" x="18" y="239" width="150" height="45"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="39"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="highlightedColor" red="0.35692866159999997" green="0.35692866159999997" blue="0.35692866159999997" alpha="1" colorSpace="calibratedRGB"/>
-                            </label>
-                            <textField clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type your password.." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ne2-LI-5Me">
-                                <rect key="frame" x="20" y="280" width="334" height="40"/>
+                            <textField clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ne2-LI-5Me">
+                                <rect key="frame" x="20" y="205" width="334" height="40"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.94622844827586206" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.35692866159999997" green="0.35692866159999997" blue="0.35692866159999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="italicSystem" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Wa-6W-1FI">
@@ -137,27 +123,28 @@
                                     <segue destination="BYZ-38-t0r" kind="show" id="NIq-ih-0gQ"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type your username.." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hDg-t1-AEE">
-                                <rect key="frame" x="19" y="187" width="335" height="40"/>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hDg-t1-AEE">
+                                <rect key="frame" x="20" y="152" width="335" height="40"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.35692866159999997" green="0.35692866159999997" blue="0.35692866159999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="italicSystem" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nkF-Na-qlT">
-                                <rect key="frame" x="20" y="331" width="154" height="45"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="39"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="highlightedColor" red="0.35692866159999997" green="0.35692866159999997" blue="0.35692866159999997" alpha="1" colorSpace="calibratedRGB"/>
-                            </label>
-                            <textField clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type your email address.." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="akt-8S-gtK">
-                                <rect key="frame" x="20" y="372" width="337" height="40"/>
+                            <textField clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="akt-8S-gtK">
+                                <rect key="frame" x="19" y="258" width="337" height="40"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" red="0.35692866159999997" green="0.35692866159999997" blue="0.35692866159999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="italicSystem" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sqC-RZ-8nL">
+                                <rect key="frame" x="19" y="314" width="337" height="40"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" red="0.35692866159999997" green="0.35692866159999997" blue="0.35692866159999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SIGN UP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iVH-ax-ZAQ">
@@ -169,41 +156,55 @@
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0b-2u-Zq8">
-                                <rect key="frame" x="22" y="442" width="332" height="42"/>
+                                <rect key="frame" x="19" y="441" width="337" height="42"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="23"/>
                                 <size key="titleShadowOffset" width="3" height="5"/>
-                                <state key="normal" title="Create Account">
+                                <state key="normal" title="Register">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="registerButton:" destination="5AG-i5-Yqm" eventType="touchUpInside" id="Ye2-as-WgE"/>
+                                </connections>
                             </button>
                             <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Coj-Mu-U9P">
                                 <rect key="frame" x="0.0" y="28" width="55" height="55"/>
                                 <animations/>
                                 <state key="normal" title="Button" image="close"/>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="dBt-5N-jlY"/>
+                                    <action selector="dismiss:" destination="5AG-i5-Yqm" eventType="touchUpInside" id="0qD-Vm-ECU"/>
                                 </connections>
                             </button>
+                            <textField clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="19u-pt-CNv">
+                                <rect key="frame" x="19" y="369" width="337" height="40"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" red="0.35692866159999997" green="0.35692866159999997" blue="0.35692866159999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="emailTextField" destination="akt-8S-gtK" id="IBZ-GD-i3l"/>
-                        <outlet property="passwordTextField" destination="ne2-LI-5Me" id="nSa-GV-ePF"/>
+                        <outlet property="emailTextField" destination="19u-pt-CNv" id="zux-Sd-aXm"/>
+                        <outlet property="firstNameTextField" destination="akt-8S-gtK" id="Scn-zn-EOn"/>
+                        <outlet property="lastNameTextField" destination="sqC-RZ-8nL" id="rFr-gm-Vzh"/>
+                        <outlet property="passwordTextField" destination="ne2-LI-5Me" id="f6e-hd-D7m"/>
+                        <outlet property="usernameTextField" destination="hDg-t1-AEE" id="FqL-y0-Pto"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="47p-jy-fE8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="290.5" y="-525.5"/>
+            <point key="canvasLocation" x="290.5" y="-611.5"/>
         </scene>
         <!--Animal Details-->
         <scene sceneID="ufz-5m-JK9">
             <objects>
-                <viewController title="Animal Details" id="WN8-tB-Lg8" sceneMemberID="viewController">
+                <viewController title="Animal Details" id="WN8-tB-Lg8" customClass="AnimalViewController" customModule="stearClear" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="twd-VR-FGU"/>
                         <viewControllerLayoutGuide type="bottom" id="hfv-RE-j5U"/>
@@ -212,72 +213,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Breed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TCK-bj-mvL">
-                                <rect key="frame" x="39" y="326" width="59" height="38"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.98312761459999998" green="0.98312761459999998" blue="0.98312761459999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <size key="shadowOffset" width="8" height="4"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1o-EY-qfa">
-                                <rect key="frame" x="42" y="372" width="56" height="38"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.98312761459999998" green="0.98312761459999998" blue="0.98312761459999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <size key="shadowOffset" width="8" height="4"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0kI-Pj-vqF">
-                                <rect key="frame" x="42" y="418" width="56" height="38"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.98312761459999998" green="0.98312761459999998" blue="0.98312761459999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <size key="shadowOffset" width="8" height="4"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FaW-Do-1Fn">
-                                <rect key="frame" x="95" y="283" width="242" height="35"/>
-                                <animations/>
-                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iZi-h4-da6">
-                                <rect key="frame" x="95" y="326" width="242" height="35"/>
-                                <animations/>
-                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="32p-Zs-Q1K">
-                                <rect key="frame" x="95" y="373" width="242" height="35"/>
-                                <animations/>
-                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f7L-gD-gum">
-                                <rect key="frame" x="95" y="419" width="242" height="35"/>
-                                <animations/>
-                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ri2-33-ipC">
-                                <rect key="frame" x="38" y="280" width="60" height="38"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.98312761459999998" green="0.98312761459999998" blue="0.98312761459999998" alpha="1" colorSpace="calibratedRGB"/>
-                                <size key="shadowOffset" width="8" height="4"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xvv-MK-wN3">
-                                <rect key="frame" x="21" y="484" width="332" height="42"/>
+                                <rect key="frame" x="20" y="204" width="332" height="42"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="23"/>
@@ -287,19 +224,112 @@
                                 </state>
                             </button>
                             <imageView userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cow profile" translatesAutoresizingMaskIntoConstraints="NO" id="UAO-qp-Oh2">
-                                <rect key="frame" x="93" y="89" width="189" height="160"/>
+                                <rect key="frame" x="117" y="72" width="140" height="113"/>
                                 <animations/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rui-YW-7Y8">
-                                <rect key="frame" x="20" y="28" width="55" height="55"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cWS-ey-UE8">
+                                <rect key="frame" x="0.0" y="458" width="375" height="165"/>
                                 <animations/>
-                                <state key="normal" title="Button" image="close"/>
-                            </button>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="lHh-SP-Q7e">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lHh-SP-Q7e" id="vr6-PN-gSO">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="jwW-5Q-AJE">
+                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jwW-5Q-AJE" id="lAd-D4-gFo">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Breed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TCK-bj-mvL">
+                                <rect key="frame" x="39" y="292" width="59" height="38"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.98312761459999998" green="0.98312761459999998" blue="0.98312761459999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <size key="shadowOffset" width="8" height="4"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1o-EY-qfa">
+                                <rect key="frame" x="42" y="338" width="56" height="38"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.98312761459999998" green="0.98312761459999998" blue="0.98312761459999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <size key="shadowOffset" width="8" height="4"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0kI-Pj-vqF">
+                                <rect key="frame" x="42" y="384" width="56" height="38"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.98312761459999998" green="0.98312761459999998" blue="0.98312761459999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <size key="shadowOffset" width="8" height="4"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FaW-Do-1Fn">
+                                <rect key="frame" x="95" y="249" width="242" height="35"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iZi-h4-da6">
+                                <rect key="frame" x="95" y="292" width="242" height="35"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="32p-Zs-Q1K">
+                                <rect key="frame" x="95" y="339" width="242" height="35"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f7L-gD-gum">
+                                <rect key="frame" x="95" y="385" width="242" height="35"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.94622844829999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ri2-33-ipC">
+                                <rect key="frame" x="38" y="246" width="60" height="38"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.98312761459999998" green="0.98312761459999998" blue="0.98312761459999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <size key="shadowOffset" width="8" height="4"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Animal View" id="Ash-2B-cnc"/>
+                    <navigationItem key="navigationItem" title="Animal View" id="0qx-yE-nFG">
+                        <barButtonItem key="leftBarButtonItem" title="Dashboard" style="plain" id="Y6z-xY-mij">
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="CQb-Fz-ZpT" kind="show" id="Vfj-IG-TTm"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IiC-of-keb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -318,21 +348,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="109" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hmU-Dd-KT8">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="57" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hmU-Dd-KT8">
                                 <rect key="frame" x="0.0" y="356" width="375" height="267"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Animal Cell" textLabel="IEe-VY-y7P" detailTextLabel="Qc3-OH-9L6" imageView="blo-y6-AId" rowHeight="109" style="IBUITableViewCellStyleSubtitle" id="8G5-jZ-3A0">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="109"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Animal Cell" textLabel="IEe-VY-y7P" detailTextLabel="Qc3-OH-9L6" imageView="blo-y6-AId" rowHeight="57" style="IBUITableViewCellStyleSubtitle" id="8G5-jZ-3A0">
+                                        <rect key="frame" x="0.0" y="92" width="375" height="57"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8G5-jZ-3A0" id="kGN-TQ-kRR">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="108"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="56"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IEe-VY-y7P">
-                                                    <rect key="frame" x="130" y="37" width="43" height="20"/>
+                                                    <rect key="frame" x="86" y="11" width="43" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -340,7 +370,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Breed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qc3-OH-9L6">
-                                                    <rect key="frame" x="130" y="57" width="31" height="14"/>
+                                                    <rect key="frame" x="86" y="31" width="31" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -348,7 +378,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.69999999999999996" contentMode="scaleToFill" image="Cattle Sign-100" id="blo-y6-AId">
-                                                    <rect key="frame" x="15" y="4" width="100" height="100"/>
+                                                    <rect key="frame" x="15" y="0.0" width="56" height="56"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                 </imageView>
@@ -404,6 +434,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="animalsTableView" destination="hmU-Dd-KT8" id="qPk-S6-Zs5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZ6-ek-496" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -503,6 +536,9 @@
                                 <rect key="frame" x="0.0" y="28" width="55" height="55"/>
                                 <animations/>
                                 <state key="normal" title="Button" image="close"/>
+                                <connections>
+                                    <action selector="dismiss:" destination="ypb-Cl-zTk" eventType="touchUpInside" id="pc3-IZ-3O1"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -553,6 +589,7 @@
         <image name="user" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="NIq-ih-0gQ"/>
+        <segue reference="HNz-Ye-YFK"/>
+        <segue reference="SCf-LU-HOh"/>
     </inferredMetricsTieBreakers>
 </document>

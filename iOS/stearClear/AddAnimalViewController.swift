@@ -31,7 +31,11 @@ class AddAnimalViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
+    @IBAction func dismiss(sender: UIButton) {
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
+    }
     
     func addAnimal(){
         
