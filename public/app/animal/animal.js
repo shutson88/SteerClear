@@ -23,6 +23,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     vm.rangeDateCollapsed = false;
     vm.selectedRow = null;
     vm.selectedRow2 = null;
+    vm.alternateSelection = false;
     $scope.setClickedRow = function(index){
       console.log("SJIFSAJI");
       vm.selectedRow = index;
@@ -170,31 +171,45 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
 
     //When two rows are selected, calculate the ADG in that date range
-    vm.calculateADG = function(date, $event){
+    vm.calculateADG = function(){
 
-      if(vm.selectedRow == null || (vm.selectedRow != date && !$event.shiftKey)) {
-        vm.selectedRow = date;
+      if(vm.selectedRow == null || vm.selectedRow == null){
+        vm.data = "Please select two rows to calculate."
       }
-      else if(vm.selectedRow != date && $event.shiftKey){
-        vm.selectedRow2 = date;
-      }
-
-      if(vm.selectedRow != null && vm.selectedRow2 != null){
-
-        vm.start_date = vm.selectedRow;
-        vm.end_date = vm.selectedRow2;
+      else {
+        if(vm.selectedRow < vm.selectedRow2) {
+          vm.start_date = vm.selectedRow;
+          vm.end_date = vm.selectedRow2;
+        }
+        else{
+          vm.start_date = vm.selectedRow2;
+          vm.end_date = vm.selectedRow;
+        }
 
         vm.selectedRow = null;
         vm.selectedRow2 = null;
 
-        console.log("VM: "+ JSON.stringify(vm));
+        console.log("VM: " + JSON.stringify(vm));
 
 
         vm.averageGainInRange();
       }
+
+    }
+
+    vm.selectDates = function(date){
+      if(!vm.alternateSelection) {
+        vm.selectedRow = date;
+        vm.alternateSelection = true;
+      }
+      else{
+        vm.selectedRow2 = date;
+        vm.alternateSelection = false;
+      }
     }
 
     vm.highlight = function(date){
+
       console.log("Row1: " + vm.selectedRow);
       console.log("Row2: " + vm.selectedRow2);
       if(date == vm.selectedRow){
