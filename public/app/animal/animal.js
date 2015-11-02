@@ -21,9 +21,11 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     vm.searchAnimals = '';
     vm.addUserCollapsed = false;
     vm.rangeDateCollapsed = false;
+    vm.targetDateCollapsed = false;
     vm.selectedRow = null;
     vm.selectedRow2 = null;
     vm.alternateSelection = false;
+    vm.targetDate = null;
     $scope.setClickedRow = function(index){
       console.log("SJIFSAJI");
       vm.selectedRow = index;
@@ -107,7 +109,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
     }
 
-    vm.calculate = function ($scope) {
+    vm.calculate = function () {
 
       //console.log("Average dates"+averageDates);
       var regressionData = vm.getAverageArray();
@@ -162,13 +164,60 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
         }
         if (dailyGains.length === 0) {
           vm.data = "Average daily weight gain: 0";
+          return 0;
         }
         else {
           vm.data = "Average daily weight gain: " + averageDailyGain / numDays;
+          return averageDailyGain / numDays;
         }
       }
     }
 
+    vm.targetDateCalculator = function(){
+      if(vm.targetDate == null){
+        vm.data = "Please enter a target date"
+      }
+
+      //Get ADG of latest two with list of weights
+      var averageDates = vm.getAverageArray();
+      //Start Period is the day two weeks prior to last weigh in
+      var startPeriod = new Date(averageDates[averageDates.length-1][0]);
+      startPeriod.setDate(startPeriod.getDate()-14);
+
+      //Get all weight inputs of last two weeks
+      var boundedDates = new Array();
+      for(var i = 0; i < averageDates.length; i++){
+        if(new Date(averageDates[i][0]) >= new Date(startPeriod)){
+          if(boundedDates.length == 0){
+            startPeriod = new Date(averageDates[i][0]);
+          }
+          boundedDates.push(averageDates[i]);
+
+        }
+      }
+
+      console.log("Last two weeks: "+boundedDates);
+      console.log("Target date: "+vm.targetDate);
+
+      //Store user input start and end date temporarily in order to calculate 2 week adg
+      var start_date = vm.start_date;
+      var end_date = vm.end_date;
+      vm.start_date = startPeriod;
+      vm.end_date = new Date(averageDates[averageDates.length-1][0]);
+      var adg = vm.averageGainInRange();
+      console.log("adg: "+adg);
+      vm.start_date = start_date;
+      vm.end_date = end_date;
+
+      //Current weight of animal
+      var targetWeight = averageDates[averageDates.length-1][1];
+      var numDays = Math.floor((new Date(vm.targetDate) - new Date(averageDates[averageDates.length-1][0]))/ (1000 * 3600 * 24));
+      console.log("Num Days: "+numDays);
+      var gain = numDays*adg;
+      targetWeight += gain;
+      var formattedDate = vm.targetDate.toLocaleDateString("en-US");
+      vm.data = "Target weight at "+formattedDate+" is estimated to be "+Math.round(targetWeight);
+    }
 
     //When two rows are selected, calculate the ADG in that date range
     vm.calculateADG = function(){
@@ -210,8 +259,8 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
     vm.highlight = function(date){
 
-      console.log("Row1: " + vm.selectedRow);
-      console.log("Row2: " + vm.selectedRow2);
+      //console.log("Row1: " + vm.selectedRow);
+      //console.log("Row2: " + vm.selectedRow2);
       if(date == vm.selectedRow){
         return "selected";
       }
