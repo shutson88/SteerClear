@@ -1,26 +1,33 @@
+<style>
+    .selected {
+        background-color:transparent;
+        border-style: outset;
+        box-shadow: 0 0 30px black;
+        color:black;
+        font-weight:bold;
+    }
+</style>
 <script src="/javascripts/client.js"></script>
 <div class="page-header">
     <h1>
         {{ animal.animalID }}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{animal.data}}</h3>
+            </div>
+        </div>
         <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
             <span class="glyphicon glyphicon-plus"></span>
             Add new weight
         </button>
-		<form class="form-inline" role="form">
-			<div class="form-group">
-				<div class="form-group">
-					<input type="text" class="form-control" ng-model="animal.targetWeight" placeholder="Target Weight (lbs)">
-				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" ng-model="animal.targetDate" placeholder="Target Date">
-				</div>			
-				<button type="button" class="btn btn-default" ng-click="animal.calculate()">Calculate</button>
-			
-			</div>
-		
-		
-		</form>
-		
+        <button type="button" class="btn btn-default" ng-click="targetDateCollapsed = !targetDateCollapsed">
+            <span class="glyphicon glyphicon-stats"></span>
+            Target Date Estimation
+        </button>
+        <button type="button" class="btn btn-default" ng-click="animal.calculateADG()">
+            <span class="glyphicon glyphicon-stats"></span>
+            Calculate Average Daily Gains
+        </button>
 		
     </h1>
     <div uib-collapse="!addUserCollapsed">
@@ -36,6 +43,39 @@
                 </div>
                 <button class="btn btn-default" type="button" ng-click="animal.addWeight()">
                     <span class="glyphicon glyphicon-plus"></span>
+                </button>
+
+
+
+            </div>
+        </form>
+    </div>
+    <div uib-collapse="!targetDateCollapsed">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <div class="form-group">
+                    <input type="date" class="form-control" ng-model="animal.targetDate" placeholder="Target Date">
+                </div>
+                <button type="button" class="btn btn-default" ng-click="animal.targetDateCalculator()">Calculate</button>
+
+            </div>
+
+
+        </form>
+    </div>
+    <div uib-collapse="!rangeDateCollapsed">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+
+                <div class="form-group">
+                    <input type="date" class="form-control" ng-model="animal.start_date" placeholder="Start Date">
+                </div>
+                <div class="form-group">
+                    <input type="date" class="form-control" ng-model="animal.end_date" placeholder="End Date">
+                    <!--<button type="button" ng-click="animal.getCurrentDate()">Today</button>-->
+                </div>
+                <button class="btn btn-default" type="button" ng-click="animal.averageGainInRange()">
+                    Calculate
                 </button>
 
                 <!--<div class="form-group">-->
@@ -59,7 +99,7 @@
         </div>
     </div>
 </form>
-<table class="table table-bordered table-striped" ng-show="animal.animals">
+<table class="table table-hover table-bordered table-striped" ng-show="animal.animals">
     <thead>
     <tr>
         <th>
@@ -91,18 +131,19 @@
                 <span ng-show="animal.sortType == 'breed' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <th class="col-sm-2"></th>
+        <!-- <th class="col-sm-2"></th> -->
     </tr>
     </thead>
     <tbody>
     <!-- LOOP OVER THE USERS -->
-    <tr ng-repeat="animal in animal.animals | orderBy:animal.sortType:animal.sortReverse | filter:animal.searchAnimals">
-        <td>{{ animal.id }}</td>
-        <td>{{ animal.date | myDate }}</td>
-        <td>{{ animal.weight}}</td>
-        <td class="col-sm-2">
+    <tr ng-repeat="a in animal.animals | orderBy:animal.sortType:animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date, animal)" ng-click="animal.selectDates(a.date)">
+        <td>{{ a.id }}</td>
+        <td>{{ a.date | myDate }}</td>
+        <td>{{ a.weight}}</td>
+        <!-- <td class="col-sm-2">
             <a ng-href="/animal" class="btn btn-danger">Edit</a>
-        </td>
+        </td> -->
+
     </tr>
     </tbody>
 </table>

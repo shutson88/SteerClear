@@ -5,6 +5,10 @@
             <span class="glyphicon glyphicon-plus"></span>
             New Animal
         </button>
+		<button type="button" class="btn btn-default" ng-click="addSupervisorCollapsed = !addSupervisorCollapsed">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add Supervisor
+        </button>
     </h1>
     <div uib-collapse="!addUserCollapsed">
         <form class="form-inline" role="form">
@@ -25,6 +29,19 @@
                     <button class="btn btn-default" type="button" ng-click="user.addAnimal();addUserCollapsed = !addUserCollapsed">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
+            </div>
+        </form>
+    </div>
+	<div uib-collapse="!addSupervisorCollapsed">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="user.addSupervisorID" placeholder="ID">
+                </div>
+                <button class="btn btn-default" type="button" ng-click="user.addSupervisor();addSupervisorCollapsed = !addSupervisorCollapsed">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
             </div>
         </form>
     </div>
@@ -73,7 +90,7 @@
                 <span ng-show="user.sortType == 'breed' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <th class="col-sm-2"></th>
+        <!-- <th class="col-sm-2"></th> -->
     </tr>
     </thead>
     <tbody>
@@ -83,8 +100,11 @@
         <td>{{ animal.name }}</td>
         <td>{{ animal.breed}}</td>
         <td class="col-sm-2">
-            <a ng-href="/animal/{{ animal._id }}" class="btn btn-danger">Edit</a>
+            <a ng-href="/animal/{{ animal._id }}" class="btn btn-danger">Weights</a>
         </td>
+		<td class="col-sm-2">
+			<button class="btn btn-default" type="button" ng-click="user.removeFromUser( animal._id )">Remove</button>
+		</td>
     </tr>
     </tbody>
 </table>

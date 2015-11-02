@@ -28,9 +28,26 @@ module.exports = mongoose.model('User', new Schema({
         match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
         unique: true, // TODO: figure out why it is not actually forcing uniqueness
         required: true,
-		lowercase: true
+		    lowercase: true
     },
 
+	admin:
+	{
+		type: Boolean,
+		required: true,
+		default: false
+		
+	},
+	
+	managedBy: 
+	{
+		type: String,
+		required: true,
+		default: ""
+		
+		
+	},
+	
     date_created:
     {
         type: Date,
