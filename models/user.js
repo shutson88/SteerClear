@@ -31,6 +31,23 @@ module.exports = mongoose.model('User', new Schema({
 		    lowercase: true
     },
 
+	admin:
+	{
+		type: Boolean,
+		required: true,
+		default: false
+		
+	},
+	
+	managedBy: 
+	{
+		type: String,
+		required: true,
+		default: ""
+		
+		
+	},
+	
     date_created:
     {
         type: Date,

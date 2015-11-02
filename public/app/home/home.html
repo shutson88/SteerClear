@@ -1,13 +1,20 @@
 <div class="jumbotron text-center">
-    <h1>SteerClear</h1>
+    <!-- <h1>SteerClear</h1> -->
 
     <div ng-if="!main.loggedIn">
         <p>Login or Register</p>
         <a href="/signin" class="btn btn-primary">Login</a>
 		<a href="/register" class="btn btn-primary">Register</a>
     </div>
-
-    <div ng-if="main.loggedIn">
-        <a href="/dashboard" class="btn btn-primary">View Dashboard</a>
-    </div>
+	<div class="form-group">
+		<div ng-if="main.loggedIn">
+			<a href="/dashboard" class="btn btn-primary">View Dashboard</a>
+		</div>
+	</div>
+	<div class="form-group">
+		<div ng-if="main.isAdmin">
+			
+			<a href="/adminDashboard" class="btn btn-primary">Admin Panel</a>
+		</div>
+	</div>
 </div>

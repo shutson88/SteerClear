@@ -7,7 +7,8 @@ angular.module('app.main', ['ngRoute'])
 	vm.user = {};
 	console.log(vm.user);
     vm.loggedIn = Auth.isLoggedIn();
-
+	vm.isAdmin = Auth.isAdmin();
+	
     // check to see if a user is logged in on every request
     $rootScope.$on('$routeChangeStart', function() {
       vm.loggedIn = Auth.isLoggedIn();
@@ -30,7 +31,8 @@ angular.module('app.main', ['ngRoute'])
             //console.log('Username in MainCtrl: '+Auth.username);
 
           if(data.success){
-            $location.path('/dashboard');
+			  
+            $location.path('/');
           } else {
             vm.error = data.message;
           }
@@ -53,7 +55,9 @@ angular.module('app.main', ['ngRoute'])
           vm.loginData.password,
           vm.loginData.email,
           vm.loginData.fname,
-          vm.loginData.lname)
+          vm.loginData.lname,
+		  vm.loginData.isAdmin,
+		  vm.loginData.adminCode)
           .success(function (data) {
             if (data.success) {
               $location.path('/signin');

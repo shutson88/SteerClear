@@ -14,6 +14,21 @@ angular.module('authService', [])
   .factory('Auth', function ($http, $q, AuthToken) {
     var authFactory = {};
 
+	
+	authFactory.verifyPermission = function(id) {
+		$http.get('/api/users' + id)
+			.success(function(data) {
+				if(data.managedBy === AuthToken.getData().username) {
+					return true;
+					
+				} else {
+					return false;
+				}
+				
+			});
+		
+	}
+	
     authFactory.login = function (username, password) {
       return $http.post('/api/authenticate', {
         username: username,
@@ -26,13 +41,14 @@ angular.module('authService', [])
         });
     };
 
-    authFactory.generateUser = function(username, password, email, fname, lname) {
+    authFactory.generateUser = function(username, password, email, fname, lname, isAdmin, adminCode) {
       return $http.post('/api/user', {
         username: username,
         password: password,
         email: email,
         first_name: fname,
-        last_name: lname
+        last_name: lname,
+		admin_code: adminCode
       })
         .success(function (data) {
           return data;
@@ -51,6 +67,17 @@ angular.module('authService', [])
       }
     };
 
+	authFactory.isAdmin = function () {
+		if(AuthToken.getData().admin == 'true') {
+			return true;
+			
+		} else {
+			return false;
+		}
+		
+		
+	};
+	
     authFactory.getUser = function() {
       if(AuthToken.getToken()) {
 		  console.log(AuthToken.getData());
@@ -81,24 +108,28 @@ angular.module('authService', [])
 		data.fname = $window.sessionStorage.getItem('fname');
 		data.lname = $window.sessionStorage.getItem('lname');
 		data.email = $window.sessionStorage.getItem('email');
+		data.admin = $window.sessionStorage.getItem('admin');
 		return data;
 		
 	};
 	
 	
     authTokenFactory.setData = function(data) {
-      if(data) {
+      console.log(data);
+	  if(data) {
         $window.sessionStorage.setItem('token', data.token);
 		$window.sessionStorage.setItem('username', data.username);
 		$window.sessionStorage.setItem('fname', data.fname);
 		$window.sessionStorage.setItem('lname', data.lname);
 		$window.sessionStorage.setItem('email', data.email);
+		$window.sessionStorage.setItem('admin', data.admin);
       } else {
         $window.sessionStorage.removeItem('token');
 		$window.sessionStorage.removeItem('username');
 		$window.sessionStorage.removeItem('fname');
 		$window.sessionStorage.removeItem('lname');
 		$window.sessionStorage.removeItem('email');
+		$window.sessionStorage.removeItem('admin');
       }
     };
 

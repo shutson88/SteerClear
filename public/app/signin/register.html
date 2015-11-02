@@ -49,6 +49,14 @@
                 </div>
             </div>
 
+			<label>Is Admin?
+				<input type="checkbox" ng-model="register.loginData.isAdmin" ng-click="isAdminCollapsed = !isAdminCollapsed">
+			</label>
+			<div class="form-group">
+				<div uib-collapse="!isAdminCollapsed">
+					<input type="text" class="form-control" ng-model="register.loginData.adminCode" placeholder="Admin Code">			
+				</div>
+			</div>
             <div class="alert alert-danger" ng-if="register.error">
                 {{ register.error }}
             </div>
