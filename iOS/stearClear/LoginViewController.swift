@@ -19,7 +19,6 @@ class LoginViewController: UIViewController {
     let url = NSURL(string: "http://ec2-52-88-233-238.us-west-2.compute.amazonaws.com:8080/api/authenticate")
     
     var user: User = User()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -63,7 +62,7 @@ class LoginViewController: UIViewController {
         
     }
     
-    @IBAction func singIn(sender: AnyObject) {
+    @IBAction func signIn(sender: AnyObject) {
         autenticate()
     }
     
@@ -119,8 +118,8 @@ class LoginViewController: UIViewController {
                 print(JSON)
                 if String(JSON["success"]!!) == "1"{
                     self.user.email = String(JSON["email"]!!)
-                    self.user.email = String(JSON["fname"]!!)
-                    self.user.email = String(JSON["lname"]!!)
+                    self.user.fname = String(JSON["fname"]!!)
+                    self.user.lname = String(JSON["lname"]!!)
                     self.user.token = String(JSON["token"]!!)
                     self.syncUserData()
                 }

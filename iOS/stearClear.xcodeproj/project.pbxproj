@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2107C93F1BD2D945006003BE /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107C93E1BD2D945006003BE /* UserViewController.swift */; };
 		2107C9411BD2DB68006003BE /* AnimalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2107C9401BD2DB68006003BE /* AnimalModel.swift */; };
+		210ECF4A1BDD792C00BF3980 /* AnimalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210ECF491BDD792C00BF3980 /* AnimalViewController.swift */; };
 		211205531BDC2CBF001D037B /* DashbordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211205521BDC2CBF001D037B /* DashbordViewController.swift */; };
 		211205551BDC87FC001D037B /* AddAnimalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211205541BDC87FC001D037B /* AddAnimalViewController.swift */; };
 		2126BBE71BCB5696007E726B /* toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2126BBE61BCB5696007E726B /* toast.swift */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		2107C93E1BD2D945006003BE /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		2107C9401BD2DB68006003BE /* AnimalModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimalModel.swift; path = stearClear/AnimalModel.swift; sourceTree = "<group>"; };
+		210ECF491BDD792C00BF3980 /* AnimalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimalViewController.swift; sourceTree = "<group>"; };
 		211205521BDC2CBF001D037B /* DashbordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashbordViewController.swift; sourceTree = "<group>"; };
 		211205541BDC87FC001D037B /* AddAnimalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAnimalViewController.swift; sourceTree = "<group>"; };
 		2126BBE61BCB5696007E726B /* toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = toast.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			children = (
 				2186227C1BDAD470001BF9DE /* Registration ViewController.swift */,
 				211205541BDC87FC001D037B /* AddAnimalViewController.swift */,
+				210ECF491BDD792C00BF3980 /* AnimalViewController.swift */,
 				211205521BDC2CBF001D037B /* DashbordViewController.swift */,
 				219632761BC1E6A30025DB78 /* AppDelegate.swift */,
 				2126BBE61BCB5696007E726B /* toast.swift */,
@@ -361,6 +364,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				210ECF4A1BDD792C00BF3980 /* AnimalViewController.swift in Sources */,
 				219632791BC1E6A30025DB78 /* LoginViewController.swift in Sources */,
 				2107C9411BD2DB68006003BE /* AnimalModel.swift in Sources */,
 				2107C93F1BD2D945006003BE /* UserViewController.swift in Sources */,
