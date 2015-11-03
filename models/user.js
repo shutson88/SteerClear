@@ -59,5 +59,26 @@ module.exports = mongoose.model('User', new Schema({
         type: Date,
         required: true,
         default: Date.now
-    }
+    },
+
+    notifications:[
+    {
+        _id:false,
+        sender: {
+            type:String,
+            required: true
+        },
+        message: {
+            type: String,
+            required: true
+        },
+        read: {
+            type: Boolean,
+            required: true
+        },
+        date: {
+            type: Date,
+            required: true
+        }
+    }]
 }));

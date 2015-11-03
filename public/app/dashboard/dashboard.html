@@ -59,7 +59,7 @@
         </div>
     </div>
 </form>
-<table class="table table-bordered table-striped" ng-show="user.animals">
+<table class="table table-hover table-bordered table-striped" ng-show="user.animals">
     <thead>
     <tr>
         <th>
@@ -95,13 +95,10 @@
     </thead>
     <tbody>
     <!-- LOOP OVER THE USERS -->
-    <tr ng-repeat="animal in user.animals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals">
+    <tr ng-repeat="animal in user.animals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals" ng-click="user.openAnimalPage(animal)">
         <td>{{ animal._id }}</td>
         <td>{{ animal.name }}</td>
         <td>{{ animal.breed}}</td>
-        <td class="col-sm-2">
-            <a ng-href="/animal/{{ animal._id }}" class="btn btn-danger">Weights</a>
-        </td>
 		<td class="col-sm-2">
 			<button class="btn btn-default" type="button" ng-click="user.removeFromUser( animal._id )">Remove</button>
 		</td>

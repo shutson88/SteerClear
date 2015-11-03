@@ -104,6 +104,10 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	
 	
 	};
+
+		vm.openAnimalPage = function(animal){
+			window.location.replace("#/animal/"+animal._id);
+		};
 	
     
 
