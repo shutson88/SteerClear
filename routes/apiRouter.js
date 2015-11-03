@@ -11,6 +11,7 @@ var app         = express();
 var bcrypt      = require('bcrypt-nodejs'); // Encryption module
 var jwt         = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config      = require('../config'); // get our config file
+//var async 		= require('async');
 
 app.set('superSecret', config.secret); // secret variable
 
@@ -34,7 +35,7 @@ var verifyPermission = function(sourceID, destID, callback) {
 		console.log("Checking if " + sourceID + " is managed by " + destID);
 		
 	
-		User.findOne({_id: sourceID, managedBy: destID}, function(err, user) {
+		User.findOne({ _id: destID, observing: {"$in" : [{username: sourceID}]}}, function(err, user) {
 			if(user) {
 				callback(true);
 			} else if(!user) {
@@ -169,14 +170,7 @@ router.use(tokenAuth);
 // ===================================================
 
 
-// Gets users assigned to supervisor
-router.get('/users/:supervisor', function(req, res) {
-	console.log("Viewing youth managed by: " + req.params.supervisor);
-	var users = User.find({ managedBy: req.params.supervisor }, function(err, users) { 
-		//console.log(users);
-		res.json(users);
-	});
-})
+
 
 
 // Test function to test if token authentication worked
@@ -196,22 +190,102 @@ router.get('/user/:username', function(req, res) {
 	});
 });
 
-router.put('/users/:username', function(req, res) {
-	console.log("Updating user " + req.params.username);
-	User.findOne({ _id: req.params.username}, function(err, user) {
+// Gets users observed by user
+router.get('/users/', function(req, res) {
+	console.log("Viewing youth you are observing");
+	
+	
+	
+	User.findOne({ _id: req.decoded.user._id }, function(err, user) { 
+
+		//console.log(user);
+
+		var observed = [];
 		
-		user.managedBy = req.body.id;
-		user.save(function(err) {
-			if (err) { 
-				res.json({success: false});
-			} else {
-				res.json({succeess: true});
-			}			
+		var nUsersToAdd = user.observing.length;
+		var callback = function() {
+			nUsersToAdd -= 1;
+			if(nUsersToAdd <= 0) {
+				res.json(observed);
+			}
 			
+		}
+		
+		
+		for(var i = 0; i < user.observing.length; i++) {
+			User.findOne({_id: user.observing[i].username}, function(err, user) {
+				//console.log(user);
+				observed.push(user);
+				callback();
 			
-		});
+			});		
+		}
+
+	});
+});
+
+
+
+
+
+router.put('/users/', function(req, res) {
+	console.log("Updating user " + req.decoded.user._id);
+	var message = {};
+	nUsersToUpdate = 2;
+	var callback = function() {
+		nUsersToUpdate -= 1;
+		if(nUsersToUpdate <= 0) {
+			res.json(message);
+		}
+		
+	}
+	User.findOne({_id: req.body.id}, function(err, user) {
+		if(user) {
+			
+			User.findOneAndUpdate(
+				{ _id: req.decoded.user._id}, 
+				{$addToSet: {observedBy: {username: req.body.id}}},
+				{safe: true, upsert: true, new: true},
+				function(err, user) {
+				
+		
+					if (err) { 
+						message.observedBy = {success: false};				
+					} else {
+						
+						message.observedBy = {success: true};
+					}
+					callback();			
+				}
+				
+			);
+			User.findOneAndUpdate(
+				{ _id: req.body.id}, 
+				{$addToSet: {observing: {username: req.decoded.user._id}}},
+				{safe: true, upsert: true, new: true},
+				function(err, user) {
+				
+					if (err) { 
+
+						message.observing = {success: false};
+					} else {
+						message.observing = {success: true};
+					}	
+					callback();
+				}
+				
+			);			
+			
+		} else {
+			res.json({success: false, message: req.body.id + " not found"});
+		}
 		
 	});
+	
+
+
+	
+	
 	
 	
 	

@@ -1,16 +1,16 @@
 'use strict';
 
-angular.module('app.adminDashboard', ['ngRoute', 'authService', 'userService', 'typeService', 'ui.bootstrap'])
+angular.module('app.observeDashboard', ['ngRoute', 'authService', 'userService', 'typeService', 'ui.bootstrap'])
 
   .config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/adminDashboard', {
-      templateUrl: 'adminDashboard/adminDashboard.html',
-      controller: 'adminDashboardCtrl',
-      controllerAs: 'admin'
+    $routeProvider.when('/observeDashboard', {
+      templateUrl: 'observeDashboard/observeDashboard.html',
+      controller: 'observeDashboardCtrl',
+      controllerAs: 'observe'
     });
   }])
 
-  .controller('adminDashboardCtrl', ['User', 'AuthToken', 'Type', '$http', function (User, AuthToken, Type, $http) {
+  .controller('observeDashboardCtrl', ['User', 'AuthToken', 'Type', '$http', function (User, AuthToken, Type, $http) {
     var vm = this;
 
     vm.sortType = 'breed';
@@ -92,7 +92,7 @@ angular.module('app.adminDashboard', ['ngRoute', 'authService', 'userService', '
 		});
 	
 	
-    User.getYouth(AuthToken.getData().username)
+    User.getObserved()
 		.success(function (data) {
 			console.log(data);
 			vm.youths = data;

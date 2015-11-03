@@ -15,9 +15,9 @@ angular.module('userService', [])
     };
 
     //Get youth managed by a supervisor
-    userFactory.getYouth = function(supervisor) {
-		console.log("Getting youth for " + supervisor);
-      return $http.get(serverAddress + '/api/users/' + supervisor);
+    userFactory.getObserved = function() {
+		console.log("Getting youth you are observing");
+      return $http.get(serverAddress + '/api/users/');
     };
 
     //TODO: Update user

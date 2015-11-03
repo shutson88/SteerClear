@@ -66,7 +66,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	
 	vm.addSupervisor = function() {
 		console.log("Adding supervisor " + vm.addSupervisorID)
-		$http.put("http://" + window.location.host + "/api/users/" + AuthToken.getData().username, {id: vm.addSupervisorID})
+		$http.put("http://" + window.location.host + "/api/users/", {id: vm.addSupervisorID})
 			.success(function(data, status, headers, config) {
 				console.log(data);
 				
