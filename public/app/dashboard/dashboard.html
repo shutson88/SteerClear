@@ -1,6 +1,10 @@
 <div class="page-header">
-    <h1>
-        Animals
+    <h1 ng-show="user.observing">
+		Animals - {{ user.id }}
+	</h1>
+	
+	<h1 ng-show="!user.observing">
+        Animals 
         <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
             <span class="glyphicon glyphicon-plus"></span>
             New Animal
@@ -99,9 +103,6 @@
         <td>{{ animal._id }}</td>
         <td>{{ animal.name }}</td>
         <td>{{ animal.breed}}</td>
-		<td class="col-sm-2">
-			<button class="btn btn-default" type="button" ng-click="user.removeFromUser( animal._id )">Remove</button>
-		</td>
     </tr>
     </tbody>
 </table>

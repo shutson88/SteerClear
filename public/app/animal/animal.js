@@ -10,7 +10,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     });
   }])
 
-  .controller('AnimalCtrl', ['$routeParams', '$http', '$scope', function ($routeParams, $http, $scope) {
+  .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', function ($routeParams, $http, $location, $scope) {
     var vm = this;
 
     vm.animalID = $routeParams.animalID;
@@ -43,6 +43,26 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
         //console.log("Data: "+JSON.stringify(data));
       });
 
+	  
+	vm.removeFromUser = function() {
+		$http.delete("http://" + window.location.host + "/api/animal/" + vm.animalID)
+				.success(function(data, status, headers, config) {
+					console.log(data);
+					if(data.success) {
+						$location.path('/dashboard/');
+						
+					} else {
+						console.log(data.message);
+					}
+					
+					
+					
+				});		
+		
+		
+	};
+	  
+	  
     vm.addWeight = function($scope){
       console.log("Adding weight for: "+vm.date);
       $http.post("http://" + window.location.host + "/api/weights/"+vm.animalID, {date: vm.date, weight: vm.weight})

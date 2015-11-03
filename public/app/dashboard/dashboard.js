@@ -10,13 +10,13 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
     });
   }])
 
-  .controller('DashboardCtrl', ['Animal', 'AuthToken', 'Auth', '$routeParams', '$http', function (Animal, AuthToken, Auth, $routeParams, $http) {
+  .controller('DashboardCtrl', ['Animal', 'AuthToken', 'Auth', '$routeParams', '$location', '$http', function (Animal, AuthToken, Auth, $routeParams, $location, $http) {
     var vm = this;
 	//console.log($routeParams.id);
 	if($routeParams.id) {
 		vm.id = $routeParams.id;
 		//Auth.verifyPermission(vm.id);
-		
+		vm.observing = true;
 		console.log("View dashboard for " + vm.id);
 	} else {
 		vm.id = AuthToken.getData().username
@@ -45,10 +45,10 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	$http.post("http://" + window.location.host + "/api/animals/", {id: vm.add_id, managedBy: vm.id, name: vm.addName, type: vm.addType, breed: vm.addBreed})
 		.success(function (data, status, headers, config) {
 			if(data.success) {
-				$http.get('/api/animals')
+				$http.get('/api/animals/'+vm.id)
 				.success(function (data) {
 					vm.animals = data;
-					//console.log("Data: "+JSON.stringify(data));
+					console.log("Data: "+JSON.stringify(data));
 					//Reset fields
 					vm.add_id = '';
 					vm.addName = '';
@@ -105,9 +105,9 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	
 	};
 
-		vm.openAnimalPage = function(animal){
-			window.location.replace("#/animal/"+animal._id);
-		};
+	vm.openAnimalPage = function(animal){
+		$location.path("/animal/"+animal._id);
+	};
 	
     
 

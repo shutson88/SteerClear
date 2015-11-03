@@ -14,7 +14,7 @@ angular.module('userService', [])
       return $http.get(serverAddress + '/api/users/' + id);
     };
 
-    //Get youth managed by a supervisor
+    //Get youth you are observing
     userFactory.getObserved = function() {
 		console.log("Getting youth you are observing");
       return $http.get(serverAddress + '/api/users/');

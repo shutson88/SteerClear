@@ -203,22 +203,29 @@ router.get('/users/', function(req, res) {
 		var observed = [];
 		
 		var nUsersToAdd = user.observing.length;
-		var callback = function() {
-			nUsersToAdd -= 1;
-			if(nUsersToAdd <= 0) {
-				res.json(observed);
+		if(nUsersToAdd == 0) {
+			res.json([]);
+			
+		} else {
+			
+		
+			var callback = function() {
+				nUsersToAdd -= 1;
+				if(nUsersToAdd <= 0) {
+					res.json(observed);
+				}
+				
 			}
 			
-		}
-		
-		
-		for(var i = 0; i < user.observing.length; i++) {
-			User.findOne({_id: user.observing[i].username}, function(err, user) {
-				//console.log(user);
-				observed.push(user);
-				callback();
 			
-			});		
+			for(var i = 0; i < user.observing.length; i++) {
+				User.findOne({_id: user.observing[i].username}, function(err, user) {
+					//console.log(user);
+					observed.push(user);
+					callback();
+				
+				});		
+			}
 		}
 
 	});
@@ -230,6 +237,14 @@ router.get('/users/', function(req, res) {
 
 router.put('/users/', function(req, res) {
 	console.log("Updating user " + req.decoded.user._id);
+	var stopObserving = false;
+	if(req.body.stop == true) {
+		stopObserving = true;
+		
+	} else {
+		stopObserving = false;
+	}
+	
 	var message = {};
 	nUsersToUpdate = 2;
 	var callback = function() {
@@ -241,14 +256,24 @@ router.put('/users/', function(req, res) {
 	}
 	User.findOne({_id: req.body.id}, function(err, user) {
 		if(user) {
+			var updateMe = {};
+			var updateOther = {};
+			if(stopObserving == true) {
+				updateOther = {$pull: {observedBy: {username: req.decoded.user._id}}};
+				updateMe = {$pull: {observing: {username: req.body.id}}};
+				
+			} else {
+				updateMe = {$addToSet: {observedBy: {username: req.body.id}}};
+				updateOther = {$addToSet: {observing: {username: req.decoded.user._id}}};
+			}
 			
 			User.findOneAndUpdate(
 				{ _id: req.decoded.user._id}, 
-				{$addToSet: {observedBy: {username: req.body.id}}},
+				updateMe,
 				{safe: true, upsert: true, new: true},
 				function(err, user) {
 				
-		
+			
 					if (err) { 
 						message.observedBy = {success: false};				
 					} else {
@@ -261,12 +286,12 @@ router.put('/users/', function(req, res) {
 			);
 			User.findOneAndUpdate(
 				{ _id: req.body.id}, 
-				{$addToSet: {observing: {username: req.decoded.user._id}}},
+				updateOther,
 				{safe: true, upsert: true, new: true},
 				function(err, user) {
 				
 					if (err) { 
-
+	
 						message.observing = {success: false};
 					} else {
 						message.observing = {success: true};
@@ -349,7 +374,7 @@ router.delete('/animal/:id', function(req, res) {
 					console.log(err); 
 					res.json({success: false});
 				} else {
-					res.json({succeess: true});
+					res.json({success: true});
 				}
 				
 			});
@@ -386,7 +411,7 @@ router.post('/animals', function(req, res) {
 						console.log(err); 
 						res.json({success: false});
 					} else {
-						res.json({succeess: true});
+						res.json({success: true});
 					}
 					
 				});

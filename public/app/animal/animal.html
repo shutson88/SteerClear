@@ -10,7 +10,7 @@
 <script src="/javascripts/client.js"></script>
 <div class="page-header">
     <h1>
-        {{ animal.animalID }}
+        {{ animal.animalID }} 
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">{{animal.data}}</h3>
@@ -30,6 +30,7 @@
         </button>
 		
     </h1>
+	<a ng-click="animal.removeFromUser()">Remove</a>
     <div uib-collapse="!addUserCollapsed">
         <form class="form-inline" role="form">
             <div class="form-group">
