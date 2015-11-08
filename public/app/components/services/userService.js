@@ -17,8 +17,22 @@ angular.module('userService', [])
     //Get youth you are observing
     userFactory.getObserved = function() {
 		console.log("Getting youth you are observing");
-      return $http.get(serverAddress + '/api/users/');
+		return $http.get(serverAddress + '/api/users/');
     };
+	
+	userFactory.getObservedBy = function(callback) {
+		console.log("Getting users observing you");
+		$http.get("http://" + window.location.host + '/api/user/')
+			.success(function(data) {
+				if(data.observedBy.length <= 0) {
+					callback([]);
+				} else {
+					callback(data.observedBy);
+				}
+			});
+		
+		
+	};
 
     //TODO: Update user
 

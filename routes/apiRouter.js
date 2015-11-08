@@ -183,9 +183,17 @@ router.post('/checktoken', function(req, res) {
 // ==================
 
 // Gets users information
-router.get('/user/:username', function(req, res) {
-	console.log("Viewing user " + req.params.username);
-	var user = User.findOne({ _id: req.params.username }, function(err, user) {
+//router.get('/user/:username', function(req, res) {
+//	console.log("Viewing user " + req.params.username);
+//	var user = User.findOne({ _id: req.params.username }, function(err, user) {
+//		res.json(user);
+//	});
+//});
+
+// Gets users information
+router.get('/user/', function(req, res) {
+	console.log("Viewing user " + req.decoded.user._id);
+	var user = User.findOne({ _id: req.decoded.user._id }, function(err, user) {
 		res.json(user);
 	});
 });
@@ -259,8 +267,10 @@ router.put('/users/', function(req, res) {
 			var updateMe = {};
 			var updateOther = {};
 			if(stopObserving == true) {
-				updateOther = {$pull: {observedBy: {username: req.decoded.user._id}}};
-				updateMe = {$pull: {observing: {username: req.body.id}}};
+				updateOther = {$pull: {observedBy: {username: req.decoded.user._id},
+				observing: {username: req.decoded.user._id}}};
+				updateMe = {$pull: {observing: {username: req.body.id},
+				observedBy: {username: req.body.id}}};
 				
 			} else {
 				updateMe = {$addToSet: {observedBy: {username: req.body.id}}};

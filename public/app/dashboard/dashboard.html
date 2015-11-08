@@ -13,6 +13,10 @@
             <span class="glyphicon glyphicon-plus"></span>
             Add Supervisor
         </button>
+		<button type="button" class="btn btn-default" ng-click="removeSupervisorCollapsed = !removeSupervisorCollapsed">
+            <span class="glyphicon glyphicon-minus"></span>
+            Remove Supervisor
+        </button>
     </h1>
     <div uib-collapse="!addUserCollapsed">
         <form class="form-inline" role="form">
@@ -49,6 +53,22 @@
             </div>
         </form>
     </div>
+	<div uib-collapse="!removeSupervisorCollapsed">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+
+
+						<div ng-repeat="super in user.supervisors">
+							{{super.username}}
+								<button class="btn btn-default" type="button" ng-click="user.removeSupervisor(super.username)">
+									<span class="glyphicon glyphicon-minus"></span>
+								</button>
+						</div>
+                </div>
+                
+            </div>
+        </form>
+    </div>
 </div>
 <!-- LOADING MESSAGE -->
 <div class="jumbotron text-center" ng-show="user.processing"><span class="glyphicon glyphicon-repeat spinner"></span>
@@ -80,13 +100,7 @@
                 <span ng-show="user.sortType == 'name' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <!--<th>-->
-            <!--<a href="#" ng-click="user.sortType = 'username'; user.sortReverse = !user.sortReverse">-->
-                <!--username-->
-                <!--<span ng-show="user.sortType == 'username' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>-->
-                <!--<span ng-show="user.sortType == 'username' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>-->
-            <!--</a>-->
-        <!--</th>-->
+
         <th>
             <a href="#" ng-click="user.sortType = 'breed'; user.sortReverse = !user.sortReverse">
                 Breed
@@ -94,7 +108,6 @@
                 <span ng-show="user.sortType == 'breed' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <!-- <th class="col-sm-2"></th> -->
     </tr>
     </thead>
     <tbody>

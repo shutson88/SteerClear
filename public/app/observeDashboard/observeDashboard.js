@@ -26,7 +26,7 @@ angular.module('app.observeDashboard', ['ngRoute', 'authService', 'userService',
 				console.log("Observing: " + data.observing.success);
 				console.log("ObservedBy: " + data.observedBy.success);
 				if(data.observing.success == true && data.observedBy.success == true) {
-					$http.get('/api/users/')
+					User.getObserved()
 						.success(function (data) {
 							console.log(data);
 							vm.youths = data;

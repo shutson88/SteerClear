@@ -10,7 +10,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
     });
   }])
 
-  .controller('DashboardCtrl', ['Animal', 'AuthToken', 'Auth', '$routeParams', '$location', '$http', function (Animal, AuthToken, Auth, $routeParams, $location, $http) {
+  .controller('DashboardCtrl', ['Animal', 'User', 'AuthToken', 'Auth', '$routeParams', '$location', '$http', function (Animal, User, AuthToken, Auth, $routeParams, $location, $http) {
     var vm = this;
 	//console.log($routeParams.id);
 	if($routeParams.id) {
@@ -33,6 +33,8 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 				
 				
 		});
+		
+	User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
     vm.sortType = 'breed';
     vm.sortReverse = false;
     vm.searchAnimals = '';
@@ -69,13 +71,20 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 		$http.put("http://" + window.location.host + "/api/users/", {id: vm.addSupervisorID})
 			.success(function(data, status, headers, config) {
 				console.log(data);
-				
+				User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
 				
 			});
 		
 		
 	}
 	
+	vm.removeSupervisor = function(id) {
+		console.log("removing " + id + " as supervisor");
+		$http.put("http://" + window.location.host + "/api/users/", {id: id, stop: true})
+			.success(function(data, status, headers, config) {
+				User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
+			});
+	}
 	
 	vm.removeFromUser = function(id) {
 	console.log("removing " + id + " from user");
