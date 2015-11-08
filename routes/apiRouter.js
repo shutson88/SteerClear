@@ -503,6 +503,9 @@ router.get('/weights/:id', function(req, res) {
 // Add a weight for a specific animal
 router.post('/weights/:id', function(req, res) {
 	var animal_id = req.params.id;
+	console.log(req.body.weight);
+	console.log(req.body.date);
+	
 	Animal.findOne({
 		_id: animal_id
 	}, function(err, animal) {
