@@ -415,6 +415,8 @@ router.post('/animals', function(req, res) {
 	
 		Animal.findOne({_id: req.body.id}, function(err, animal) {
 			if(animal) {
+				
+				
 				animal.managedBy = req.decoded.user._id;
 				animal.save(function(err) {
 					if (err) { 
@@ -436,7 +438,9 @@ router.post('/animals', function(req, res) {
 					breed: req.body.breed
 				}).save(function(err) {
 					if(err) {
+						
 						if(err && err.code !== 11000) {
+							console.log(err);
 							res.json({success: false, message: "Another error occurred"});
 						}
 						if(err && err.code === 11000) {
