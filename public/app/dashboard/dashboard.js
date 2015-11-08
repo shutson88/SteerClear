@@ -19,6 +19,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 		vm.observing = true;
 		console.log("View dashboard for " + vm.id);
 	} else {
+		vm.observing = false;
 		vm.id = AuthToken.getData().username
 	}
 	Animal.getAll(vm.id)
@@ -115,7 +116,13 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	};
 
 	vm.openAnimalPage = function(animal){
-		$location.path("/animal/"+animal._id);
+		if(vm.observing === true) {
+			$location.path("/animal/"+animal._id+"/true");
+			
+		} else {
+			$location.path("/animal/"+animal._id);
+		}
+		
 	};
 	
     

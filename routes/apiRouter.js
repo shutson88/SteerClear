@@ -414,6 +414,8 @@ router.post('/animals', function(req, res) {
 	
 	
 		Animal.findOne({_id: req.body.id}, function(err, animal) {
+			
+			
 			if(animal) {
 				
 				

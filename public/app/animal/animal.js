@@ -3,7 +3,7 @@
 angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filter'])
 
   .config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/animal/:animalID', {
+    $routeProvider.when('/animal/:animalID/:observing?', {
       templateUrl: 'animal/animal.html',
       controller: 'AnimalCtrl',
       controllerAs: 'animal'
@@ -15,7 +15,14 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
     vm.animalID = $routeParams.animalID;
     console.log(vm.animalID);
-
+	console.log($routeParams.observing);
+	if($routeParams.observing == "true") {
+		vm.observing = true;
+		
+	} else {
+		vm.observing = false;
+	}
+	console.log(vm.observing);
     vm.sortType = 'breed';
     vm.sortReverse = false;
     vm.searchAnimals = '';
@@ -31,6 +38,8 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
       vm.selectedRow = index;
     }
 
+	
+	
     $http.get('/api/weights/'+vm.animalID)
       .success(function (data) {
         if(data.success === false) {

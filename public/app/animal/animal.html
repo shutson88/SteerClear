@@ -16,7 +16,7 @@
                 <h3 class="panel-title">{{animal.data}}</h3>
             </div>
         </div>
-        <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
+        <button ng-hide="animal.observing" type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
             <span class="glyphicon glyphicon-plus"></span>
             Add new weight
         </button>
