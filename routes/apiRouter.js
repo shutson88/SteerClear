@@ -440,7 +440,7 @@ router.post('/animals', function(req, res) {
 					if(err) {
 						
 						if(err && err.code !== 11000) {
-							console.log(err);
+							
 							res.json({success: false, message: "Another error occurred"});
 						}
 						if(err && err.code === 11000) {
@@ -521,6 +521,7 @@ router.post('/weights/:id', function(req, res) {
 					}).save(function(err) {
 						if(err) {
 							if(err && err.code !== 11000) {
+								console.log(err);
 								res.json({success: false, message: "Another error occurred"});
 							}
 							if(err && err.code === 11000) { //TODO: shouldn't need this
