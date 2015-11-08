@@ -406,9 +406,9 @@ router.post('/animals', function(req, res) {
 
 	//TODO: check if each field exists before creating and saving object
 
-	if(req.decoded.user._id != req.body.managedBy) {
-		res.json({success: false, message: "You do not have access to add an animal for this user"});
-	} else {
+	//if(req.decoded.user._id != req.body.managedBy) {
+	//	res.json({success: false, message: "You do not have access to add an animal for this user"});
+	//} else {
 		
 		
 	
@@ -458,7 +458,7 @@ router.post('/animals', function(req, res) {
 			
 			
 		})
-	}
+	//}
 });
 
 // ==================
