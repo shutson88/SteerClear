@@ -53,6 +53,8 @@ module.exports = mongoose.model('User', new Schema({
 		}	
 	],
 	
+	resetPasswordToken: String,
+	resetPasswordExpires: Date,
 	
     date_created:
     {

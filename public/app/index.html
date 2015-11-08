@@ -45,13 +45,12 @@
 <!-- Navbar -->
 <header>
 
-    <div class="navbar navbar-inverse" ng-if="main.loggedIn" role="navigation">
+    <div class="navbar navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed">
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+
                 </button>
                 <a href="/" class="navbar-brand">
                 <span class="glyphicon glyphicon-piggy-bank text-danger"></span>
@@ -61,9 +60,11 @@
             <div uib-collapse="isCollapsed">
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-if="!main.loggedIn">
-                        <a href="/signin">Login</a>
-                        <a href="/register">Register</a>
+                        <a href="/signin">Login</a>                       
                     </li>
+					<li ng-if="!main.loggedIn">
+						<a href="/register">Register</a>
+					</li>
                     <li ng-if="main.loggedIn" class="navbar-text">
                         Hello {{ main.user.fname }}!
                     </li>

@@ -6,11 +6,11 @@ var app         = express();
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 var mongoose    = require('mongoose'); // MongoDB connection module
-var path 				= require('path');
-var favicon 		= require('serve-favicon');
-var config 			= require('./config'); // get our config file
-
-
+var path 		= require('path');
+var favicon 	= require('serve-favicon');
+var config 		= require('./config'); // get our config file
+var nodemailer 	= require('nodemailer');
+var crypto		= require('crypto');
 
 // =======================
 // configuration =========
@@ -51,9 +51,9 @@ app.get('/dashboard', function(req, res, next) {
 	res.sendFile(path.join(__dirname, '/public/app', 'index.html'));
 }); 
 
-/* app.get('*', function(req, res, next) {
+app.get('*', function(req, res, next) {
 	res.sendFile(path.join(__dirname, '/public/app', 'index.html'));
-}); */
+}); 
 
 // =======================
 // start the server ======
