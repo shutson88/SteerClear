@@ -448,7 +448,7 @@ router.post('/animals', function(req, res) {
 						}
 					} else {
 						console.log(req.body.name + ' saved successfully');
-						res.json({ success: true });
+						res.json({ success: true, message: "Animal has been added" });
 					}
 				});	
 				
