@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('app', [
+var app = angular.module('app', [
   'ngRoute',
   'ngMessages',
   'authService',
@@ -16,8 +16,10 @@ angular.module('app', [
   'app.observeDashboard',
   'app.animal',
   'app.home'
-]).
-  config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider,
+]);
+
+
+app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider,
                                                                          $locationProvider,
                                                                          $httpProvider) {
     //$routeProvider.otherwise({redirectTo: '/'});
@@ -25,3 +27,22 @@ angular.module('app', [
 
     $httpProvider.interceptors.push('AuthInterceptor');
   }]);
+  
+app.directive('ngConfirm', [ function() {
+	return {
+		link: function(scope, element, attr) {
+			var msg = attr.ngConfirm || "Are you sure?";
+			var clickAction = attr.ngClickConfirm;
+			element.bind('click', function(event) {
+				if(window.confirm(msg)) {
+					scope.$eval(clickAction);
+				}
+			});
+			
+		}
+		
+		
+	};
+	
+	
+}]);

@@ -87,7 +87,7 @@
             <a ng-href="/dashboard/{{ youth._id }}" class="btn btn-danger">View</a>
         </td>
 		<td class="col-sm-2">
-			<button class="btn btn-default" type="button" ng-click="observe.stopObserving( youth._id )">Stop Observing</button>
+			<button class="btn btn-default" type="button" ng-click-confirm="observe.stopObserving( youth._id )" ng-confirm="Are you sure you want to stop observing {{youth._id}}?">Stop Observing</button>
 		</td>
     </tr>
     </tbody>

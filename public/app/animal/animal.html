@@ -30,7 +30,7 @@
         </button>
 		
     </h1>
-	<a ng-click="animal.removeFromUser()">Remove</a>
+	
     <div uib-collapse="!addUserCollapsed">
         <form class="form-inline" role="form">
             <div class="form-group">
@@ -86,11 +86,12 @@
             </div>
         </form>
     </div>
+	<button ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove</button>
 </div>
 <!-- LOADING MESSAGE -->
 <div class="jumbotron text-center" ng-show="user.processing"><span class="glyphicon glyphicon-repeat spinner"></span>
 
-    <p>Loading Animals...</p>
+    <p>Loading Weights...</p>
 </div>
 <form>
     <div class="form-group">
