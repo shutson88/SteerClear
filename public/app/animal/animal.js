@@ -55,6 +55,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
       });
 
 
+
 	
 	vm.editAnimal = function() {
 		$http.put("http://" + window.location.host + "/api/animal/"+vm.animalID, {newID: vm.newID, newName: vm.newName, newType: vm.newType, newBreed: vm.newBreed})
