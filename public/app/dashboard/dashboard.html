@@ -113,9 +113,9 @@
     <tbody>
     <!-- LOOP OVER THE USERS -->
     <tr ng-repeat="animal in user.animals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals" ng-click="user.openAnimalPage(animal)">
-        <td>{{ animal._id }}</td>
-        <td>{{ animal.name }}</td>
-        <td>{{ animal.breed}}</td>
+        <td>{{ animal._id | capitalize}}</td>
+        <td>{{ animal.name | capitalize}}</td>
+        <td>{{ animal.breed | capitalize}}</td>
     </tr>
     </tbody>
 </table>

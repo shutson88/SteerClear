@@ -10,7 +10,11 @@
 <script src="/javascripts/client.js"></script>
 <div class="page-header">
     <h1>
-        {{ animal.animalID }} - {{animal.params.name}}
+
+        {{ animal.animalID | capitalize:true}} - {{animal.params.name}}
+
+        {{ animal.animalID | capitalize:true}}
+
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">{{animal.data}}</h3>
@@ -168,7 +172,7 @@
     <tbody>
     <!-- LOOP OVER THE USERS -->
     <tr ng-repeat="a in animal.animals | orderBy:animal.sortType:animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date, animal)" ng-click="animal.selectDates(a.date)">
-        <td>{{ a.id }}</td>
+        <td>{{ a.id | capitalize}}</td>
         <td>{{ a.date | myDate }}</td>
         <td>{{ a.weight}}</td>
         <!-- <td class="col-sm-2">

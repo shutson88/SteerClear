@@ -54,6 +54,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
         //console.log("Data: "+JSON.stringify(data));
       });
 
+
 	
 	vm.editAnimal = function() {
 		$http.put("http://" + window.location.host + "/api/animal/"+vm.animalID, {newID: vm.newID, newName: vm.newName, newType: vm.newType, newBreed: vm.newBreed})
@@ -65,6 +66,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 		
 	};
 	
+
 	vm.removeFromUser = function() {
 		$http.delete("http://" + window.location.host + "/api/animal/" + vm.animalID)
 				.success(function(data, status, headers, config) {
@@ -204,7 +206,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
           return 0;
         }
         else {
-          vm.data = "Average daily weight gain: " + averageDailyGain / numDays;
+          vm.data = "Average daily weight gain: " + Math.round((averageDailyGain / numDays)*10)/10;
           return averageDailyGain / numDays;
         }
       }
@@ -253,7 +255,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
       var gain = numDays*adg;
       targetWeight += gain;
       var formattedDate = vm.targetDate.toLocaleDateString("en-US");
-      vm.data = "Target weight at "+formattedDate+" is estimated to be "+Math.round(targetWeight);
+      vm.data = "Target weight at "+formattedDate+" is estimated to be "+Math.round(targetWeight)+"lbs";
     }
 
     //When two rows are selected, calculate the ADG in that date range
