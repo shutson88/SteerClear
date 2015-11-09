@@ -272,14 +272,21 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     }
 
     vm.selectDates = function(date){
-      if(!vm.alternateSelection) {
-        vm.selectedRow = date;
-        vm.alternateSelection = true;
-      }
-      else{
-        vm.selectedRow2 = date;
-        vm.alternateSelection = false;
-      }
+		if(vm.selectedRow == date) {
+			vm.selectedRow = null;
+			vm.alternateSelection = false;
+		} else if(vm.selectedRow2 == date) {
+			vm.selectedRow2 = null;
+			vm.alternateSelection = true;
+		} else {
+			if(vm.alternateSelection) {
+				vm.selectedRow2 = date;
+				vm.alternateSelection = false;
+			} else {
+				vm.selectedRow = date;
+				vm.alternateSelection = true;
+			}			
+		}
     }
 
     vm.highlight = function(date){
