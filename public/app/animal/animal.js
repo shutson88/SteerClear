@@ -3,7 +3,7 @@
 angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filter'])
 
   .config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/animal/:animalID/:observing?', {
+    $routeProvider.when('/animal/', {
       templateUrl: 'animal/animal.html',
       controller: 'AnimalCtrl',
       controllerAs: 'animal'
@@ -12,17 +12,19 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
   .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', function ($routeParams, $http, $location, $scope) {
     var vm = this;
-
-    vm.animalID = $routeParams.animalID;
-    console.log(vm.animalID);
-	console.log($routeParams.observing);
-	if($routeParams.observing == "true") {
+	vm.params = $location.search();
+	
+    vm.animalID = vm.params.id;
+    //console.log(vm.animalID);
+	//console.log($routeParams.observing);
+	if(vm.params.observing == true || vm.params.observing == 'true') {
 		vm.observing = true;
-		
 	} else {
 		vm.observing = false;
 	}
-	console.log(vm.observing);
+	
+
+	console.log(vm.observing + " " + typeof vm.observing);
     vm.sortType = 'breed';
     vm.sortReverse = false;
     vm.searchAnimals = '';
@@ -52,7 +54,17 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
         //console.log("Data: "+JSON.stringify(data));
       });
 
-	  
+	
+	vm.editAnimal = function() {
+		$http.put("http://" + window.location.host + "/api/animal/"+vm.animalID, {newID: vm.newID, newName: vm.newName, newType: vm.newType, newBreed: vm.newBreed})
+			.success(function (data, status, headers, config) {
+				console.log(data);
+				
+				
+			});
+		
+	};
+	
 	vm.removeFromUser = function() {
 		$http.delete("http://" + window.location.host + "/api/animal/" + vm.animalID)
 				.success(function(data, status, headers, config) {

@@ -10,12 +10,16 @@
 <script src="/javascripts/client.js"></script>
 <div class="page-header">
     <h1>
-        {{ animal.animalID }} 
+        {{ animal.animalID }} - {{animal.params.name}}
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">{{animal.data}}</h3>
             </div>
         </div>
+		<button ng-hide="animal.observing" type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
+            <span class="glyphicon glyphicon-edit"></span>
+            Edit Animal
+        </button>
         <button ng-hide="animal.observing" type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
             <span class="glyphicon glyphicon-plus"></span>
             Add new weight
@@ -82,6 +86,31 @@
                 <!--<div class="form-group">-->
                 <!--<input type="text" class="form-control" ng-model="user.addUsername" placeholder="username">-->
                 <!--</div>-->
+
+            </div>
+        </form>
+    </div>
+    <div uib-collapse="!editAnimalCollapsed">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="animal.newID" placeholder="ID: {{animal.params.id}}">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="animal.newName" placeholder="Name: {{animal.params.name}}">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="animal.newType" placeholder="Type: {{animal.params.type}}">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" ng-model="animal.newBreed" placeholder="Breed: {{animal.params.breed}}">
+                </div>
+                <button class="btn btn-default" type="button" ng-click="animal.editAnimal();editAnimalCollapsed = !editAnimalCollapsed">
+                    Edit
+                </button>
+
+
 
             </div>
         </form>
