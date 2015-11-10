@@ -1,20 +1,22 @@
 <div class="page-header">
     <h1 ng-show="user.observing">
 		Animals - {{ user.id }}
+		
 	</h1>
 	
 	<h1 ng-show="!user.observing">
         Animals 
+		
         <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
-            <span class="glyphicon glyphicon-plus"></span>
+            <span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>
             New Animal
         </button>
 		<button  type="button" class="btn btn-default" ng-click="addSupervisorCollapsed = !addSupervisorCollapsed">
-            <span class="glyphicon glyphicon-plus"></span>
+            <span ng-class="{'glyphicon glyphicon-plus' : !addSupervisorCollapsed, 'glyphicon glyphicon-minus' : addSupervisorCollapsed}"></span>
             Add Supervisor
         </button>
 		<button type="button" class="btn btn-default" ng-click="removeSupervisorCollapsed = !removeSupervisorCollapsed">
-            <span class="glyphicon glyphicon-minus"></span>
+            <span ng-class="{'glyphicon glyphicon-plus' : !removeSupervisorCollapsed, 'glyphicon glyphicon-minus' : removeSupervisorCollapsed}"></span>			
             Remove Supervisor
         </button>
     </h1>
@@ -34,9 +36,15 @@
                 <div class="form-group">
                     <input type="text" class="form-control" ng-model="user.addBreed" placeholder="Breed">
                 </div>
-                <button class="btn btn-default" type="button" ng-click="user.addAnimal();addUserCollapsed = !addUserCollapsed">
-                    <span class="glyphicon glyphicon-plus"></span>
+                <button class="btn btn-default" type="button" ng-click="user.addAnimal();">
+                    Add
+					
                 </button>
+				<div class="form-group fadein fadeout"  ng-show="user.showAnimalMessage">
+					{{user.addAnimalMessage}}
+				
+				</div>
+				
             </div>
         </form>
     </div>
@@ -47,22 +55,30 @@
                 <div class="form-group">
                     <input type="text" class="form-control" ng-model="user.addSupervisorID" placeholder="ID">
                 </div>
-                <button class="btn btn-default" type="button" ng-click="user.addSupervisor();addSupervisorCollapsed = !addSupervisorCollapsed">
-                    <span class="glyphicon glyphicon-plus"></span>
+                <button class="btn btn-default" type="button" ng-click="user.addSupervisor()">
+                    Add
                 </button>
+				<div class="form-group fadein fadeout"  ng-show="user.showSupervisorMessage">
+					{{user.addSupervisorMessage}}
+				
+				</div>
             </div>
         </form>
     </div>
 	<div uib-collapse="!removeSupervisorCollapsed">
         <form class="form-inline" role="form">
             <div class="form-group">
-
+				<div class="form-group fadein fadeout"  ng-show="user.showRemoveSupervisorMessage">
+					{{user.removeSupervisorMessage}}
+				
+				</div>
 
 						<div ng-repeat="super in user.supervisors">
-							{{super.username}}
+							<div class="form-group">{{super.username}}</div>
 								<button class="btn btn-default" type="button" ng-click="user.removeSupervisor(super.username)">
-									<span class="glyphicon glyphicon-minus"></span>
+									Remove
 								</button>
+								
 						</div>
                 </div>
                 

@@ -48,6 +48,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 			console.log(data.message);
 			alert(data.message);
 		} else {
+			console.log(data);
 			vm.animals = data;
 		}
 		
