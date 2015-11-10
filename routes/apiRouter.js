@@ -655,17 +655,15 @@ router.post('/notifications/:id', function(req, res) {
 
 	// TODO: Should we do some checking to make sure whoever is making the request is being observed by whoever is making the request?
 
-	var username = req.params.id;
-
-	var user = User.findOneAndUpdate(
-		{ _id: username },
+	User.update(
+		{ _id: req.params.id },
 		{ $addToSet: { notifications: {
-			sender: req.decoded.user._id,
-			message: 'Test', // TODO: pull message from request
+			date: new Date(),
 			read: false,
-			date: new Date() }}},
+			message: 'Test', // TODO: pull message from request
+			sender: req.decoded.user._id }}},
 		{ safe: true, upsert: true, new : true },
-		function(err, user) {
+		function(err) {
 			if(err) {
 				console.log(err);
 				res.json({success: false, message: "An error occurred"});
@@ -702,7 +700,7 @@ router.delete('/notifications', function(req, res) {
 	purgeDate.setDate(purgeDate.getDate() - 2);
 
 	// Remove notifications
-	var user = User.update(
+	User.update(
 		{ _id: req.decoded.user._id },
 		{ $pull: { notifications: { read: true, date: { "$lt": purgeDate } } } },
 		function(err) {
