@@ -24,8 +24,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 	}
 	
 
-	console.log(vm.observing + " " + typeof vm.observing);
-    vm.sortType = 'breed';
+    vm.sortType = 'date';
     vm.sortReverse = false;
     vm.searchAnimals = '';
     vm.addUserCollapsed = false;
@@ -45,10 +44,10 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     $http.get('/api/weights/'+vm.animalID)
       .success(function (data) {
         if(data.success === false) {
-			console.log(data.message);
+			//console.log(data.message);
 			alert(data.message);
 		} else {
-			console.log(data);
+			//console.log(data);
 			vm.animals = data;
 		}
 		
@@ -92,14 +91,21 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
       console.log("Adding weight for: "+vm.date);
       $http.post("http://" + window.location.host + "/api/weights/"+vm.animalID, {date: vm.date, weight: vm.weight})
         .success(function (data, status, headers, config) {
-          console.log(data);
-          $http.get('/api/weights/'+vm.animalID)
-            .success(function (data) {
-              
-			  
-			  vm.animals = data;
-              console.log("Data: "+JSON.stringify(data));
-            });
+			//console.log(data);
+			if(data.message) {vm.addWeightMessage = data.message;} else {vm.addWeightMessage = "Missing message";}
+			vm.showWeightMessage = true;
+			$timeout(function() {
+				vm.showWeightMessage = false;
+			
+			}, 2000);
+			$http.get('/api/weights/'+vm.animalID)
+			.success(function (data) {
+				
+			
+				vm.animals = data;
+				//console.log("Data: "+JSON.stringify(data));
+				
+			});
         })
 
     }

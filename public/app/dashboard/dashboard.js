@@ -46,7 +46,8 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	
 	
 	vm.addAnimal = function($scope){
-	console.log("Adding animal: "+vm.add_id);
+	console.log("Adding animal: "+vm.add_id + " " + vm.addName + " " + vm.addType + " " + vm.addBreed);
+	
 	$http.post("http://" + window.location.host + "/api/animals/", {id: vm.add_id, managedBy: vm.id, name: vm.addName, type: vm.addType, breed: vm.addBreed})
 		.success(function (data, status, headers, config) {
 			if(data.success) {

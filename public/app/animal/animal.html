@@ -58,7 +58,10 @@
                 <button class="btn btn-default" type="button" ng-click="animal.addWeight()">
                     Add
                 </button>
-
+				<div class="form-group fadein fadeout"  ng-show="animal.showWeightMessage">
+					{{animal.addWeightMessage}}
+			
+				</div>
 
 
             </div>
@@ -165,10 +168,10 @@
         <!--</a>-->
         <!--</th>-->
         <th>
-            <a href="#" ng-click="animal.sortType = 'breed'; animal.sortReverse = !animal.sortReverse">
+            <a href="#" ng-click="animal.sortType = 'weight'; animal.sortReverse = !animal.sortReverse">
                 Weight
-                <span ng-show="animal.sortType == 'breed' && !animal.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
-                <span ng-show="animal.sortType == 'breed' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                <span ng-show="animal.sortType == 'weight' && !animal.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="animal.sortType == 'weight' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
         <!-- <th class="col-sm-2"></th> -->

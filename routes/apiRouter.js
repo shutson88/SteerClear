@@ -182,13 +182,7 @@ router.post('/checktoken', function(req, res) {
 // User
 // ==================
 
-// Gets users information
-//router.get('/user/:username', function(req, res) {
-//	console.log("Viewing user " + req.params.username);
-//	var user = User.findOne({ _id: req.params.username }, function(err, user) {
-//		res.json(user);
-//	});
-//});
+
 
 // Gets users information
 router.get('/user/', function(req, res) {
@@ -323,70 +317,64 @@ router.put('/users/', function(req, res) {
 
 // Gets information for ALL animals belonging to a user
 router.get('/animals/:id', function(req, res) {
-	//console.log("Viewing animals for " + req.params.id);
-	//console.log("Sent id: " + req.params.id);
-	//console.log("Decoded id: " + req.decoded.user._id);
-	verifyPermission(req.params.id, req.decoded.user._id, function(status) {
-		//console.log("Verification: " + status);
-		if(status === true) {
-			Animal.find({ managedBy: req.params.id }, function(err, animals) {
-			res.json(animals);
+	if(!req.params.id) {
+		res.json({success: false, message: "You did not send a user id"});
+	} else {
+		verifyPermission(req.params.id, req.decoded.user._id, function(status) {
+			if(status === true) {
+				Animal.find({ managedBy: req.params.id }, function(err, animals) {
+				res.json(animals); //TODO: convert to sending success, message, and animals object
+			});
+			} else {
+				res.json({success: false, message: "You do not have permission to access this user's animals"});
+			}
+	
+	
 		});
-		} else {
-			res.json({success: false, message: "You do not have permission to access this user's animals"});
-		}
-
-
-	});
+		
+	}
 
 
 });
 
 // Gets information for ONE animal
 router.get('/animal/:id', function(req, res) {
-	var animal_id = req.params.id;
-
-	//console.log("Viewing animal: " + animal_id);
-
-	var animal = Animal.findOne({ _id: animal_id }, function(err, animal) {
-		if(animal && animal.managedBy === req.decoded.user._id){
-			res.json(animal);
-		}
-		else{
-			res.json({success: false, message: 'You do not have access to this animal.'});
-		}
-	});
+	if(!req.params.id) {
+		res.json({success: false, message: "You did not send an animal ID"});		
+	} else {
+		var animal = Animal.findOne({ _id: req.params.id }, function(err, animal) {
+			if(animal && animal.managedBy === req.decoded.user._id){
+				res.json(animal); //TODO: convert to sending success, message, and animal object
+			}
+			else{
+				res.json({success: false, message: 'You do not have access to this animal.'});
+			}
+		});
+	}
 });
 
+// Stop tracking the animal for this user
 router.delete('/animal/:id', function(req, res) {
-
-	//console.log("removing " + req.params.id + " from user");
-	var animal_id = req.params.id;
-
-	Animal.findOne({ _id: animal_id }, function(err, animal) {
-
-		if(animal && animal.managedBy === req.decoded.user._id) {
-			//console.log("updating animal");
-			animal.managedBy = "nobody";
-			//console.log(animal.managedBy);
-			animal.save(function(err) {
-				if (err) {
-					console.log(err);
-					res.json({success: false});
-				} else {
-					res.json({success: true});
-				}
-
-			});
-
-
-		} else {
-			//console.log(animal.managedBy);
-			res.json({success: false, message: 'You do not have access to this animal.'});
-		}
-
-
-	});
+	if(!req.params.id) {
+		res.json({success: false, message: "You did not send an animal ID"});		
+	} else {
+		Animal.findOne({ _id: req.params.id }, function(err, animal) {
+	
+			if(animal && animal.managedBy === req.decoded.user._id) {
+				animal.managedBy = "nobody";
+				animal.save(function(err) {
+					if (err) {
+						console.log(err);
+						res.json({success: false, message: "An error occurred"});
+					} else {
+						res.json({success: true, message: "You stopped tracking this animal"});
+					}
+				});
+			} else {
+				res.json({success: false, message: 'You do not have access to this animal.'});
+			}
+		});
+	}
 
 
 });
@@ -394,33 +382,35 @@ router.delete('/animal/:id', function(req, res) {
 //Update an animal given an id
 router.put('/animal/:id', function(req, res) {
 
-
-
-	Animal.findOne({_id: req.params.id}, function(err, animal) {
-		if(animal && animal.managedBy === req.decoded.user._id) {
-			if(req.body.newID) {animal._id = req.body.newID;}
-			if(req.body.newName) {animal.name = req.body.newName;}
-			if(req.body.newType) {animal.type = req.body.newType;}
-			if(req.body.newBreed) {animal.breed = req.body.newBreed;}
-
-			animal.save(function(err) {
-				if(err) {
-					console.log(err);
-					res.json({success: false});
-				} else {
-					res.json({success: true, message: "Animal updated successfully"});
-				}
-
-			});
-
-
-		} else {
-			res.json({success: false, message: "Animal not found or you don't have access to this animal"});
-		}
-
-
-	});
-
+	if(!req.params.id) {
+		
+		res.json({success: false, message: "You did not send an animal ID"});
+	} else {
+		Animal.findOne({_id: req.params.id}, function(err, animal) {
+			if(animal && animal.managedBy === req.decoded.user._id) {
+				if(req.body.newID) {animal._id = req.body.newID;}
+				if(req.body.newName) {animal.name = req.body.newName;}
+				if(req.body.newType) {animal.type = req.body.newType;}
+				if(req.body.newBreed) {animal.breed = req.body.newBreed;}
+	
+				animal.save(function(err) {
+					if(err) {
+						console.log(err);
+						res.json({success: false, message: "An error occurred"});
+					} else {
+						res.json({success: true, message: "Animal updated successfully"});
+					}
+	
+				});
+	
+	
+			} else {
+				res.json({success: false, message: "Animal not found or you don't have access to this animal"});
+			}
+	
+	
+		});
+	}
 
 
 
@@ -432,142 +422,143 @@ router.put('/animal/:id', function(req, res) {
 router.post('/animals', function(req, res) {
 
 	//TODO: check if each field exists before creating and saving object
-
-	Animal.findOne({_id: req.body.id}, function(err, animal) {
-
-
-		if(animal) {
-
-
-			animal.managedBy = req.decoded.user._id;
-			animal.save(function(err) {
-				if (err) {
-					console.log(err);
-					res.json({success: false});
-				} else {
-					res.json({success: true});
-				}
-
-			});
-
-		} else {
-
-			Animal({
-				_id: req.body.id,
-				managedBy: req.decoded.user._id,
-				name: req.body.name,
-				type: req.body.type,
-				breed: req.body.breed
-			}).save(function(err) {
-				if(err) {
-
-					if(err && err.code !== 11000) {
-
-						res.json({success: false, message: "Another error occurred"});
+	if(!req.body.id) {
+		res.json({success: false, message: "You did not send an ID"});
+	} else {
+		
+		
+	
+	
+	
+		Animal.findOne({_id: req.body.id}, function(err, animal) {
+	
+	
+			if(animal) {
+	
+	
+				animal.managedBy = req.decoded.user._id;
+				animal.save(function(err) {
+					if (err) {
+						console.log(err);
+						res.json({success: false});
+					} else {
+						res.json({success: true});
 					}
-					if(err && err.code === 11000) {
-						res.json({success: false, message: "Duplicate animal"});
-					}
+	
+				});
+	
+			} else {
+				
+				if(!req.body.name || !req.body.type || !req.body.breed) {
+					res.json({success: false, message: "You did not include all the required info"});
 				} else {
-					//console.log(req.body.name + ' saved successfully');
-					res.json({ success: true, message: "Animal has been added" });
+					Animal({
+						_id: req.body.id,
+						managedBy: req.decoded.user._id,
+						name: req.body.name,
+						type: req.body.type,
+						breed: req.body.breed
+					}).save(function(err) {
+						if(err) {
+		
+							if(err && err.code !== 11000) {
+		
+								res.json({success: false, message: "An error occurred"});
+							}
+							if(err && err.code === 11000) {
+								res.json({success: false, message: "Duplicate animal"});
+							}
+						} else {
+							//console.log(req.body.name + ' saved successfully');
+							res.json({ success: true, message: "Animal has been added" });
+						}
+					});
 				}
-			});
-
-
-
-		}
-
-
-	})
-
+	
+	
+			}
+	
+	
+		})
+	}
 });
 
 // ==================
 // Weights
 // ==================
 
-// View all the weights for a single animal
-//router.get('/weights', function(req, res) {
-//	console.log("Getting weights for animal: " +  req.headers['id']);
-//	Weight.find({id: req.headers['id']}, function(err, weights) {
-//		res.json(weights);
-//	});
-//});
 
 // View all the weights for a specific animal
 router.get('/weights/:id', function(req, res) {
-
-	var animal_id = req.params.id;
-
-	Animal.findOne({_id: animal_id}, function(err, animal) {
-		if(animal) {
-			verifyPermission(animal.managedBy, req.decoded.user._id, function(status) {
-				if(status === true) {
-					console.log("Viewing weights for animal: " + animal_id);
-					var animal = Weight.find({ id: animal_id }, function(err, weights) {
-						res.json(weights);
-
-					});
-				} else {
-					res.json({success: false, message: "You do not have access to this animal's weights"});
-				}
-
-			});
-		}
-
-
-
-
-	});
-
+	if(!req.params.id) {
+		res.json({success: false, message: "You did not send an animal ID"});
+	} else {
+		Animal.findOne({_id: req.params.id}, function(err, animal) {
+			if(animal) {
+				verifyPermission(animal.managedBy, req.decoded.user._id, function(status) {
+					if(status === true) {
+						console.log("Viewing weights for animal: " + req.params.id);
+						var animal = Weight.find({ id: req.params.id }, function(err, weights) {
+							res.json(weights);
+	
+						});
+					} else {
+						res.json({success: false, message: "You do not have access to this animal's weights"});
+					}
+	
+				});
+			}
+		});
+	}
 
 
 });
 
 // Add a weight for a specific animal
 router.post('/weights/:id', function(req, res) {
-	var animal_id = req.params.id;
-	//console.log(req.body.weight);
-	//console.log(req.body.date);
-
-	Animal.findOne({
-		_id: animal_id
-	}, function(err, animal) {
-		if (!animal) {
-			res.json({success: false, message: "Animal "+animal_id+" does not exist"});
-		} else {
-			//TODO: check if each field exists before creating and saving object
-			if(animal.managedBy !== req.decoded.user._id) {
-				res.json({success: false, message: "You do not have permission to add a weight for this animal"});
-
+	if(!req.params.id) {
+		res.json({success: false, message: "You did not send an animal ID"});
+	} else {	
+		Animal.findOne({
+			_id: req.params.id
+		}, function(err, animal) {
+			if (!animal) {
+				res.json({success: false, message: "Animal "+req.params.id+" does not exist"});
 			} else {
-				Weight({
-						id: animal_id,
-						weight: req.body.weight,
-						date: req.body.date
-					}).save(function(err) {
-						if(err) {
-							if(err && err.code !== 11000) {
-								console.log(err);
-								res.json({success: false, message: "Another error occurred"});
-							}
-							if(err && err.code === 11000) { //TODO: shouldn't need this
-								res.json({success: false, message: "Duplicate found?"});
-							}
-						} else {
-							//console.log('weight saved successfully');
-							res.json({ success: true });
-						}
-					});
-
+				if(!req.body.weight || !req.body.date) {
+					res.json({success: false, message: "You did not send the required info"});
+				} else {				
+					if(animal.managedBy !== req.decoded.user._id) {
+						res.json({success: false, message: "You do not have permission to add a weight for this animal"});
+		
+					} else {
+						Weight({
+								id: req.params.id,
+								weight: req.body.weight,
+								date: req.body.date
+							}).save(function(err) {
+								if(err) {
+									if(err && err.code !== 11000) {
+										console.log(err);
+										res.json({success: false, message: "Another error occurred"});
+									}
+									if(err && err.code === 11000) { //TODO: shouldn't need this
+										res.json({success: false, message: "Duplicate found?"});
+									}
+								} else {
+									//console.log('weight saved successfully');
+									res.json({ success: true, message: "Weight added successfully"});
+								}
+							});
+		
+					}
+				}
+	
+	
+	
 			}
-
-
-
-
-		}
-	});
+		});
+	}
 });
 
 // ==================
