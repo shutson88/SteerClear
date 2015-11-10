@@ -33,16 +33,16 @@ var verifyPermission = function(sourceID, destID, callback) {
 		callback(true);
 	} else {
 		console.log("Checking if " + sourceID + " is managed by " + destID);
-		
-	
+
+
 		User.findOne({ _id: destID, observing: {"$in" : [{username: sourceID}]}}, function(err, user) {
 			if(user) {
 				callback(true);
 			} else if(!user) {
 				callback(false);
-			}	
+			}
 		});
-	}	
+	}
 }
 
 var verifyAdmin = function(code) {
@@ -51,7 +51,7 @@ var verifyAdmin = function(code) {
 	} else {
 		return false
 	}
-	
+
 };
 
 
@@ -77,11 +77,11 @@ router.post('/user', function(req, res) {
 	var isAdmin = false;
 	if(verifyAdmin(req.body.admin_code) === true) {
 		isAdmin = true;
-		
+
 	} else {
 		isAdmin = false;
 	}
-	
+
 	//TODO: check if each field exists before creating and saving object
 	User({
 		_id: req.body.username,
@@ -90,7 +90,7 @@ router.post('/user', function(req, res) {
 		last_name: req.body.last_name,
 		managedBy: managedBy,
 		email: req.body.email,
-		admin: isAdmin 
+		admin: isAdmin
 	}).save(function(err) {
 		if(err) {
 			console.log(err);
@@ -201,58 +201,49 @@ router.get('/user/', function(req, res) {
 // Gets users observed by user
 router.get('/users/', function(req, res) {
 	//console.log("Viewing youth you are observing");
-	
-	
-	
-	User.findOne({ _id: req.decoded.user._id }, function(err, user) { 
+
+	User.findOne({ _id: req.decoded.user._id }, function(err, user) {
 
 		//console.log(user);
 
 		var observed = [];
-		
+
 		var nUsersToAdd = user.observing.length;
 		if(nUsersToAdd == 0) {
 			res.json([]);
-			
+
 		} else {
-			
-		
+
 			var callback = function() {
 				nUsersToAdd -= 1;
 				if(nUsersToAdd <= 0) {
 					res.json(observed);
 				}
-				
+
 			}
-			
-			
+
 			for(var i = 0; i < user.observing.length; i++) {
 				User.findOne({_id: user.observing[i].username}, function(err, user) {
 					//console.log(user);
 					observed.push(user);
 					callback();
-				
-				});		
+
+				});
 			}
 		}
-
 	});
 });
-
-
-
-
 
 router.put('/users/', function(req, res) {
 	//console.log("Updating user " + req.decoded.user._id);
 	var stopObserving = false;
 	if(req.body.stop == true) {
 		stopObserving = true;
-		
+
 	} else {
 		stopObserving = false;
 	}
-	
+
 	var message = {};
 	nUsersToUpdate = 2;
 	var callback = function() {
@@ -260,7 +251,7 @@ router.put('/users/', function(req, res) {
 		if(nUsersToUpdate <= 0) {
 			res.json(message);
 		}
-		
+
 	}
 	User.findOne({_id: req.body.id}, function(err, user) {
 		if(user) {
@@ -271,61 +262,60 @@ router.put('/users/', function(req, res) {
 				observing: {username: req.decoded.user._id}}};
 				updateMe = {$pull: {observing: {username: req.body.id},
 				observedBy: {username: req.body.id}}};
-				
+
 			} else {
 				updateMe = {$addToSet: {observedBy: {username: req.body.id}}};
 				updateOther = {$addToSet: {observing: {username: req.decoded.user._id}}};
 			}
-			
+
 			User.findOneAndUpdate(
-				{ _id: req.decoded.user._id}, 
+				{ _id: req.decoded.user._id},
 				updateMe,
 				{safe: true, upsert: true, new: true},
 				function(err, user) {
-				
-			
-					if (err) { 
-						message.observedBy = {success: false};				
+
+
+					if (err) {
+						message.observedBy = {success: false};
 					} else {
-						
+
 						message.observedBy = {success: true};
 					}
-					callback();			
+					callback();
 				}
-				
+
 			);
 			User.findOneAndUpdate(
-				{ _id: req.body.id}, 
+				{ _id: req.body.id},
 				updateOther,
 				{safe: true, upsert: true, new: true},
 				function(err, user) {
-				
-					if (err) { 
-	
+
+					if (err) {
+
 						message.observing = {success: false};
 					} else {
 						message.observing = {success: true};
-					}	
+					}
 					callback();
 				}
-				
-			);			
-			
+
+			);
+
 		} else {
 			res.json({success: false, message: req.body.id + " not found"});
 		}
-		
+
 	});
-	
 
 
-	
-	
-	
-	
-	
+
+
+
+
+
+
 });
-
 
 // ==================
 // Animals
@@ -345,10 +335,10 @@ router.get('/animals/:id', function(req, res) {
 		} else {
 			res.json({success: false, message: "You do not have permission to access this user's animals"});
 		}
-		
-		
+
+
 	});
-	
+
 
 });
 
@@ -357,7 +347,7 @@ router.get('/animal/:id', function(req, res) {
 	var animal_id = req.params.id;
 
 	//console.log("Viewing animal: " + animal_id);
-		
+
 	var animal = Animal.findOne({ _id: animal_id }, function(err, animal) {
 		if(animal && animal.managedBy === req.decoded.user._id){
 			res.json(animal);
@@ -369,50 +359,50 @@ router.get('/animal/:id', function(req, res) {
 });
 
 router.delete('/animal/:id', function(req, res) {
-	
+
 	//console.log("removing " + req.params.id + " from user");
 	var animal_id = req.params.id;
-	
+
 	Animal.findOne({ _id: animal_id }, function(err, animal) {
-		
+
 		if(animal && animal.managedBy === req.decoded.user._id) {
 			//console.log("updating animal");
 			animal.managedBy = "nobody";
 			//console.log(animal.managedBy);
 			animal.save(function(err) {
-				if (err) { 
-					console.log(err); 
+				if (err) {
+					console.log(err);
 					res.json({success: false});
 				} else {
 					res.json({success: true});
 				}
-				
+
 			});
-			
-			
+
+
 		} else {
 			//console.log(animal.managedBy);
 			res.json({success: false, message: 'You do not have access to this animal.'});
 		}
-		
-		
+
+
 	});
-	
-	
+
+
 });
 
 //Update an animal given an id
 router.put('/animal/:id', function(req, res) {
-	
 
-	
+
+
 	Animal.findOne({_id: req.params.id}, function(err, animal) {
 		if(animal && animal.managedBy === req.decoded.user._id) {
 			if(req.body.newID) {animal._id = req.body.newID;}
 			if(req.body.newName) {animal.name = req.body.newName;}
 			if(req.body.newType) {animal.type = req.body.newType;}
 			if(req.body.newBreed) {animal.breed = req.body.newBreed;}
-			
+
 			animal.save(function(err) {
 				if(err) {
 					console.log(err);
@@ -420,21 +410,21 @@ router.put('/animal/:id', function(req, res) {
 				} else {
 					res.json({success: true, message: "Animal updated successfully"});
 				}
-				
+
 			});
-			
-			
+
+
 		} else {
 			res.json({success: false, message: "Animal not found or you don't have access to this animal"});
 		}
-		
-		
+
+
 	});
-	
-	
-	
-	
-	
+
+
+
+
+
 });
 
 
@@ -444,24 +434,24 @@ router.post('/animals', function(req, res) {
 	//TODO: check if each field exists before creating and saving object
 
 	Animal.findOne({_id: req.body.id}, function(err, animal) {
-		
-		
+
+
 		if(animal) {
-			
-			
+
+
 			animal.managedBy = req.decoded.user._id;
 			animal.save(function(err) {
-				if (err) { 
-					console.log(err); 
+				if (err) {
+					console.log(err);
 					res.json({success: false});
 				} else {
 					res.json({success: true});
 				}
-				
+
 			});
-			
+
 		} else {
-			
+
 			Animal({
 				_id: req.body.id,
 				managedBy: req.decoded.user._id,
@@ -470,9 +460,9 @@ router.post('/animals', function(req, res) {
 				breed: req.body.breed
 			}).save(function(err) {
 				if(err) {
-					
+
 					if(err && err.code !== 11000) {
-						
+
 						res.json({success: false, message: "Another error occurred"});
 					}
 					if(err && err.code === 11000) {
@@ -482,13 +472,13 @@ router.post('/animals', function(req, res) {
 					//console.log(req.body.name + ' saved successfully');
 					res.json({ success: true, message: "Animal has been added" });
 				}
-			});	
-			
-			
-			
+			});
+
+
+
 		}
-		
-		
+
+
 	})
 
 });
@@ -517,21 +507,21 @@ router.get('/weights/:id', function(req, res) {
 					console.log("Viewing weights for animal: " + animal_id);
 					var animal = Weight.find({ id: animal_id }, function(err, weights) {
 						res.json(weights);
-		
+
 					});
 				} else {
 					res.json({success: false, message: "You do not have access to this animal's weights"});
 				}
-				
-			});			
+
+			});
 		}
 
-		
 
-		
+
+
 	});
-	
-	
+
+
 
 });
 
@@ -540,7 +530,7 @@ router.post('/weights/:id', function(req, res) {
 	var animal_id = req.params.id;
 	//console.log(req.body.weight);
 	//console.log(req.body.date);
-	
+
 	Animal.findOne({
 		_id: animal_id
 	}, function(err, animal) {
@@ -550,7 +540,7 @@ router.post('/weights/:id', function(req, res) {
 			//TODO: check if each field exists before creating and saving object
 			if(animal.managedBy !== req.decoded.user._id) {
 				res.json({success: false, message: "You do not have permission to add a weight for this animal"});
-				
+
 			} else {
 				Weight({
 						id: animal_id,
@@ -570,12 +560,12 @@ router.post('/weights/:id', function(req, res) {
 							res.json({ success: true });
 						}
 					});
-				
+
 			}
 
-			
-			
-			
+
+
+
 		}
 	});
 });
@@ -603,11 +593,11 @@ router.post('/breeds', function(req, res) {
 
 	// Finds and updates existing model in collection or creates one if it doesn't exist
 	// Can have duplicate breeds in each animal type
-	
+
 	if(req.decoded.user.admin === true) {
 		//console.log("This user is an admin");
-	
-	
+
+
 		AnimalType.findOneAndUpdate(
 			{type: req.body.type},
 			{$addToSet: { breeds: {breed: req.body.breed}}},
@@ -620,12 +610,109 @@ router.post('/breeds', function(req, res) {
 					//console.log("{" + req.body.type + ", " + req.body.breed + "}" + " saved successfully");
 					res.json({ success: true });
 				}
-	
+
 			}
 		);
 	} else {
 		res.json({ success: false, message: "You are not an admin"});
 	}
+});
+
+// ==================
+// Notifications
+// ==================
+
+// Gets notifications of token holder
+router.get('/notifications', function(req, res) {
+
+	var user = User.findOne({ _id: req.decoded.user._id }, function(err, user) {
+		var notifications = [];
+
+		var numNotifications = user.notifications.length;
+		if(numNotifications == 0) {
+			res.json([]);
+
+		} else {
+
+			var callback = function() {
+				numNotifications -= 1;
+				if(numNotifications <= 0) {
+					res.json(notifications);
+				}
+			}
+
+			for(var i = 0; i < user.notifications.length; i++) {
+				//console.log(user);
+				notifications.push(user.notifications[i]);
+				callback();
+			}
+		}
+	});
+});
+
+// Posts notification to user :id
+router.post('/notifications/:id', function(req, res) {
+
+	// TODO: Should we do some checking to make sure whoever is making the request is being observed by whoever is making the request?
+
+	var username = req.params.id;
+
+	var user = User.findOneAndUpdate(
+		{ _id: username },
+		{ $addToSet: { notifications: {
+			sender: req.decoded.user._id,
+			message: 'Test', // TODO: pull message from request
+			read: false,
+			date: new Date() }}},
+		{ safe: true, upsert: true, new : true },
+		function(err, user) {
+			if(err) {
+				console.log(err);
+				res.json({success: false, message: "An error occurred"});
+			} else {
+				res.json({ success: true, message: "Notification posted" });
+			}
+		}
+	);
+});
+
+// Mark notification with timestamp :id as read
+router.put('/notifications/:id', function(req, res) {
+	// Get timestamp for looking up notification
+	timestamp = req.params.id;
+
+	// Mark as read
+	User.update({'_id': req.decoded.user._id, 'notifications.date': timestamp},
+		{'$set': { 'notifications.$.read': true }
+	}, function(err) {
+		if(err) {
+			console.log(err);
+			res.json({success: false, message: "An error occurred"});
+		} else {
+			res.json({ success: true, message: "Notification marked as read" });
+		}
+	})
+});
+
+// Deletes all read notifications older than 2 days
+router.delete('/notifications', function(req, res) {
+
+	// Set purgeDate for two days ago
+	var purgeDate = new Date();
+	purgeDate.setDate(purgeDate.getDate() - 2);
+
+	// Remove notifications
+	var user = User.update(
+		{ _id: req.decoded.user._id },
+		{ $pull: { notifications: { read: true, date: { "$lt": purgeDate } } } },
+		function(err) {
+			if(err) {
+				res.json({ success: false, message: "An error occurred: " + err });
+			} else {
+				res.json({ success: true, message: "Deleted all read notifications" });
+			}
+		}
+	);
 });
 
 // Export for use in server.js
