@@ -11,8 +11,8 @@
 			<a href="/dashboard" class="btn btn-primary">View Dashboard</a>
 		</div>
 	</div>
-	<div ng-if="main.checkAdmin()" class="form-group">
-		<a href="/observeDashboard" class="btn btn-primary">Admin Panel</a>
+	<div ng-if="main.loggedIn" class="form-group">
+		<a href="/observeDashboard" class="btn btn-primary">View who you're observing</a>
 		
 
 	</div>
