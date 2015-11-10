@@ -584,28 +584,34 @@ router.post('/breeds', function(req, res) {
 
 	// Finds and updates existing model in collection or creates one if it doesn't exist
 	// Can have duplicate breeds in each animal type
-
-	if(req.decoded.user.admin === true) {
-		//console.log("This user is an admin");
-
-
-		AnimalType.findOneAndUpdate(
-			{type: req.body.type},
-			{$addToSet: { breeds: {breed: req.body.breed}}},
-			{safe: true, upsert: true, new : true},
-			function(err, model) {
-				if(err) {
-					console.log(err);
-					res.json({success: false, message: "An error occurred"});
-				} else {
-					//console.log("{" + req.body.type + ", " + req.body.breed + "}" + " saved successfully");
-					res.json({ success: true });
-				}
-
-			}
-		);
+	if(!req.body.type) {
+		res.json({success: false, message: "You did not send a type"});
 	} else {
-		res.json({ success: false, message: "You are not an admin"});
+		
+	
+		if(req.decoded.user.admin === true) {
+			var update = {};
+			if(req.body.breed) {
+				update = {$addToSet: { breeds: {breed: req.body.breed}}};
+			}
+	
+			AnimalType.findOneAndUpdate(
+				{type: req.body.type},
+				update,
+				{safe: true, upsert: true, new : true},
+				function(err, model) {
+					if(err) {
+						console.log(err);
+						res.json({success: false, message: "An error occurred"});
+					} else {
+						res.json({ success: true, message: "Type/breed added successfully"});
+					}
+	
+				}
+			);
+		} else {
+			res.json({ success: false, message: "You are not an admin"});
+		}
 	}
 });
 

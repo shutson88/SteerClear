@@ -80,7 +80,9 @@
 					{{user.removeSupervisorMessage}}
 				
 				</div>
-
+						<div ng-show="user.supervisors.length == 0">
+							You have no supervisors
+						</div>
 						<div ng-repeat="super in user.supervisors">
 							<div class="form-group">{{super.username}}</div>
 								<button class="btn btn-default" type="button" ng-click="user.removeSupervisor(super.username)">

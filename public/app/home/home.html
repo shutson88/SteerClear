@@ -1,5 +1,5 @@
-<div class="jumbotron text-center">
-    <!-- <h1>SteerClear</h1> -->
+<div class="jumbotron">
+    <h1>Home</h1>
 
     <div ng-if="!main.loggedIn">
         <p>Login or Register</p>
@@ -8,7 +8,7 @@
     </div>
 	<div class="form-group">
 		<div ng-if="main.loggedIn">
-			<a href="/dashboard" class="btn btn-primary">View Dashboard</a>
+			<a href="/dashboard" class="btn btn-primary">View Dashboard</a> Add, View, Manage Animals and Weights
 		</div>
 	</div>
 	<div ng-if="main.loggedIn" class="form-group">
@@ -18,43 +18,49 @@
 	</div>
 	<div ng-show="main.checkAdmin()">
 		<button type="button" class="btn btn-default" ng-click="addTypeCollapsed = !addTypeCollapsed">
-				<span class="glyphicon glyphicon-plus"></span>
+				 <span ng-class="{'glyphicon glyphicon-plus' : !addTypeCollapsed, 'glyphicon glyphicon-minus' : addTypeCollapsed}"></span>
 				Add Type/Breed
 		</button>
+		Add a type and/or breed to the database to be used when adding animals
 	</div>
 	
 	
 	<div class="form-group">
 		<div uib-collapse="!addTypeCollapsed">
-			<form class="form-inline" role="form">
-				<div class="form-group">
+
+				<div class="form-group" >
 	
 				
-						<select class="form-control" name="typeSelect" ng-model="home.selectTypes" ng-change="home.getBreedOptions()">
+						<select class="form-control" name="typeSelect" ng-model="home.selectTypes" ng-focus="disableTypeText=true" ng-blur="disableTypeText=false" ng-disabled="disableTypeSelect" ng-change="home.getBreedOptions()">
 							<option value="">Select Existing Type</option>
 							<option ng-repeat="(type, value) in home.existingTypes" value = "{{type}}">{{type}}</option>
 							
 						</select>
-						<input type="text" class="form-control" ng-model="home.textType" placeholder="Add New Type">
+						<input type="text" class="form-control" ng-model="home.textType" ng-focus="disableTypeSelect=true" ng-blur="disableTypeSelect=false" ng-disabled="disableTypeText" placeholder="Add New Type">
 				
 				</div>
+				<br>
 				<div class="form-group">	
-					<select class="form-control" name="typeSelect" ng-model="home.selectBreed">
+					<select class="form-control" name="typeSelect" ng-model="home.selectBreed" ng-focus="disableBreedText=true" ng-blur="disableBreedText=false" ng-disabled="disableBreedSelect" >
 							<option value="">Select Existing Breed</option>
 							<option ng-repeat="breed in home.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
 							
 						</select>
 					
 					
-						<input type="text" class="form-control" ng-model="home.textBreed" placeholder="Add New Breed">
+						<input type="text" class="form-control" ng-model="home.textBreed" ng-focus="disableBreedSelect=true" ng-blur="disableBreedSelect=false" ng-disabled="disableBreedText" placeholder="Add New Breed">
 					
 					
 	
-					<button class="btn btn-default" type="button" ng-click="home.addType();addTypeCollapsed = !addTypeCollapsed">
-						<span class="glyphicon glyphicon-plus"></span>
+					<button class="btn btn-default" type="button" ng-click="home.addType()">
+						Add
 					</button>
+					<div class="form-group fadein fadeout"  ng-show="home.showTypeMessage">
+						{{home.addTypeMessage}}
+				
+					</div>
 				</div>
-			</form>
+
 		</div>
 	</div>
 </div>

@@ -14,7 +14,7 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
   }])
   
   
-  .controller('homeCtrl', ['Type', '$location', '$http', function(Type, $location, $http) {
+  .controller('homeCtrl', ['Type', '$location', '$http', '$timeout', function(Type, $location, $http, $timeout) {
 	var vm = this;
 
 	
@@ -51,7 +51,14 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 		
 		$http.post("http://" + window.location.host + "/api/breeds", {type: typeToAdd, breed: breedToAdd})
 			.success(function(data, status, headers, config) {
+				if(data.message) {vm.addTypeMessage = data.message;} else {vm.addTypeMessage = "Message missing";}
+				vm.showTypeMessage = true;
+				$timeout(function() {
+					vm.showTypeMessage = false;
+				
+				}, 2000);
 				if(data.success === true) {
+					
 					Type.get()
 						.success(function (data) {
 							var types = {};
@@ -62,6 +69,10 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 													
 							vm.existingTypes = types;
 							vm.getBreedOptions();
+							vm.textType = "";
+							vm.textBreed = "";
+							vm.selectTypes = "";
+							vm.selectBreeds = "";
 			
 					});
 				}
