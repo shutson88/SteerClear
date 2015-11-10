@@ -2,16 +2,16 @@
 
 	
 	<h1 ng-show="user.observing">
-		<button class="btn" ng-click="user.goObserving()">
-			<span class="glyphicon glyphicon-chevron-left"></span>
+		<button class="btn btn-link" ng-click="user.goObserving()">
+			<span class="glyphicon glyphicon-menu-left"></span>
 		</button>
 		Animals - {{ user.id }}
 		
 	</h1>
 	
 	<h1 ng-show="!user.observing">
-        <button class="btn" ng-click="user.goHome()">
-			<span class="glyphicon glyphicon-chevron-left"></span>
+        <button class="btn btn-link" ng-click="user.goHome()">
+			<span class="glyphicon glyphicon-menu-left"></span>
 		</button>
 		Animals 
 	</h1>
@@ -45,13 +45,14 @@
                     <input type="text" class="form-control" ng-model="user.addBreed" placeholder="Breed">
                 </div>
                 <button class="btn btn-default" type="button" ng-click="user.addAnimal();">
-                    Add
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+					Add
 					
                 </button>
-				<div class="form-group fadein fadeout"  ng-show="user.showAnimalMessage">
+				<p class="bg-info form-group fadein fadeout"  ng-show="user.showAnimalMessage">
 					{{user.addAnimalMessage}}
 				
-				</div>
+				</p>
 				
             </div>
         </form>
@@ -64,28 +65,30 @@
                     <input type="text" class="form-control" ng-model="user.addSupervisorID" placeholder="ID">
                 </div>
                 <button class="btn btn-default" type="button" ng-click="user.addSupervisor()">
-                    Add
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+					Add
                 </button>
-				<div class="form-group fadein fadeout"  ng-show="user.showSupervisorMessage">
+				<p class="bg-info form-group fadein fadeout"  ng-show="user.showSupervisorMessage">
 					{{user.addSupervisorMessage}}
 				
-				</div>
+				</p>
             </div>
         </form>
     </div>
 	<div uib-collapse="!removeSupervisorCollapsed">
         <form class="form-inline" role="form">
             <div class="form-group">
-				<div class="form-group fadein fadeout"  ng-show="user.showRemoveSupervisorMessage">
+				<p class="bg-info form-group fadein fadeout"  ng-show="user.showRemoveSupervisorMessage">
 					{{user.removeSupervisorMessage}}
 				
-				</div>
-						<div ng-show="user.supervisors.length == 0">
+				</p>
+						<div class="bg-info" ng-show="user.supervisors.length == 0">
 							You have no supervisors
 						</div>
 						<div ng-repeat="super in user.supervisors">
-							<div class="form-group">{{super.username}}</div>
+							<p style="display: inline-block">{{super.username}}</p>
 								<button class="btn btn-default" type="button" ng-click="user.removeSupervisor(super.username)">
+									<span class="glyphicon glyphicon-minus-sign"></span>
 									Remove
 								</button>
 								

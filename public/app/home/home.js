@@ -81,19 +81,20 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 		
 	};
 	
-	
-	Type.get()
-		.success(function (data) {
-			var types = {};
-			
-			for(var i = 0; i < data.types.length; i++) {
-					types[data.types[i].type] = data.types[i].breeds;
-			}
-					
-			vm.existingTypes = types;
-			
-			
-		});
+
+		Type.get()
+			.success(function (data) {
+				var types = {};
+				
+				for(var i = 0; i < data.types.length; i++) {
+						types[data.types[i].type] = data.types[i].breeds;
+				}
+						
+				vm.existingTypes = types;
+				
+				
+			});
+
 	  
-	  
+
   }]);

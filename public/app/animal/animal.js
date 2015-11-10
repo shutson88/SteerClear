@@ -58,10 +58,16 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
 	
 	vm.editAnimal = function() {
-		$http.put("http://" + window.location.host + "/api/animal/"+vm.animalID, {newID: vm.newID, newName: vm.newName, newType: vm.newType, newBreed: vm.newBreed})
+		$http.put("http://" + window.location.host + "/api/animal/"+vm.animalID, {newName: vm.newName, newType: vm.newType, newBreed: vm.newBreed})
 			.success(function (data, status, headers, config) {
-				console.log(data);
+				if(vm.newName) {vm.params.name = vm.newName;}
+				console.log(vm.params.name);
+				if(data.message) {vm.editMessage = data.message;} else {vm.editMessage = "Animal edited successfully...";}
+				vm.showEditMessage = true;
+				$timeout(function() {
+					vm.showEditMessage = false;
 				
+				}, 2000);
 				
 			});
 		
@@ -270,7 +276,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     vm.calculateADG = function(){
 
       if(vm.selectedRow == null || vm.selectedRow == null){
-        vm.data = "Please select two rows to calculate."
+        vm.data = "Please click a start and an ending row"
 
       }
       else {
