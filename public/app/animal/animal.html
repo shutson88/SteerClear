@@ -10,32 +10,39 @@
 <script src="/javascripts/client.js"></script>
 <div class="page-header">
     <h1>
-
-        {{ animal.animalID | capitalize:true}} - {{animal.params.name}}
+		<button class="btn" ng-click="animal.goDashboard()">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</button>
+        {{ animal.animalID}} - {{animal.params.name | capitalize:true}}
 		<button class="btn btn-default pull-right" ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">{{animal.data}}</h3>
-            </div>
-        </div>
-		<button ng-hide="animal.observing" type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
-            <span class="glyphicon glyphicon-edit"></span>
-            Edit Animal
-        </button>
-        <button ng-hide="animal.observing" type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
-            <span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>	
-            Add new weight
-        </button>
-        <button type="button" class="btn btn-default" ng-click="targetDateCollapsed = !targetDateCollapsed">
-            <span class="glyphicon glyphicon-stats"></span>
-            Target Date Estimation
-        </button>
-        <button type="button" class="btn btn-default" ng-click="animal.calculateADG()">
-            <span class="glyphicon glyphicon-stats"></span>
-            Calculate Average Daily Gains
-        </button>
-		
     </h1>
+	<!-- <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{animal.data}}</h3>
+        </div>
+    </div> -->
+	<button ng-hide="animal.observing" type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
+        <span class="glyphicon glyphicon-edit"></span>
+        Edit Animal
+    </button>
+    <button ng-hide="animal.observing" type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
+        <span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>	
+        Add new weight
+    </button>
+    <button type="button" class="btn btn-default" ng-click="targetDateCollapsed = !targetDateCollapsed">
+        <span ng-class="{'glyphicon glyphicon-plus' : !targetDateCollapsed, 'glyphicon glyphicon-minus' : targetDateCollapsed}"></span>
+        Target Date Estimation
+    </button>
+    <button type="button" class="btn btn-default" ng-click="animal.calculateADG()">
+        <span class="glyphicon glyphicon-stats"></span>
+        Calculate Average Daily Gains
+    </button>
+	<div class="pull-right fadein fadeout"  ng-show="animal.showDataMessage">
+		{{animal.dataMessage}}
+			
+	</div>
+		
+    
 	
     <div uib-collapse="!addUserCollapsed">
         <form class="form-inline" role="form">

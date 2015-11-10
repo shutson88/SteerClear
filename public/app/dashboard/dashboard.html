@@ -5,8 +5,11 @@
 	</h1>
 	
 	<h1 ng-show="!user.observing">
-        Animals 
-		
+        <button class="btn" ng-click="user.goHome()">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</button>
+		Animals 
+	</h1>
         <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
             <span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>
             New Animal
@@ -19,7 +22,7 @@
             <span ng-class="{'glyphicon glyphicon-plus' : !removeSupervisorCollapsed, 'glyphicon glyphicon-minus' : removeSupervisorCollapsed}"></span>			
             Remove Supervisor
         </button>
-    </h1>
+    
     <div uib-collapse="!addUserCollapsed">
         <form class="form-inline" role="form">
             <div class="form-group">

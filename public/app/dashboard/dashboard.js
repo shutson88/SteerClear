@@ -141,6 +141,10 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 		
 	};
 	
+	vm.goHome = function() {
+		$location.url("/");
+		
+	}
     
 
   }]);

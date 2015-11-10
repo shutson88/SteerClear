@@ -10,7 +10,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     });
   }])
 
-  .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', function ($routeParams, $http, $location, $scope) {
+  .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', '$timeout', function ($routeParams, $http, $location, $scope, $timeout) {
     var vm = this;
 	vm.params = $location.search();
 	
@@ -265,6 +265,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
       if(vm.selectedRow == null || vm.selectedRow == null){
         vm.data = "Please select two rows to calculate."
+
       }
       else {
         if(vm.selectedRow < vm.selectedRow2) {
@@ -284,6 +285,12 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
         vm.averageGainInRange();
       }
+	vm.dataMessage = vm.data;
+	vm.showDataMessage = true;
+	$timeout(function() {
+		vm.showDataMessage = false;
+	
+	}, 2000);
 
     }
 
@@ -317,5 +324,10 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
       }
     }
 
+	vm.goDashboard = function() {
+		
+		$location.url("/dashboard/");
+	}
+	
   }]);
 
