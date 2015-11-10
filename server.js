@@ -9,7 +9,7 @@ var mongoose    = require('mongoose'); // MongoDB connection module
 var path 		= require('path');
 var favicon 	= require('serve-favicon');
 var config 		= require('./config'); // get our config file
-var nodemailer 	= require('nodemailer');
+//var nodemailer 	= require('nodemailer');
 var crypto		= require('crypto');
 
 // =======================

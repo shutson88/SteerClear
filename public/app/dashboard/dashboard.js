@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.bootstrap'])
+angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.bootstrap', 'ngAnimate'])
 
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/dashboard/:id?', {
@@ -10,7 +10,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
     });
   }])
 
-  .controller('DashboardCtrl', ['Animal', 'User', 'AuthToken', 'Auth', '$routeParams', '$location', '$http', function (Animal, User, AuthToken, Auth, $routeParams, $location, $http) {
+  .controller('DashboardCtrl', ['Animal', 'User', 'AuthToken', 'Auth', '$routeParams', '$location', '$http', '$timeout', function (Animal, User, AuthToken, Auth, $routeParams, $location, $http, $timeout) {
     var vm = this;
 	//console.log($routeParams.id);
 	if($routeParams.id) {
@@ -22,6 +22,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 		vm.observing = false;
 		vm.id = AuthToken.getData().username
 	}
+
 	Animal.getAll(vm.id)
 			.success(function (data) {
 				console.log(data);
@@ -41,6 +42,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
     vm.searchAnimals = '';
     vm.addUserCollapsed = false;
 
+
 	
 	
 	vm.addAnimal = function($scope){
@@ -52,6 +54,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 				.success(function (data) {
 					vm.animals = data;
 					console.log("Data: "+JSON.stringify(data));
+					
 					//Reset fields
 					vm.add_id = '';
 					vm.addName = '';
@@ -62,8 +65,14 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 			} else {
 				console.log(data.message);
 			}
+			if(data.message) {vm.addAnimalMessage = data.message;} else {vm.addAnimalMessage = "Animal added successfully...";}
+			vm.showAnimalMessage = true;
+			$timeout(function() {
+				vm.showAnimalMessage = false;
 			
-			})
+			}, 2000);
+			
+		});
 	
 	}
 	
@@ -73,7 +82,12 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 			.success(function(data, status, headers, config) {
 				console.log(data);
 				User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
+				if(data.message) {vm.addSupervisorMessage = data.message;} else {vm.addSupervisorMessage = "Supervisor added successfully...";}
+				vm.showSupervisorMessage = true;
+				$timeout(function() {
+					vm.showSupervisorMessage = false;
 				
+				}, 2000);
 			});
 		
 		
@@ -84,6 +98,12 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 		$http.put("http://" + window.location.host + "/api/users/", {id: id, stop: true})
 			.success(function(data, status, headers, config) {
 				User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
+				if(data.message) {vm.removeSupervisorMessage = data.message;} else {vm.removeSupervisorMessage = "Supervisor removed successfully...";}
+				vm.showRemoveSupervisorMessage = true;
+				$timeout(function() {
+					vm.showRemoveSupervisorMessage = false;
+				
+				}, 2000);
 			});
 	}
 	
