@@ -37,7 +37,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 		});
 		
 	User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
-    vm.sortType = 'breed';
+    vm.sortType = '_id';
     vm.sortReverse = false;
     vm.searchAnimals = '';
     vm.addUserCollapsed = false;
@@ -144,6 +144,10 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	vm.goHome = function() {
 		$location.url("/");
 		
+	}
+	
+	vm.goObserving = function() {
+		$location.url('/observeDashboard');
 	}
     
 

@@ -68,11 +68,14 @@
 						<a href="/register">Register</a>
 					</li>
                     <li ng-if="main.loggedIn" class="navbar-text">
-                        Hello {{ main.user.fname }}!
+                        Hello, {{ main.user.fname | capitalize:true}}!
                     </li>
-                    <li ng-if="main.loggedIn">
-                        <a href="#" ng-click="main.doLogout()">Logout</a>
+                    <li ng-if="main.loggedIn" class="navbar-text">
+                        Logged in as {{main.user.username}}
                     </li>
+					<li ng-if="main.loggedIn">
+						<a href="#" ng-click="main.doLogout()">Logout</a>
+					</li>
                 </ul>
             </div>
         </div>

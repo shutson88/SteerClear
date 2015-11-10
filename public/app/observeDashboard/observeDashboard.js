@@ -10,7 +10,7 @@ angular.module('app.observeDashboard', ['ngRoute', 'authService', 'userService',
     });
   }])
 
-  .controller('observeDashboardCtrl', ['User', 'AuthToken', 'Type', '$http', function (User, AuthToken, Type, $http) {
+  .controller('observeDashboardCtrl', ['User', 'AuthToken', 'Type', '$http', '$location', function (User, AuthToken, Type, $http, $location) {
     var vm = this;
 
     vm.sortType = 'breed';
@@ -51,6 +51,10 @@ angular.module('app.observeDashboard', ['ngRoute', 'authService', 'userService',
 			vm.youths = data;
 		});
     
-
+	
+	vm.goHome = function() {
+		$location.url("/");
+		
+	}
   }]);
 

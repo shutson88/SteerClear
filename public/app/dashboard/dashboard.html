@@ -1,5 +1,10 @@
 <div class="page-header">
-    <h1 ng-show="user.observing">
+
+	
+	<h1 ng-show="user.observing">
+		<button class="btn" ng-click="user.goObserving()">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</button>
 		Animals - {{ user.id }}
 		
 	</h1>
@@ -119,7 +124,13 @@
                 <span ng-show="user.sortType == 'name' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-
+		<th>
+            <a href="#" ng-click="user.sortType = 'type'; user.sortReverse = !user.sortReverse">
+                Type
+                <span ng-show="user.sortType == 'type' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="user.sortType == 'type' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+        </th>
         <th>
             <a href="#" ng-click="user.sortType = 'breed'; user.sortReverse = !user.sortReverse">
                 Breed
@@ -132,8 +143,9 @@
     <tbody>
     <!-- LOOP OVER THE USERS -->
     <tr ng-repeat="animal in user.animals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals" ng-click="user.openAnimalPage(animal)">
-        <td>{{ animal._id | capitalize}}</td>
+        <td>{{ animal._id}}</td>
         <td>{{ animal.name | capitalize}}</td>
+		<td>{{ animal.type | capitalize}}
         <td>{{ animal.breed | capitalize}}</td>
     </tr>
     </tbody>
