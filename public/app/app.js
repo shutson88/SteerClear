@@ -15,7 +15,8 @@ var app = angular.module('app', [
   'app.dashboard',
   'app.observeDashboard',
   'app.animal',
-  'app.home'
+  'app.home',
+  'app.manage'
 ]);
 
 

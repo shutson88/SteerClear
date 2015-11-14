@@ -156,7 +156,11 @@ router.post('/authenticate', function(req, res) {
 	});
 });
 
-
+// Password reset
+router.put('/passreset', function(req, res) {
+	console.log("Password reset: " + req.body.email);
+	
+});
 
 // ===================================================
 // Middleware token check
@@ -228,6 +232,26 @@ router.get('/users/', function(req, res) {
 	});
 });
 
+// Update information for user
+router.put('/user/', function(req, res) {
+	
+	if(req.body.currentPassword && req.body.newPassword) {
+		
+		if(bcrypt.compareSync(req.body.currentPassword, req.decoded.user.password)) {
+			console.log("Passwords match");
+		} else {
+			console.log("Passwords don't match");
+		}
+		
+		
+	}
+	
+	
+});
+
+
+
+// Adds/removes an observer for a user
 router.put('/users/', function(req, res) {
 	//console.log("Updating user " + req.decoded.user._id);
 	var stopObserving = false;

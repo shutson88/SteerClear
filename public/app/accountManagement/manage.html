@@ -1,0 +1,41 @@
+<div class="jumbotron">
+    <h1>Account Management</h1>
+
+     <form name="changePasswordForm" ng-submit="manage.changePassword()"> 
+	 
+ 		<h3>Change Password</h3>
+		
+		
+ 			<label class="control-label" for="currentPassword">Current Password</label>
+			<input type="password" ng-model="manage.currentPassword" id="currentPassword" required>
+ 			<br>
+			<label class="control-label" for="newPassword">New Password</label>
+			<input type="password" name="newPassword" ng-model="manage.newPassword" id="newPassword" ng-required="true">	
+			<br>			
+			<label class="control-label" for="newPasswordConfirm">Verify Password</label>
+			<input type="password" name="newPasswordConfirm" ng-model="manage.newPasswordConfirm" id="newPasswordConfirm" ng-required="true" password-match="manage.newPassword">
+			<div class="alert alert-danger" ng-show="changePasswordForm.newPasswordConfirm.$error.pwmatch">
+				Passwords must match!
+			</div>
+			<br>
+			<button type="submit" class="btn btn-default btn-primary" ng-disabled="changePasswordForm.$invalid">
+                Change
+            </button>
+
+	</form>
+	<form name="resetPasswordForm" ng-submit="manage.resetPassword()"> 
+	 
+ 		<h3>Reset Password</h3>
+		<p>Please enter the email of the account you wish to reset</p>
+		
+ 			<label class="control-label" for="email">Email</label>
+			<input type="email" ng-model="manage.email" id="email" required>
+			<br>
+			<button type="submit" class="btn btn-default btn-primary" ng-disabled="resetPasswordForm.$invalid">
+                Reset
+            </button>
+
+	</form>
+	
+
+</div>
