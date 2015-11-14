@@ -315,9 +315,25 @@ router.put('/user/', function(req, res) {
 	if(req.body.currentPassword && req.body.newPassword) {
 		
 		if(bcrypt.compareSync(req.body.currentPassword, req.decoded.user.password)) {
-			console.log("Passwords match");
+			User.findOne({_id: req.decoded.user._id}, function(err, user) {
+				if(user) {
+					user.password = bcrypt.hashSync(req.body.newPassword);
+					user.save(function(err) {
+						if(err) {
+							res.json({success: false, message: "Password update failed"});
+						} else {
+							res.json({success: true, message: "Password updated successfully"});
+						}
+					});
+				} else {
+					res.json({success: false, message: "User not found"});
+				}
+				
+				
+			});
+			
 		} else {
-			console.log("Passwords don't match");
+			res.json({success: false, message: "The password you entered is not correct"});
 		}
 		
 		

@@ -10,7 +10,7 @@ manage.config(['$routeProvider', function($routeProvider) {
     });
 }]);
 
-manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', function($http, $location, $routeParams) {
+manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', '$timeout', function($http, $location, $routeParams, $timeout) {
 	
 	
 	var vm = this;
@@ -23,6 +23,14 @@ manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', function
 			$http.put("http://" + window.location.host + "/api/user/", 
 			{currentPassword: vm.currentPassword, newPassword: vm.newPassword})
 			.success(function (data, status, headers, config) {
+				console.log(data);
+				if(data.message) {vm.changePasswordMessage = data.message;} else {vm.changePasswordMessage = "missing message";}
+				vm.showChangePasswordMessage = true;
+				$timeout(function() {
+					vm.showChangePasswordMessage = false;
+				
+				}, 2000);
+							
 				if(data.success) {
 					console.log("Password updated successfully");
 				} else {
@@ -41,7 +49,12 @@ manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', function
 			$http.put("http://" + window.location.host + "/api/passreset/",
 			{resetToken: vm.resetToken, resetNewPassword: vm.resetNewPassword})
 			.success(function (data, status, headers, config) {
-				console.log(data);
+				if(data.message) {vm.resetPasswordMessage = data.message;} else {vm.resetPasswordMessage = "missing message";}
+				vm.showResetPasswordMessage = true;
+				$timeout(function() {
+					vm.showResetPasswordMessage = false;
+				
+				}, 2000);
 				
 			});
 			
@@ -53,11 +66,12 @@ manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', function
 			$http.put("http://" + window.location.host + "/api/passreset/",
 			{email: vm.email})
 			.success(function (data, status, headers, config) {
-				if(data.success) {
-					console.log(data.message);
-				} else {
-					console.log(data.message);
-				}
+				if(data.message) {vm.resetPasswordMessage = data.message;} else {vm.resetPasswordMessage = "missing message";}
+				vm.showResetPasswordMessage = true;
+				$timeout(function() {
+					vm.showResetPasswordMessage = false;
+				
+				}, 2000);
 				
 			});
 		}

@@ -21,6 +21,10 @@
 			<button type="submit" class="btn btn-default btn-primary" ng-disabled="changePasswordForm.$invalid">
                 Change
             </button>
+			<p class="bg-info fadein fadeout" style="display: inline-block;" ng-show="manage.showChangePasswordMessage">
+				{{manage.changePasswordMessage}}
+				
+			</p>
 
 	</form>
 	<form name="resetPasswordForm" ng-submit="manage.resetPassword()"> 
@@ -35,6 +39,10 @@
 				<button type="submit" class="btn btn-default btn-primary" ng-disabled="resetPasswordForm.$invalid">
 					Reset
 				</button>
+				<p class="bg-info fadein fadeout" style="display: inline-block;" ng-show="manage.showResetPasswordMessage">
+					{{manage.resetPasswordMessage}}
+				
+				</p>
 		</div>
 		
 		<div class="form-group" ng-show="manage.resetToken">
@@ -50,6 +58,10 @@
 			<button type="submit" class="btn btn-default btn-primary" ng-disabled="resetPasswordForm.$invalid">
                 Reset
             </button>
+			<p class="bg-info fadein fadeout" style="display: inline-block;" ng-show="manage.showResetPasswordMessage">
+				{{manage.resetPasswordMessage}}
+				
+			</p>
 		</div>
 	</form>
 	
