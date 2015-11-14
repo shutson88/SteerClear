@@ -9,7 +9,7 @@ var mongoose    = require('mongoose'); // MongoDB connection module
 var path 		= require('path');
 var favicon 	= require('serve-favicon');
 var config 		= require('./config'); // get our config file
-//var nodemailer 	= require('nodemailer');
+
 var crypto		= require('crypto');
 
 // =======================
@@ -22,6 +22,7 @@ app.use(favicon(path.join(__dirname + '/public/images/favicon.ico')));
 mongoose.connect(config.database); // connect to database
 var db = mongoose.connection;
 app.set('superSecret', config.secret); // secret variable
+
 
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.urlencoded({ extended: true }));

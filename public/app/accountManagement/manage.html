@@ -25,17 +25,37 @@
 	</form>
 	<form name="resetPasswordForm" ng-submit="manage.resetPassword()"> 
 	 
- 		<h3>Reset Password</h3>
-		<p>Please enter the email of the account you wish to reset</p>
+		<div class="form-group" ng-show="!manage.resetToken">
+			<h3>Reset Password</h3>
+			<p>Please enter the email of the account you wish to reset</p>
+			
+				<label class="control-label" for="email">Email</label>
+				<input type="email" ng-model="manage.email" id="email" ng-required="!manage.resetToken">
+				<br>
+				<button type="submit" class="btn btn-default btn-primary" ng-disabled="resetPasswordForm.$invalid">
+					Reset
+				</button>
+		</div>
 		
- 			<label class="control-label" for="email">Email</label>
-			<input type="email" ng-model="manage.email" id="email" required>
+		<div class="form-group" ng-show="manage.resetToken">
+			<label class="control-label" for="resetNewPassword">New Password</label>
+			<input type="password" name="resetNewPassword" ng-model="manage.resetNewPassword" id="resetNewPassword" ng-required="manage.resetToken">	
+			<br>			
+			<label class="control-label" for="resetNewPasswordConfirm">Verify Password</label>
+			<input type="password" name="resetNewPasswordConfirm" ng-model="manage.resetNewPasswordConfirm" id="resetNewPasswordConfirm" ng-required="manage.resetToken" password-match="manage.resetNewPassword">
+			<div class="alert alert-danger" ng-show="resetPasswordForm.resetNewPasswordConfirm.$error.pwmatch">
+				Passwords must match!
+			</div>
 			<br>
 			<button type="submit" class="btn btn-default btn-primary" ng-disabled="resetPasswordForm.$invalid">
                 Reset
             </button>
-
+		</div>
 	</form>
+	
+	
+
+	
 	
 
 </div>

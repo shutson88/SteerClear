@@ -11,10 +11,21 @@ var app         = express();
 var bcrypt      = require('bcrypt-nodejs'); // Encryption module
 var jwt         = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config      = require('../config'); // get our config file
+var nodemailer 	= require('nodemailer');
+var os 			=require('os');
 //var async 		= require('async');
 
-app.set('superSecret', config.secret); // secret variable
 
+var transporter = nodemailer.createTransport({
+	service: 'Gmail',
+	auth: {
+		user: 'steerclear.noreply@gmail.com',
+		pass: 'csce482steerclear'
+	}
+});
+
+app.set('superSecret', config.secret); // secret variable
+app.set('resetSecret', config.resetSecret);
 // Middleware
 var tokenAuth   = require('../middleware/authenticate')
 
@@ -157,8 +168,74 @@ router.post('/authenticate', function(req, res) {
 });
 
 // Password reset
-router.put('/passreset', function(req, res) {
-	console.log("Password reset: " + req.body.email);
+router.put('/passreset/', function(req, res) {
+	if(req.body.resetToken) {
+		if(req.body.resetNewPassword) {
+			User.findOne({resetPasswordToken: req.body.resetToken}, function(err, user) {
+				if(user) {
+					user.resetPasswordToken = "";
+					user.resetPasswordExpires = new Date();
+					
+					user.password = bcrypt.hashSync(req.body.resetNewPassword);
+					user.save(function(err) {
+						if(err) {
+							res.json({success: false, message: "Password reset failed"});
+						} else {
+							res.json({success: true, message: "Password reset successfully"});
+						}
+					});
+					
+				}
+				
+				
+			});
+			
+		}
+	} else {
+		var token;
+		User.findOne({email: req.body.email}, function(err, user) {
+			if(user) {
+				token = jwt.sign({user: user._id}, app.get('resetSecret'), {
+					expiresInMinutes: 60 // expires in 24 hours
+				});
+				
+				user.resetPasswordToken = token;
+				var expDate = new Date();
+				user.resetPasswordExpires = expDate.setMinutes(expDate.getMinutes() + 60);
+				user.save(function(err) {
+					if(err) {
+						res.json({success: false, message: "Password reset initiation failed"});
+					} else {
+						res.json({success: true, message: "Password reset initiated"});
+					}
+				});
+			} else {
+				res.json({success: false, message: "No user found with that email"});
+			}
+			
+		
+			var resetUrl = "http://" + os.hostname() + ":8080/manage/" + token;
+			console.log(resetUrl);
+			
+			var mailOptions = {
+				from: 'No Reply <steerclear.noreply@gmail.com>',
+				to: req.body.email,
+				subject: 'Password reset',
+				html: '<a href="' + resetUrl + '">reset password</a>'
+			
+			};
+		
+			transporter.sendMail(mailOptions, function(err, info) {
+				if(err) {
+					console.log(err);
+				} else {
+					console.log("message sent");
+				}
+			});
+		});
+
+
+	}
 	
 });
 

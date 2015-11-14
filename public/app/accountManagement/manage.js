@@ -3,17 +3,20 @@
 var manage = angular.module('app.manage', ['ngRoute']);
 
 manage.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/manage', {
+    $routeProvider.when('/manage/:resettoken?', {
       templateUrl: 'accountManagement/manage.html',
       controller: 'ManageCtrl',
       controllerAs: 'manage'
     });
 }]);
 
-manage.controller('ManageCtrl', [ '$http', '$location', function($http, $location) {
+manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', function($http, $location, $routeParams) {
 	
 	
 	var vm = this;
+	
+	vm.resetToken = $routeParams.resettoken;
+	
 	
 	vm.changePassword = function() {
 		if(vm.newPassword == vm.newPasswordConfirm) {
@@ -34,17 +37,30 @@ manage.controller('ManageCtrl', [ '$http', '$location', function($http, $locatio
 	};
 	
 	vm.resetPassword = function() {
-		$http.put("http://" + window.location.host + "/api/passreset/",
-		{email: vm.email})
-		.success(function (data, status, headers, config) {
-			if(data.success) {
+		if(vm.resetToken && vm.resetNewPassword) {
+			$http.put("http://" + window.location.host + "/api/passreset/",
+			{resetToken: vm.resetToken, resetNewPassword: vm.resetNewPassword})
+			.success(function (data, status, headers, config) {
+				console.log(data);
 				
-			} else {
-				
-			}
+			});
 			
-		});
+			
+		} else {
+			
 		
+		
+			$http.put("http://" + window.location.host + "/api/passreset/",
+			{email: vm.email})
+			.success(function (data, status, headers, config) {
+				if(data.success) {
+					console.log(data.message);
+				} else {
+					console.log(data.message);
+				}
+				
+			});
+		}
 	};
 	
 }]);
