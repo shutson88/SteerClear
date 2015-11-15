@@ -603,7 +603,13 @@ router.post('/animals', function(req, res) {
 // ==================
 // Weights
 // ==================
-
+var sortByKey = function(array, key) {
+	return array.sort(function(a, b) {
+		var x = a[key]; var y = b[key];
+		return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+	});
+	
+}
 
 // View all the weights for a specific animal
 router.get('/weights/:id', function(req, res) {
@@ -615,8 +621,8 @@ router.get('/weights/:id', function(req, res) {
 				verifyPermission(animal.managedBy, req.decoded.user._id, function(status) {
 					if(status === true) {
 						console.log("Viewing weights for animal: " + req.params.id);
-						var animal = Weight.find({ id: req.params.id }, function(err, weights) {
-							res.json({success: true, message: "Sending weights", data: weights});
+						var animal = Weight.find({ id: req.params.id }, function(err, weights) {						
+							res.json({success: true, message: "Sending weights", data: sortByKey(weights, 'date')});
 	
 						});
 					} else {

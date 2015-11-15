@@ -16,11 +16,6 @@
         {{ animal.animalID}} - {{animal.params.name | capitalize:true}}
 		<button class="btn btn-danger pull-right" ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
     </h1>
-	<!-- <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{animal.data}}</h3>
-        </div>
-    </div> -->
 
 	<button ng-hide="animal.observing" type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
 		<span ng-class="{'glyphicon glyphicon-plus' : !editAnimalCollapsed, 'glyphicon glyphicon-minus' : editAnimalCollapsed}"></span>	
@@ -54,7 +49,6 @@
                 </div>
                 <div class="form-group">
                     <input type="date" class="form-control" ng-model="animal.date" placeholder="Date">
-                    <!--<button type="button" ng-click="animal.getCurrentDate()">Today</button>-->
                 </div>
                 <button class="btn btn-default" type="button" ng-click="animal.addWeight()">
                     <span class="glyphicon glyphicon-plus-sign"></span>
@@ -94,15 +88,11 @@
                 </div>
                 <div class="form-group">
                     <input type="date" class="form-control" ng-model="animal.end_date" placeholder="End Date">
-                    <!--<button type="button" ng-click="animal.getCurrentDate()">Today</button>-->
                 </div>
                 <button class="btn btn-default" type="button" ng-click="animal.averageGainInRange()">
                     Calculate
                 </button>
 
-                <!--<div class="form-group">-->
-                <!--<input type="text" class="form-control" ng-model="user.addUsername" placeholder="username">-->
-                <!--</div>-->
 
             </div>
         </form>
@@ -111,9 +101,6 @@
         <form class="form-inline" role="form">
             <div class="form-group">
 
-                <!-- <div class="form-group">
-                    <input type="text" class="form-control" ng-model="animal.newID" placeholder="ID: {{animal.params.id}}">
-                </div> -->
                 <div class="form-group">
                     <input type="text" class="form-control" ng-model="animal.newName" placeholder="Name: {{animal.params.name}}">
                 </div>
@@ -156,10 +143,7 @@
     <tr>
         <th>
 			<a href="#">
-            <!-- <a href="#" ng-click="animal.sortType = '_id'; animal.sortReverse = !animal.sortReverse"> -->
                 ID
-                <!-- <span ng-show="animal.sortType == '_id' && !animal.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
-                <span ng-show="animal.sortType == '_id' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span> -->
             </a>
         </th>
         <th>
@@ -169,13 +153,6 @@
                 <span ng-show="animal.sortType == 'date' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <!--<th>-->
-        <!--<a href="#" ng-click="user.sortType = 'username'; user.sortReverse = !user.sortReverse">-->
-        <!--username-->
-        <!--<span ng-show="user.sortType == 'username' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>-->
-        <!--<span ng-show="user.sortType == 'username' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>-->
-        <!--</a>-->
-        <!--</th>-->
         <th>
             <a href="#" ng-click="animal.sortType = 'weight'; animal.sortReverse = !animal.sortReverse">
                 Weight
@@ -183,11 +160,10 @@
                 <span ng-show="animal.sortType == 'weight' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <!-- <th class="col-sm-2"></th> -->
     </tr>
     </thead>
     <tbody>
-    <!-- LOOP OVER THE USERS -->
+    <!-- LOOP OVER THE WEIGHTS -->
     <tr ng-repeat="a in animal.animals | orderBy:animal.sortType:animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date, animal)" ng-click="animal.selectDates(a.date)">
         <td>{{ a.id | capitalize}}</td>
         <td>{{ a.date | myDate }}</td>
