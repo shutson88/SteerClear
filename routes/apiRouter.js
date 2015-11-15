@@ -214,7 +214,7 @@ router.put('/passreset/', function(req, res) {
 			}
 			
 		
-			var resetUrl = "http://" + os.hostname() + ":8080/manage/" + token;
+			var resetUrl = "http://" + req.get('host') + "/manage/" + token;
 			console.log(resetUrl);
 			
 			var mailOptions = {
