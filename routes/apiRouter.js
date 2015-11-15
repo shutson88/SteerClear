@@ -645,20 +645,25 @@ router.delete('/weight/:id', function(req, res) {
 		res.json({success: false, message: "You did not send a weight ID"});
 	} else {
 		Weight.findOne({_id: req.params.id}, function(err, weight) {
-			Animal.findOne({_id: weight.id}, function(err, animal) {
-				if(animal.managedBy != req.decoded.user._id) {
-					res.json({success: false, message: "You do not have access to remove weights from this animal"});
-				} else {
-					weight.remove(function(err) {
-						if(err) {
-							res.json({success: false, message: "Failed removing weight"});	
-						} else {
-							res.json({success: true, message: "Weight removed successfully"});
-						}
-						
-					});
-				}
-			});
+			if(weight) {
+				Animal.findOne({_id: weight.id}, function(err, animal) {
+					if(animal.managedBy != req.decoded.user._id) {
+						res.json({success: false, message: "You do not have access to remove weights from this animal"});
+					} else {
+						weight.remove(function(err) {
+							if(err) {
+								res.json({success: false, message: "Failed removing weight"});	
+							} else {
+								res.json({success: true, message: "Weight removed successfully"});
+							}
+							
+						});
+					}
+				});				
+			} else {
+				res.json({success: false, message: "No weight with that ID"});
+			}
+
 		});
 	}	
 });
