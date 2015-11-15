@@ -7,22 +7,7 @@
 
 		
     </h1>
-	<div class="form-group">
-		<div uib-collapse="!addUserCollapsed">
-			<form class="form-inline" role="form">
-				<div class="form-group">
-	
-					<div class="form-group">
-						<input type="text" class="form-control" ng-model="observe.addUsername" placeholder="Username">
-					</div>
-	
-					<button class="btn btn-default" type="button" ng-click="observe.addYouth();addUserCollapsed = !addUserCollapsed">
-						<span class="glyphicon glyphicon-plus"></span>
-					</button>
-				</div>
-			</form>
-		</div>
-	</div>
+
 	
 </div>
 <!-- LOADING MESSAGE -->
@@ -69,18 +54,10 @@
                 <span ng-show="observe.sortType == 'email' && observe.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <!--<th>-->
-            <!--<a href="#" ng-click="observe.sortType = 'observename'; observe.sortReverse = !observe.sortReverse">-->
-                <!--observename-->
-                <!--<span ng-show="observe.sortType == 'observename' && !observe.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>-->
-                <!--<span ng-show="observe.sortType == 'observename' && observe.sortReverse" class="glyphicon glyphicon-triangle-top"></span>-->
-            <!--</a>-->
-        <!--</th>-->
-        <!-- <th class="col-sm-2"></th> -->
     </tr>
     </thead>
     <tbody>
-    <!-- LOOP OVER THE observeS -->
+    <!-- LOOP OVER THE OBSERVED -->
     <tr ng-repeat="youth in observe.youths | orderBy:observe.sortType:observe.sortReverse | filter:observe.searchYouth" ng-click="observe.openUserPage(youth)">
         <td>{{ youth._id }}</td>
         <td>{{ youth.first_name }}</td>

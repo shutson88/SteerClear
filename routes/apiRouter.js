@@ -639,24 +639,28 @@ router.get('/weights/:id', function(req, res) {
 
 // Deletes a weight
 router.delete('/weight/:id', function(req, res) {
+	
+	
 	if(!req.params.id) {
 		res.json({success: false, message: "You did not send a weight ID"});
 	} else {
-		Weight.findOneAndRemove({_id: req.params.id}, function(err, weight) {
-			if(err) {
-				res.json({success: false, message: "Failed removing weight"});				
-			} else {
-				if(weight) {
-					res.json({success: true, message: "Weight removed successfully"});
+		Weight.findOne({_id: req.params.id}, function(err, weight) {
+			Animal.findOne({_id: weight.id}, function(err, animal) {
+				if(animal.managedBy != req.decoded.user._id) {
+					res.json({success: false, message: "You do not have access to remove weights from this animal"});
 				} else {
-					res.json({success: false, message: "Weight not found"});	
+					weight.remove(function(err) {
+						if(err) {
+							res.json({success: false, message: "Failed removing weight"});	
+						} else {
+							res.json({success: true, message: "Weight removed successfully"});
+						}
+						
+					});
 				}
-			}
-			
+			});
 		});
-	}
-	
-	
+	}	
 });
 
 // Add a weight for a specific animal

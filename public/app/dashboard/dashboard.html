@@ -15,7 +15,7 @@
 		</button>
 		Animals 
 	</h1>
-	<div class="btn-group" ng-show="!user.observing">
+	<div ng-show="!user.observing">
         <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
             <span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>
             New Animal
