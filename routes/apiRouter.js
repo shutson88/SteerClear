@@ -606,7 +606,7 @@ router.post('/animals', function(req, res) {
 var sortByKey = function(array, key) {
 	return array.sort(function(a, b) {
 		var x = a[key]; var y = b[key];
-		return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		return ((x > y) ? -1 : ((x < y) ? 1 : 0));
 	});
 	
 }
