@@ -164,7 +164,7 @@
     </thead>
     <tbody>
     <!-- LOOP OVER THE WEIGHTS -->
-    <tr ng-repeat="a in animal.animals | orderBy:animal.sortType:animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date, animal)" ng-click="animal.selectDates(a.date)">
+    <tr ng-repeat="a in animal.animals | orderBy:animal.sortType:!animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date, animal)" ng-click="animal.selectDates(a.date)">
         <td>{{ a.id | capitalize}}</td>
         <td>{{ a.date | myDate }}</td>
         <td>{{ a.weight}}</td>
