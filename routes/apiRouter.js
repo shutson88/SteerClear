@@ -690,7 +690,7 @@ router.post('/weights/:id', function(req, res) {
 								id: req.params.id,
 								weight: req.body.weight,
 								date: req.body.date
-							}).save(function(err) {
+							}).save(function(err, weight) {
 								if(err) {
 									if(err && err.code !== 11000) {
 										console.log(err);
@@ -699,9 +699,8 @@ router.post('/weights/:id', function(req, res) {
 									if(err && err.code === 11000) { //TODO: shouldn't need this
 										res.json({success: false, message: "Duplicate found?"});
 									}
-								} else {
-									//console.log('weight saved successfully');
-									res.json({ success: true, message: "Weight added successfully"});
+								} else if(weight){
+									res.json({ success: true, message: "Weight added successfully", data: weight._id});
 								}
 							});
 		
