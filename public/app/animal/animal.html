@@ -14,7 +14,7 @@
 			<span class="glyphicon glyphicon-menu-left"></span>
 		</button>
         {{ animal.animalID}} - {{animal.params.name | capitalize:true}}
-		<button class="btn btn-default pull-right" ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
+		<button class="btn btn-danger pull-right" ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
     </h1>
 	<!-- <div class="panel panel-primary">
         <div class="panel-heading">
@@ -147,7 +147,7 @@
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-            <input type="text" class="form-control" ng-model="animal.searchAnimals" placeholder="Search Animals">
+            <input type="text" class="form-control" ng-model="animal.searchAnimals" placeholder="Search Weights">
         </div>
     </div>
 </form>
@@ -192,9 +192,9 @@
         <td>{{ a.id | capitalize}}</td>
         <td>{{ a.date | myDate }}</td>
         <td>{{ a.weight}}</td>
-        <!-- <td class="col-sm-2">
-            <a ng-href="/animal" class="btn btn-danger">Edit</a>
-        </td> -->
+        <td class="col-sm-2">
+            <button ng-click-confirm="animal.removeWeight(a._id)" class="btn btn-danger" ng-confirm="Are you sure you want to remove this weight?">Delete</button>
+        </td>
 
     </tr>
     </tbody>

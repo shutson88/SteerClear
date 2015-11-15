@@ -28,8 +28,8 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 				console.log(data);
 				if(data.success === false) {
 					console.log(data.message);
-				} else {
-					vm.animals = data;
+				} else if(data.success == true) {
+					vm.animals = data.data;
 				}
 				
 				

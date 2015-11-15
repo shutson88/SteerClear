@@ -43,15 +43,14 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 	
     $http.get('/api/weights/'+vm.animalID)
       .success(function (data) {
-        if(data.success === false) {
-			//console.log(data.message);
+        if(data.success == false) {
+
 			alert(data.message);
-		} else {
-			//console.log(data);
-			vm.animals = data;
+		} else if(data.success = true) {
+			vm.animals = data.data;
 		}
 		
-        //console.log("Data: "+JSON.stringify(data));
+        console.log("Data: "+JSON.stringify(data));
       });
 
 
@@ -92,6 +91,17 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 		
 	};
 	  
+	vm.removeWeight = function(id) {
+		$http.delete("http://" + window.location.host + "/api/weight/" + id)
+			.success(function(data, status, headers, config) {
+				console.log(data.message);
+				$http.get('/api/weights/'+vm.animalID)
+				.success(function (data) {
+					vm.animals = data.data;
+				});				
+				
+			});
+	};
 	  
     vm.addWeight = function($scope){
       console.log("Adding weight for: "+vm.date);
@@ -108,7 +118,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 			.success(function (data) {
 				
 			
-				vm.animals = data;
+				vm.animals = data.data;
 				//console.log("Data: "+JSON.stringify(data));
 				
 			});

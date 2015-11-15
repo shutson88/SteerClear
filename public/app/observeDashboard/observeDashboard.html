@@ -38,7 +38,7 @@
         </div>
     </div>
 </form>
-<table class="table table-bordered table-striped" ng-show="observe.youths">
+<table class="table table-hover table-bordered table-striped" style="cursor: pointer" ng-show="observe.youths">
     <thead>
     <tr>
         <th>
@@ -81,16 +81,13 @@
     </thead>
     <tbody>
     <!-- LOOP OVER THE observeS -->
-    <tr ng-repeat="youth in observe.youths | orderBy:observe.sortType:observe.sortReverse | filter:observe.searchYouth">
+    <tr ng-repeat="youth in observe.youths | orderBy:observe.sortType:observe.sortReverse | filter:observe.searchYouth" ng-click="observe.openUserPage(youth)">
         <td>{{ youth._id }}</td>
         <td>{{ youth.first_name }}</td>
         <td>{{ youth.last_name}}</td>
 		<td>{{ youth.email}}</td>
-        <td class="col-sm-2">
-            <a ng-href="/dashboard/{{ youth._id }}" class="btn btn-danger">View</a>
-        </td>
 		<td class="col-sm-2">
-			<button class="btn btn-default" type="button" ng-click-confirm="observe.stopObserving( youth._id )" ng-confirm="Are you sure you want to stop observing {{youth._id}}?">Stop Observing</button>
+			<button class="btn btn-danger" type="button" ng-click-confirm="observe.stopObserving( youth._id )" ng-confirm="Are you sure you want to stop observing {{youth._id}}?">Stop Observing</button>
 		</td>
     </tr>
     </tbody>

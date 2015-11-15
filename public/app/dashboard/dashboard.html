@@ -15,6 +15,7 @@
 		</button>
 		Animals 
 	</h1>
+	<div class="btn-group" ng-show="!user.observing">
         <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
             <span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>
             New Animal
@@ -27,7 +28,7 @@
             <span ng-class="{'glyphicon glyphicon-plus' : !removeSupervisorCollapsed, 'glyphicon glyphicon-minus' : removeSupervisorCollapsed}"></span>			
             Remove Supervisor
         </button>
-    
+    </div>
     <div uib-collapse="!addUserCollapsed">
         <form class="form-inline" role="form">
             <div class="form-group">
@@ -112,7 +113,7 @@
         </div>
     </div>
 </form>
-<table class="table table-hover table-bordered table-striped" ng-show="user.animals">
+<table class="table table-hover table-bordered table-striped" style="cursor: pointer" ng-show="user.animals">
     <thead>
     <tr>
         <th>
@@ -146,7 +147,7 @@
     </tr>
     </thead>
     <tbody>
-    <!-- LOOP OVER THE USERS -->
+    <!-- LOOP OVER THE ANIMALS -->
     <tr ng-repeat="animal in user.animals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals" ng-click="user.openAnimalPage(animal)">
         <td>{{ animal._id}}</td>
         <td>{{ animal.name | capitalize}}</td>

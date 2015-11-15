@@ -43,7 +43,10 @@ angular.module('app.observeDashboard', ['ngRoute', 'authService', 'userService',
 	};
 	
 
-	
+	vm.openUserPage = function(user) {
+		console.log(user);
+		$location.path('/dashboard/' + user._id);
+	};
 	
     User.getObserved()
 		.success(function (data) {
@@ -55,6 +58,6 @@ angular.module('app.observeDashboard', ['ngRoute', 'authService', 'userService',
 	vm.goHome = function() {
 		$location.url("/");
 		
-	}
+	};
   }]);
 

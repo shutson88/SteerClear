@@ -440,7 +440,7 @@ router.get('/animals/:id', function(req, res) {
 		verifyPermission(req.params.id, req.decoded.user._id, function(status) {
 			if(status === true) {
 				Animal.find({ managedBy: req.params.id }, function(err, animals) {
-				res.json(animals); //TODO: convert to sending success, message, and animals object
+				res.json({success: true, message: "Successfully sending animals", data: animals}); 
 			});
 			} else {
 				res.json({success: false, message: "You do not have permission to access this user's animals"});
@@ -461,7 +461,7 @@ router.get('/animal/:id', function(req, res) {
 	} else {
 		var animal = Animal.findOne({ _id: req.params.id }, function(err, animal) {
 			if(animal && animal.managedBy === req.decoded.user._id){
-				res.json(animal); //TODO: convert to sending success, message, and animal object
+				res.json({success: true, message: "Successfully sending animal", data: animal});
 			}
 			else{
 				res.json({success: false, message: 'You do not have access to this animal.'});
@@ -616,7 +616,7 @@ router.get('/weights/:id', function(req, res) {
 					if(status === true) {
 						console.log("Viewing weights for animal: " + req.params.id);
 						var animal = Weight.find({ id: req.params.id }, function(err, weights) {
-							res.json(weights);
+							res.json({success: true, message: "Sending weights", data: weights});
 	
 						});
 					} else {
@@ -629,6 +629,28 @@ router.get('/weights/:id', function(req, res) {
 	}
 
 
+});
+
+// Deletes a weight
+router.delete('/weight/:id', function(req, res) {
+	if(!req.params.id) {
+		res.json({success: false, message: "You did not send a weight ID"});
+	} else {
+		Weight.findOneAndRemove({_id: req.params.id}, function(err, weight) {
+			if(err) {
+				res.json({success: false, message: "Failed removing weight"});				
+			} else {
+				if(weight) {
+					res.json({success: true, message: "Weight removed successfully"});
+				} else {
+					res.json({success: false, message: "Weight not found"});	
+				}
+			}
+			
+		});
+	}
+	
+	
 });
 
 // Add a weight for a specific animal
