@@ -14,7 +14,7 @@
 			<span class="glyphicon glyphicon-menu-left"></span>
 		</button>
         {{ animal.animalID}} - {{animal.params.name | capitalize:true}}
-		<button class="btn btn-danger pull-right" ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
+		<button class="btn btn-danger pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
     </h1>
 	
 	<button ng-hide="animal.observing" type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
@@ -168,8 +168,8 @@
         <td>{{ a.id | capitalize}}</td>
         <td>{{ a.date | myDate }}</td>
         <td>{{ a.weight}}</td>
-        <td class="col-sm-2">
-            <button ng-click-confirm="animal.removeWeight(a._id)" class="btn btn-danger" ng-confirm="Are you sure you want to remove this weight?">Delete</button>
+        <td class="col-sm-2" ng-show="!animal.observing">
+            <button ng-click-confirm="animal.removeWeight(a._id)"  class="btn btn-danger" ng-confirm="Are you sure you want to remove this weight?">Delete</button>
         </td>
 
     </tr>
