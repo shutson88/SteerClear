@@ -237,49 +237,57 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     }
 
     vm.targetDateCalculator = function(){
-      if(vm.targetDate == null){
-        vm.data = "Please enter a target date"
-      }
-
-      //Get ADG of latest two with list of weights
-      var averageDates = vm.getAverageArray();
-      //Start Period is the day two weeks prior to last weigh in
-      var startPeriod = new Date(averageDates[averageDates.length-1][0]);
-      startPeriod.setDate(startPeriod.getDate()-14);
-
-      //Get all weight inputs of last two weeks
-      var boundedDates = new Array();
-      for(var i = 0; i < averageDates.length; i++){
-        if(new Date(averageDates[i][0]) >= new Date(startPeriod)){
-          if(boundedDates.length == 0){
-            startPeriod = new Date(averageDates[i][0]);
-          }
-          boundedDates.push(averageDates[i]);
-
-        }
-      }
-
-      console.log("Last two weeks: "+boundedDates);
-      console.log("Target date: "+vm.targetDate);
-
-      //Store user input start and end date temporarily in order to calculate 2 week adg
-      var start_date = vm.start_date;
-      var end_date = vm.end_date;
-      vm.start_date = startPeriod;
-      vm.end_date = new Date(averageDates[averageDates.length-1][0]);
-      var adg = vm.averageGainInRange();
-      console.log("adg: "+adg);
-      vm.start_date = start_date;
-      vm.end_date = end_date;
-
-      //Current weight of animal
-      var targetWeight = averageDates[averageDates.length-1][1];
-      var numDays = Math.floor((new Date(vm.targetDate) - new Date(averageDates[averageDates.length-1][0]))/ (1000 * 3600 * 24));
-      console.log("Num Days: "+numDays);
-      var gain = numDays*adg;
-      targetWeight += gain;
-      var formattedDate = vm.targetDate.toLocaleDateString("en-US");
-      vm.data = "Target weight at "+formattedDate+" is estimated to be "+Math.round(targetWeight)+"lbs";
+		if(vm.targetDate == null){
+			vm.data = "Please enter a target date"
+			vm.targetMessage = vm.data;
+			vm.showTargetMessage = true;
+			$timeout(function() {
+				vm.showTargetMessage = false;
+			
+			}, 2000);
+		}
+		
+		//Get ADG of latest two with list of weights
+		var averageDates = vm.getAverageArray();
+		//Start Period is the day two weeks prior to last weigh in
+		var startPeriod = new Date(averageDates[averageDates.length-1][0]);
+		startPeriod.setDate(startPeriod.getDate()-14);
+		
+		//Get all weight inputs of last two weeks
+		var boundedDates = new Array();
+		for(var i = 0; i < averageDates.length; i++){
+		if(new Date(averageDates[i][0]) >= new Date(startPeriod)){
+			if(boundedDates.length == 0){
+			startPeriod = new Date(averageDates[i][0]);
+			}
+			boundedDates.push(averageDates[i]);
+		
+		}
+		}
+		
+		console.log("Last two weeks: "+boundedDates);
+		console.log("Target date: "+vm.targetDate);
+		
+		//Store user input start and end date temporarily in order to calculate 2 week adg
+		var start_date = vm.start_date;
+		var end_date = vm.end_date;
+		vm.start_date = startPeriod;
+		vm.end_date = new Date(averageDates[averageDates.length-1][0]);
+		var adg = vm.averageGainInRange();
+		console.log("adg: "+adg);
+		vm.start_date = start_date;
+		vm.end_date = end_date;
+		
+		//Current weight of animal
+		var targetWeight = averageDates[averageDates.length-1][1];
+		var numDays = Math.floor((new Date(vm.targetDate) - new Date(averageDates[averageDates.length-1][0]))/ (1000 * 3600 * 24));
+		console.log("Num Days: "+numDays);
+		var gain = numDays*adg;
+		targetWeight += gain;
+		var formattedDate = vm.targetDate.toLocaleDateString("en-US");
+		vm.data = "Target weight at "+formattedDate+" is estimated to be "+Math.round(targetWeight)+"lbs";
+		vm.targetMessage = vm.data;
+		vm.showTargetMessage = true;
     }
 
     //When two rows are selected, calculate the ADG in that date range
@@ -287,6 +295,12 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
       if(vm.selectedRow == null || vm.selectedRow == null){
         vm.data = "Please click a start and an ending row"
+		vm.dataMessage = vm.data;
+		vm.showDataMessage = true;
+		$timeout(function() {
+			vm.showDataMessage = false;
+		
+		}, 2000);
 
       }
       else {
@@ -306,13 +320,11 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
 
         vm.averageGainInRange();
+		vm.dataMessage = vm.data;
+		vm.showDataMessage = true;
+
       }
-	vm.dataMessage = vm.data;
-	vm.showDataMessage = true;
-	$timeout(function() {
-		vm.showDataMessage = false;
-	
-	}, 2000);
+
 
     }
 

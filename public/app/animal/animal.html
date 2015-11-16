@@ -29,9 +29,9 @@
 		<span ng-class="{'glyphicon glyphicon-plus' : !targetDateCollapsed, 'glyphicon glyphicon-minus' : targetDateCollapsed}"></span>
 		Target Date Estimation
 	</button>
-		<button type="button" class="btn btn-default" ng-click="animal.calculateADG()">
-			<span class="glyphicon glyphicon-stats"></span>
-			Calculate Average Daily Gains
+	<button type="button" class="btn btn-default" ng-click="animal.calculateADG()">
+		<span class="glyphicon glyphicon-stats"></span>
+		Calculate Average Daily Gains
 	</button>
 	<p class="bg-info fadein fadeout"  style="display: inline-block;" ng-show="animal.showDataMessage">
 		{{animal.dataMessage}}
@@ -73,7 +73,10 @@
 					<span class="glyphicon glyphicon-screenshot"></span>
 					Calculate
 				</button>
-
+				<p class="bg-info form-group fadein fadeout"  style="display: inline-block" ng-show="animal.showTargetMessage">
+					{{animal.targetMessage}}
+			
+				</p>
             </div>
 
 
