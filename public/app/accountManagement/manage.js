@@ -26,16 +26,22 @@ manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', '$timeou
 				console.log(data);
 				if(data.message) {vm.changePasswordMessage = data.message;} else {vm.changePasswordMessage = "missing message";}
 				vm.showChangePasswordMessage = true;
+				
 				$timeout(function() {
 					vm.showChangePasswordMessage = false;
+					if(data.success) {
+						
+
+						console.log("Password updated successfully");
+					} else {
+						console.log("Password update failed");
+					}
+
 				
+					
 				}, 2000);
 							
-				if(data.success) {
-					console.log("Password updated successfully");
-				} else {
-					console.log("Password update failed");
-				}
+
 				
 			});
 		}

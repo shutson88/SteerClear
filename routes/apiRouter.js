@@ -19,8 +19,8 @@ var os 			=require('os');
 var transporter = nodemailer.createTransport({
 	service: 'Gmail',
 	auth: {
-		user: 'steerclear.noreply@gmail.com',
-		pass: 'csce482steerclear'
+		user: config.emailUser,
+		pass: config.emailPassword
 	}
 });
 
@@ -215,10 +215,10 @@ router.put('/passreset/', function(req, res) {
 			
 		
 			var resetUrl = "http://" + req.get('host') + "/manage/" + token;
-			console.log(resetUrl);
+
 			
 			var mailOptions = {
-				from: 'No Reply <steerclear.noreply@gmail.com>',
+				from: 'No Reply <' + config. emailUser + '>',
 				to: req.body.email,
 				subject: 'Password reset',
 				html: '<a href="' + resetUrl + '">reset password</a>'
