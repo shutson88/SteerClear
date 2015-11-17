@@ -33,6 +33,7 @@ angular.module('app.main', ['ngRoute'])
             alert(data.message);
           } else if(data.success = true) {
             //console.log("Successful");
+            vm.unread = 0;
             vm.notifications = data.notifications;
             for(var i = 0; i < data.notifications.length; i++){
               if(!vm.notifications[i].read){
