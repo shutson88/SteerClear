@@ -15,7 +15,7 @@
 		</button>
 		Animals 
 	</h1>
-	<div ng-show="!user.observing">
+	<div class="form-group" ng-show="!user.observing">
         <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
             <span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>
             New Animal
@@ -50,10 +50,10 @@
 					Add
 					
                 </button>
-				<p class="bg-info form-group fadein fadeout"  ng-show="user.showAnimalMessage">
+				<div class="alert alert-info form-group fadein fadeout" ng-show="user.showAnimalMessage">
 					{{user.addAnimalMessage}}
 				
-				</p>
+				</div>
 				
             </div>
         </form>
@@ -69,21 +69,21 @@
                     <span class="glyphicon glyphicon-plus-sign"></span>
 					Add
                 </button>
-				<p class="bg-info form-group fadein fadeout"  ng-show="user.showSupervisorMessage">
+				<div class="alert alert-info form-group fadein fadeout"  ng-show="user.showSupervisorMessage">
 					{{user.addSupervisorMessage}}
 				
-				</p>
+				</div>
             </div>
         </form>
     </div>
 	<div uib-collapse="!removeSupervisorCollapsed">
         <form class="form-inline" role="form">
             <div class="form-group">
-				<p class="bg-info form-group fadein fadeout"  ng-show="user.showRemoveSupervisorMessage">
+				<div class="alert alert-info form-group fadein fadeout"  ng-show="user.showRemoveSupervisorMessage">
 					{{user.removeSupervisorMessage}}
 				
-				</p>
-						<div class="bg-info" ng-show="user.supervisors.length == 0">
+				</div>
+						<div class="alert alert-info" ng-show="user.supervisors.length == 0">
 							You have no supervisors
 						</div>
 						<div ng-repeat="super in user.supervisors">

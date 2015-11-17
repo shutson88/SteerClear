@@ -46,35 +46,35 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	
 	
 	vm.addAnimal = function($scope){
-	console.log("Adding animal: "+vm.add_id + " " + vm.addName + " " + vm.addType + " " + vm.addBreed);
-	
-	$http.post("http://" + window.location.host + "/api/animals/", {id: vm.add_id, managedBy: vm.id, name: vm.addName, type: vm.addType, breed: vm.addBreed})
-		.success(function (data, status, headers, config) {
-			if(data.success) {
-				$http.get('/api/animals/'+vm.id)
-				.success(function (data) {
-					vm.animals = data;
-					console.log("Data: "+JSON.stringify(data));
+		console.log("Adding animal: "+vm.add_id + " " + vm.addName + " " + vm.addType + " " + vm.addBreed);
+		
+		$http.post("http://" + window.location.host + "/api/animals/", {id: vm.add_id, managedBy: vm.id, name: vm.addName, type: vm.addType, breed: vm.addBreed})
+			.success(function (data, status, headers, config) {
+				if(data.success) {
+					$http.get('/api/animals/'+vm.id)
+					.success(function (data) {
+						vm.animals = data.data;
+						console.log("Data: "+JSON.stringify(data));
+						
+						//Reset fields
+						vm.add_id = '';
+						vm.addName = '';
+						vm.addType = '';
+						vm.addBreed = '';
+					});
 					
-					//Reset fields
-					vm.add_id = '';
-					vm.addName = '';
-					vm.addType = '';
-					vm.addBreed = '';
-				});
+				} else {
+					console.log(data.message);
+				}
+				if(data.message) {vm.addAnimalMessage = data.message;} else {vm.addAnimalMessage = "Animal added successfully...";}
+				vm.showAnimalMessage = true;
+				$timeout(function() {
+					vm.showAnimalMessage = false;
 				
-			} else {
-				console.log(data.message);
-			}
-			if(data.message) {vm.addAnimalMessage = data.message;} else {vm.addAnimalMessage = "Animal added successfully...";}
-			vm.showAnimalMessage = true;
-			$timeout(function() {
-				vm.showAnimalMessage = false;
-			
-			}, 2000);
-			
-		});
-	
+				}, 2000);
+				
+			});
+		
 	}
 	
 	vm.addSupervisor = function() {

@@ -16,3 +16,8 @@
 .fadein.ng-hide-remove.ng-hide-remove-active {
     opacity: 1;
 }
+.alert-info {
+	padding: 6px;
+	display: inline;
+
+}

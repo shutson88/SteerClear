@@ -78,7 +78,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 				.success(function(data, status, headers, config) {
 					console.log(data);
 					if(data.success) {
-						$location.path('/dashboard/');
+						$location.url('/dashboard/');
 						
 					} else {
 						console.log(data.message);

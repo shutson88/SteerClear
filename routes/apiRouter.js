@@ -196,7 +196,7 @@ router.put('/passreset/', function(req, res) {
 		User.findOne({email: req.body.email}, function(err, user) {
 			if(user) {
 				token = jwt.sign({user: user._id}, app.get('resetSecret'), {
-					expiresInMinutes: 60 // expires in 24 hours
+					expiresInMinutes: 60 // expires in 1 hours
 				});
 				
 				user.resetPasswordToken = token;
