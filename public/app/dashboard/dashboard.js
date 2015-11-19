@@ -41,7 +41,9 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
     vm.sortReverse = false;
     vm.searchAnimals = '';
     vm.addUserCollapsed = false;
-
+	vm.addAnimalMessage = {};
+	vm.addSupervisorMessage = {};
+	vm.removeSupervisorMessage = {};
 
 	
 	
@@ -63,13 +65,14 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 						vm.addBreed = '';
 					});
 					
+					vm.addAnimalMessage.alertType = 'alert-success';
 				} else {
-					console.log(data.message);
+					vm.addAnimalMessage.alertType = 'alert-warning';
 				}
-				if(data.message) {vm.addAnimalMessage = data.message;} else {vm.addAnimalMessage = "Animal added successfully...";}
-				vm.showAnimalMessage = true;
+				if(data.message) {vm.addAnimalMessage.message = data.message;} else {vm.addAnimalMessage.message = "missing message";}
+				vm.addAnimalMessage.show = true;
 				$timeout(function() {
-					vm.showAnimalMessage = false;
+					vm.addAnimalMessage.show = false;
 				
 				}, 2000);
 				
@@ -83,10 +86,16 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 			.success(function(data, status, headers, config) {
 				console.log(data);
 				User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
-				if(data.message) {vm.addSupervisorMessage = data.message;} else {vm.addSupervisorMessage = "Supervisor added successfully...";}
-				vm.showSupervisorMessage = true;
+				if(data.success) {
+					vm.addSupervisorMessage.alertType = 'alert-success';
+				} else {
+					vm.addSupervisorMessage.alertType = 'alert-warning';
+				}
+				
+				if(data.message) {vm.addSupervisorMessage.message = data.message;} else {vm.addSupervisorMessage.message = "missing message";}
+				vm.addSupervisorMessage.show = true;
 				$timeout(function() {
-					vm.showSupervisorMessage = false;
+					vm.addSupervisorMessage.show = false;
 				
 				}, 2000);
 			});
@@ -99,10 +108,15 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 		$http.put("http://" + window.location.host + "/api/users/", {id: id, stop: true})
 			.success(function(data, status, headers, config) {
 				User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
-				if(data.message) {vm.removeSupervisorMessage = data.message;} else {vm.removeSupervisorMessage = "Supervisor removed successfully...";}
-				vm.showRemoveSupervisorMessage = true;
+				if(data.success) {
+					vm.removeSupervisorMessage.alertType = 'alert-success';
+				} else {
+					vm.removeSupervisorMessage.alertType = 'alert-warning';
+				}
+				if(data.message) {vm.removeSupervisorMessage.message = data.message;} else {vm.removeSupervisorMessage.message = "missing message";}
+				vm.removeSupervisorMessage.show = true;
 				$timeout(function() {
-					vm.showRemoveSupervisorMessage = false;
+					vm.removeSupervisorMessage.show = false;
 				
 				}, 2000);
 			});

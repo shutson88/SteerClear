@@ -360,7 +360,17 @@ router.put('/users/', function(req, res) {
 	var callback = function() {
 		nUsersToUpdate -= 1;
 		if(nUsersToUpdate <= 0) {
-			res.json(message);
+			if(message.observedBy.success == false || message.observing.success == false) {
+				res.json({success: false, message: "Failed to add observer"});
+			} else {
+				if(stopObserving) {
+					res.json({success: true, message: "Observer removed successfully"});
+				} else {
+					res.json({success: true, message: "Observer added successfully"});
+				}
+				
+			}
+			
 		}
 
 	}

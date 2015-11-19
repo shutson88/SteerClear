@@ -47,8 +47,8 @@
 								Add
 								
 						</button>
-							<div class="alert alert-info form-group fadein fadeout" ng-show="user.showAnimalMessage">
-								{{user.addAnimalMessage}}
+						<div class="alert alert-info form-group fadein fadeout" ng-class="user.addAnimalMessage.alertType" ng-show="user.addAnimalMessage.show">
+							{{user.addAnimalMessage.message}}
 							
 						</div>
 					</div>
@@ -71,8 +71,8 @@
 							<span class="glyphicon glyphicon-plus-sign"></span>
 							Add
 						</button>
-						<div class="alert alert-info form-group fadein fadeout"  ng-show="user.showSupervisorMessage">
-							{{user.addSupervisorMessage}}
+						<div class="alert alert-info form-group fadein fadeout" ng-class="user.addSupervisorMessage.alertType" ng-show="user.addSupervisorMessage.show">
+							{{user.addSupervisorMessage.message}}
 						
 						</div>
 					</div>
@@ -87,8 +87,8 @@
 			<form class="form-inline" role="form">
 				<div class="form-group panel panel-default">
 					<div class="panel-body">
-						<div class="alert alert-info form-group fadein fadeout"  ng-show="user.showRemoveSupervisorMessage">
-							{{user.removeSupervisorMessage}}
+						<div class="alert alert-info form-group fadein fadeout" ng-class="user.removeSupervisorMessage.alertType" ng-show="user.removeSupervisorMessage.show">
+							{{user.removeSupervisorMessage.message}}
 						
 						</div>
 						<div class="alert alert-info form-group" ng-show="user.supervisors.length == 0">

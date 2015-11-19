@@ -43,8 +43,8 @@
 							<span class="glyphicon glyphicon-plus-sign"></span>
 							Add
 						</button>
-						<div class="alert alert-info form-group fadein fadeout"  ng-show="animal.showWeightMessage">
-							{{animal.addWeightMessage}}
+						<div class="alert alert-info form-group fadein fadeout" ng-class="animal.addWeightMessage.alertType" ng-show="animal.addWeightMessage.show">
+							{{animal.addWeightMessage.message}}
 					
 						</div>
 					</div>
@@ -72,8 +72,8 @@
 							<span class="glyphicon glyphicon-edit"></span>
 							Edit
 						</button>
-						<div class="alert alert-info form-group fadein fadeout"  ng-show="animal.showEditMessage">
-							{{animal.editMessage}}
+						<div class="alert alert-info form-group fadein fadeout" ng-class="animal.editMessage.alertType" ng-show="animal.editMessage.show">
+							{{animal.editMessage.message}}
 					
 						</div>
 					</div>
@@ -96,8 +96,8 @@
 							<span class="glyphicon glyphicon-screenshot"></span>
 							Calculate
 						</button>
-						<div class="alert alert-info form-group fadein fadeout"  style="display: inline-block" ng-show="animal.showTargetMessage">
-							{{animal.targetMessage}}
+						<div class="alert alert-info form-group fadein fadeout" ng-class="animal.targetMessage.alertType" style="display: inline-block" ng-show="animal.targetMessage.show">
+							{{animal.targetMessage.message}}
 					
 						</div>
 					</div>
@@ -106,35 +106,19 @@
 		</div>
 		<button type="button" style="display: block"  class="btn btn-default" ng-click="animal.calculateADG()">
 			<span class="glyphicon glyphicon-stats"></span>
-			Calculate Average Daily Gains
+			Calculate Average Daily Gain
 		</button>
 		<form class="form-inline">
-			<div class="form-group panel panel-default fadein fadeout" ng-show="animal.showDataMessage">
+			<div class="form-group panel panel-default fadein fadeout" ng-show="animal.adgMessage.show">
 				<div class="panel-body">
-					<div class="alert alert-info" style="padding: 8px" >
-						{{ animal.dataMessage }} 
+					<div class="alert" ng-class="animal.adgMessage.alertType" style="padding: 8px" >
+						{{ animal.adgMessage.message }} 
 								
 					</div>
 				</div>
 			</div>
 		</form>
-<!-- 		<div uib-collapse="!rangeDateCollapsed">
-			<form class="form-inline" role="form">
-				<div class="form-group panel panel-default">
-					<div class="panel-body">
-						<div class="form-group">
-							<input type="date" class="form-control" ng-model="animal.start_date" placeholder="Start Date">
-						</div>
-						<div class="form-group">
-							<input type="date" class="form-control" ng-model="animal.end_date" placeholder="End Date">
-						</div>
-						<button class="btn btn-default" type="button" ng-click="animal.averageGainInRange()">
-							Calculate
-						</button>
-					</div>
-				</div>
-			</form>
-		</div> -->
+
 
 
 	</div>

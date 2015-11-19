@@ -19,8 +19,8 @@
 			<button type="submit" class="btn btn-default btn-primary" ng-disabled="changePasswordForm.$invalid">
                 Change
             </button>
-			<div class="alert alert-info fadein fadeout" style="padding: 8px;" ng-show="manage.showChangePasswordMessage">
-				{{manage.changePasswordMessage}}
+			<div class="alert alert-info fadein fadeout" ng-class="manage.changePasswordMessage.alertType" style="padding: 8px;" ng-show="manage.changePasswordMessage.show">
+				{{manage.changePasswordMessage.message}}
 				
 			</div>
 
@@ -37,8 +37,8 @@
 				<button type="submit" class="btn btn-primary" ng-disabled="resetPasswordForm.$invalid">
 					Reset
 				</button>
-				<div class="alert alert-infofadein fadeout" style="padding: 8px;" ng-show="manage.showResetPasswordMessage">
-					{{manage.resetPasswordMessage}}
+				<div class="alert alert-infofadein fadeout" ng-class="manage.resetPasswordMessage.alertType" style="padding: 8px;" ng-show="manage.resetPasswordMessage.show">
+					{{manage.resetPasswordMessage.message}}
 				
 				</div>
 		</div>
@@ -56,8 +56,8 @@
 			<button type="submit" class="btn  btn-primary" ng-disabled="resetPasswordForm.$invalid">
                 Reset
             </button>
-			<div class="alert alert-info fadein fadeout" style="padding: 8px;" ng-show="manage.showResetPasswordMessage">
-				{{manage.resetPasswordMessage}}
+			<div class="alert alert-info fadein fadeout" ng-class="manage.resetPasswordMessage.alertType" style="padding: 8px;" ng-show="manage.resetPasswordMessage.show">
+				{{manage.resetPasswordMessage.message}}
 				
 			</div>
 		</div>
