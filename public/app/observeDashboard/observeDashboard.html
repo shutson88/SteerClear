@@ -1,12 +1,16 @@
 <div class="page-header">
-    <h3>
+	<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li class="active">Observing</li>
+	</ol> 
+<!--     <h3>
         <button class="btn btn-link" ng-click="observe.goHome()">
 			<span class="glyphicon glyphicon-menu-left"></span>
 		</button>
 		Youth
 
 		
-    </h3>
+    </h3> -->
 
 	
 </div>
@@ -62,9 +66,9 @@
         <td>{{ youth._id }}</td>
         <td>{{ youth.first_name }}</td>
         <td>{{ youth.last_name}}</td>
-		<td>{{ youth.email}}</td>
+		<td><a href="mailto:{{ youth.email}}">{{youth.email}}</a></td>
 		<td class="col-sm-2">
-			<button class="btn btn-danger" type="button" ng-click-confirm="observe.stopObserving( youth._id )" ng-confirm="Are you sure you want to stop observing {{youth._id}}?">Stop Observing</button>
+			<button class="btn btn-danger btn-xs" type="button" ng-click-confirm="observe.stopObserving( youth._id )" ng-confirm="Are you sure you want to stop observing {{youth._id}}?">Stop Observing</button>
 		</td>
     </tr>
     </tbody>

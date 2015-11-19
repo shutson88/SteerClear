@@ -137,7 +137,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	};
 
 	vm.openAnimalPage = function(animal){
-		$location.path("/animal/").search({id: animal._id, name: animal.name, type: animal.type, breed: animal.breed, observing: vm.observing});
+		$location.path("/animal/").search({id: animal._id, name: animal.name, type: animal.type, breed: animal.breed, observing: vm.observing, user: vm.id});
 
 		
 	};

@@ -9,17 +9,25 @@
 </style>
 <script src="/javascripts/client.js"></script>
 <div class="page-header">
-    <h3>
-		<button class="btn btn-link" ng-click="animal.goDashboard()">
+	<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li ng-show="!animal.observing"><a href="/dashboard">Animals</a></li>
+		<li ng-show="animal.observing"><a href="/observeDashboard">Observing</a></li>
+		<li ng-show="animal.observing"><a href="/dashboard/{{animal.params.user}}">{{animal.params.user}}</a></li>
+		<li class="active">{{animal.animalID}}</li>
+	</ol>    
+	<h3>
+		{{animal.params.name | capitalize:true}}
+<!-- 		<button class="btn btn-link" ng-click="animal.goDashboard()">
 			<span class="glyphicon glyphicon-menu-left"></span>
 		</button>
-        {{ animal.animalID}} - {{animal.params.name | capitalize:true}}
-		<button class="btn btn-danger pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
+        {{animal.params.name | capitalize:true}} -->
+		<button class="btn btn-danger btn-xs pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
     </h3>
 	<div class="form-group">
 		<button ng-hide="animal.observing" style="display: block"  type="button" class="btn btn-primary" ng-click="addUserCollapsed = !addUserCollapsed">
 			<span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>	
-			Add new weight
+			New Weight
 		</button>
 		<div uib-collapse="!addUserCollapsed">
 			<form class="form-inline"  role="form">
@@ -182,7 +190,7 @@
         <td>{{ a.date | myDate }}</td>
         <td>{{ a.weight}}</td>
         <td class="col-sm-2" ng-show="!animal.observing">
-            <button ng-click-confirm="animal.removeWeight(a._id)"  class="btn btn-danger" ng-confirm="Are you sure you want to remove this weight?">Delete</button>
+            <button ng-click-confirm="animal.removeWeight(a._id)"  class="btn btn-danger btn-xs" ng-confirm="Are you sure you want to remove this weight?">Delete</button>
         </td>
 
     </tr>

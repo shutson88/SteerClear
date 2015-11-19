@@ -13,7 +13,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
   .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', '$timeout', function ($routeParams, $http, $location, $scope, $timeout) {
     var vm = this;
 	vm.params = $location.search();
-	
+	console.log(vm.params);
     vm.animalID = vm.params.id;
     //console.log(vm.animalID);
 	//console.log($routeParams.observing);

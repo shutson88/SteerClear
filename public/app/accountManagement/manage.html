@@ -1,11 +1,9 @@
 <div class="jumbotron">
-    <h1>Account Management</h1>
-
-     <form name="changePasswordForm" ng-submit="manage.changePassword()"> 
+    <h3>Account Management</h3>
+	<br>
+     <form name="changePasswordForm" ng-submit="manage.changePassword()" ng-show="main.loggedIn"> 
 	 
- 		<h3>Change Password</h3>
-		<fieldset ng-disabled="!main.loggedIn">
-		
+ 		<h4>Change Password</h4>
  			<label class="control-label" for="currentPassword">Current Password</label>
 			<input type="password" ng-model="manage.currentPassword" id="currentPassword" required>
  			<br>
@@ -25,18 +23,18 @@
 				{{manage.changePasswordMessage}}
 				
 			</div>
-		</fieldset>
+
 	</form>
 	<form name="resetPasswordForm" ng-submit="manage.resetPassword()"> 
 	 
 		<div class="form-group" ng-show="!manage.resetToken">
-			<h3>Reset Password</h3>
-			<p>Please enter the email of the account you wish to reset</p>
+			<h4>Reset Password</h4>
+			<h5>Please enter the email of the account you wish to reset</h5>
 			
 				<label class="control-label" for="email">Email</label>
 				<input type="email" ng-model="manage.email" id="email" ng-required="!manage.resetToken">
 				<br>
-				<button type="submit" class="btn btn-default btn-primary" ng-disabled="resetPasswordForm.$invalid">
+				<button type="submit" class="btn btn-primary" ng-disabled="resetPasswordForm.$invalid">
 					Reset
 				</button>
 				<div class="alert alert-infofadein fadeout" style="padding: 8px;" ng-show="manage.showResetPasswordMessage">
@@ -55,7 +53,7 @@
 				Passwords must match!
 			</div>
 			<br>
-			<button type="submit" class="btn btn-default btn-primary" ng-disabled="resetPasswordForm.$invalid">
+			<button type="submit" class="btn  btn-primary" ng-disabled="resetPasswordForm.$invalid">
                 Reset
             </button>
 			<div class="alert alert-info fadein fadeout" style="padding: 8px;" ng-show="manage.showResetPasswordMessage">
