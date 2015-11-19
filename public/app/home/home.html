@@ -1,21 +1,31 @@
 <div class="jumbotron">
-    <h1>Home</h1>
-
-    <div ng-if="!main.loggedIn">
+    <h2>Home</h2>
+	<br>
+ 
+	<div ng-if="!main.loggedIn">
         <p>Login or Register</p>
         <a href="/signin" class="btn btn-primary">Login</a>
 		<a href="/register" class="btn btn-primary">Register</a>
     </div>
 	<div class="form-group">
 		<div ng-if="main.loggedIn">
-			<a href="/dashboard" class="btn btn-primary">View Dashboard</a> Add, View, Manage Animals and Weights
+			<a href="/dashboard" class="btn btn-primary">
+			<span class="glyphicon glyphicon-th-list"></span>
+			Animals</a>
 		</div>
 	</div>
 	<div ng-if="main.loggedIn" class="form-group">
-		<a href="/observeDashboard" class="btn btn-primary">View who you're observing</a>
+		<a href="/observeDashboard" class="btn btn-primary">
+		<span class="glyphicon glyphicon-eye-open"></span>
+		Observing</a>
 		
 
 	</div>
+	<a class="btn btn-primary" href="/manage">
+        <span class="glyphicon glyphicon-user"></span>
+		Account Management
+    </a>
+
 	<div ng-show="main.checkAdmin()">
 		
 		<button type="button" class="btn btn-default" ng-click="addTypeCollapsed = !addTypeCollapsed">
@@ -64,8 +74,5 @@
 
 		</div>
 	</div>
-	<br>
-	<a href="/manage">
-        <span>Account Management </span>
-    </a>
+
 </div>

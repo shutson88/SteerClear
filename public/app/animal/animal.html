@@ -9,123 +9,133 @@
 </style>
 <script src="/javascripts/client.js"></script>
 <div class="page-header">
-    <h1>
+    <h3>
 		<button class="btn btn-link" ng-click="animal.goDashboard()">
 			<span class="glyphicon glyphicon-menu-left"></span>
 		</button>
         {{ animal.animalID}} - {{animal.params.name | capitalize:true}}
 		<button class="btn btn-danger pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
-    </h1>
+    </h3>
 	<div class="form-group">
-		<button ng-hide="animal.observing" type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
-			<span ng-class="{'glyphicon glyphicon-plus' : !editAnimalCollapsed, 'glyphicon glyphicon-minus' : editAnimalCollapsed}"></span>	
-			Edit Animal
-		</button>
-		<button ng-hide="animal.observing" type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
+		<button ng-hide="animal.observing" style="display: block"  type="button" class="btn btn-primary" ng-click="addUserCollapsed = !addUserCollapsed">
 			<span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>	
 			Add new weight
 		</button>
-		<button type="button" class="btn btn-default" ng-click="targetDateCollapsed = !targetDateCollapsed">
+		<div uib-collapse="!addUserCollapsed">
+			<form class="form-inline"  role="form">
+				<div class="form-group panel panel-default">
+					<div class="panel-body">
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model="animal.weight" placeholder="Weight (lbs)">
+						</div>
+						<div class="form-group">
+							<input type="date" class="form-control" ng-model="animal.date" placeholder="Date">
+						</div>
+						<button class="btn btn-default" type="button" ng-click="animal.addWeight()">
+							<span class="glyphicon glyphicon-plus-sign"></span>
+							Add
+						</button>
+						<div class="alert alert-info form-group fadein fadeout"  ng-show="animal.showWeightMessage">
+							{{animal.addWeightMessage}}
+					
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<button ng-hide="animal.observing" style="display: block"  type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
+			<span ng-class="{'glyphicon glyphicon-plus' : !editAnimalCollapsed, 'glyphicon glyphicon-minus' : editAnimalCollapsed}"></span>	
+			Edit Animal
+		</button>
+		<div uib-collapse="!editAnimalCollapsed">
+			<form class="form-inline" role="form">
+				<div class="form-group panel panel-default">
+					<div class="panel-body">
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model="animal.newName" placeholder="Name: {{animal.params.name}}">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model="animal.newType" placeholder="Type: {{animal.params.type}}">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model="animal.newBreed" placeholder="Breed: {{animal.params.breed}}">
+						</div>
+						<button class="btn btn-default" type="button" ng-click="animal.editAnimal()">
+							<span class="glyphicon glyphicon-edit"></span>
+							Edit
+						</button>
+						<div class="alert alert-info form-group fadein fadeout"  ng-show="animal.showEditMessage">
+							{{animal.editMessage}}
+					
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<button type="button" style="display: block"  class="btn btn-default" ng-click="targetDateCollapsed = !targetDateCollapsed">
 			<span ng-class="{'glyphicon glyphicon-plus' : !targetDateCollapsed, 'glyphicon glyphicon-minus' : targetDateCollapsed}"></span>
 			Target Date Estimation
 		</button>
-		<button type="button" class="btn btn-default" ng-click="animal.calculateADG()">
+		<div uib-collapse="!targetDateCollapsed">
+			<form class="form-inline" role="form">
+				<div class="form-group panel panel-default">
+					<div class="panel-body">
+						<div class="form-group">
+							<input type="date" class="form-control" ng-model="animal.targetDate" placeholder="Target Date">
+						</div>
+						<button type="button" class="btn btn-default" ng-click="animal.targetDateCalculator()">
+							<span class="glyphicon glyphicon-screenshot"></span>
+							Calculate
+						</button>
+						<div class="alert alert-info form-group fadein fadeout"  style="display: inline-block" ng-show="animal.showTargetMessage">
+							{{animal.targetMessage}}
+					
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<button type="button" style="display: block"  class="btn btn-default" ng-click="animal.calculateADG()">
 			<span class="glyphicon glyphicon-stats"></span>
 			Calculate Average Daily Gains
 		</button>
-		<div class="alert alert-info fadein fadeout" style="padding: 8px" ng-show="animal.showDataMessage">
-			{{animal.dataMessage}}
-					
-		</div>
+		<form class="form-inline">
+			<div class="form-group panel panel-default fadein fadeout" ng-show="animal.showDataMessage">
+				<div class="panel-body">
+					<div class="alert alert-info" style="padding: 8px" >
+						{{ animal.dataMessage }} 
+								
+					</div>
+				</div>
+			</div>
+		</form>
+<!-- 		<div uib-collapse="!rangeDateCollapsed">
+			<form class="form-inline" role="form">
+				<div class="form-group panel panel-default">
+					<div class="panel-body">
+						<div class="form-group">
+							<input type="date" class="form-control" ng-model="animal.start_date" placeholder="Start Date">
+						</div>
+						<div class="form-group">
+							<input type="date" class="form-control" ng-model="animal.end_date" placeholder="End Date">
+						</div>
+						<button class="btn btn-default" type="button" ng-click="animal.averageGainInRange()">
+							Calculate
+						</button>
+					</div>
+				</div>
+			</form>
+		</div> -->
+
+
 	</div>
     
 	
-    <div uib-collapse="!addUserCollapsed">
-        <form class="form-inline"  role="form">
-            <div class="form-group">
-
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="animal.weight" placeholder="Weight (lbs)">
-                </div>
-                <div class="form-group">
-                    <input type="date" class="form-control" ng-model="animal.date" placeholder="Date">
-                </div>
-                <button class="btn btn-default" type="button" ng-click="animal.addWeight()">
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-					Add
-                </button>
-				<div class="alert alert-info form-group fadein fadeout"  ng-show="animal.showWeightMessage">
-					{{animal.addWeightMessage}}
-			
-				</div>
 
 
-            </div>
-        </form>
-    </div>
-    <div uib-collapse="!targetDateCollapsed">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-                <div class="form-group">
-                    <input type="date" class="form-control" ng-model="animal.targetDate" placeholder="Target Date">
-                </div>
-                <button type="button" class="btn btn-default" ng-click="animal.targetDateCalculator()">
-					<span class="glyphicon glyphicon-screenshot"></span>
-					Calculate
-				</button>
-				<div class="alert alert-info form-group fadein fadeout"  style="display: inline-block" ng-show="animal.showTargetMessage">
-					{{animal.targetMessage}}
-			
-				</div>
-            </div>
 
 
-        </form>
-    </div>
-    <div uib-collapse="!rangeDateCollapsed">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-
-                <div class="form-group">
-                    <input type="date" class="form-control" ng-model="animal.start_date" placeholder="Start Date">
-                </div>
-                <div class="form-group">
-                    <input type="date" class="form-control" ng-model="animal.end_date" placeholder="End Date">
-                </div>
-                <button class="btn btn-default" type="button" ng-click="animal.averageGainInRange()">
-                    Calculate
-                </button>
-
-
-            </div>
-        </form>
-    </div>
-    <div uib-collapse="!editAnimalCollapsed">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="animal.newName" placeholder="Name: {{animal.params.name}}">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="animal.newType" placeholder="Type: {{animal.params.type}}">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="animal.newBreed" placeholder="Breed: {{animal.params.breed}}">
-                </div>
-                <button class="btn btn-default" type="button" ng-click="animal.editAnimal()">
-                    <span class="glyphicon glyphicon-edit"></span>
-					Edit
-                </button>
-				<div class="alert alert-info form-group fadein fadeout"  ng-show="animal.showEditMessage">
-					{{animal.editMessage}}
-			
-				</div>
-
-
-            </div>
-        </form>
-    </div>
 	
 </div>
 <!-- LOADING MESSAGE -->

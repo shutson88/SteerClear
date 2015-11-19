@@ -294,7 +294,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     vm.calculateADG = function(){
 
       if(vm.selectedRow == null || vm.selectedRow == null){
-        vm.data = "Please click a start and an ending row"
+        vm.data = "Please click two rows (start and end)"
 		vm.dataMessage = vm.data;
 		vm.showDataMessage = true;
 		$timeout(function() {

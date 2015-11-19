@@ -63,16 +63,16 @@
             <div uib-collapse="isCollapsed">
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-if="!main.loggedIn">
-                        <a href="/signin">Login</a>                       
+                        <a  href="/signin">Login</a>                       
                     </li>
 					<li ng-if="!main.loggedIn">
 						<a href="/register">Register</a>
 					</li>
-                    <li ng-if="main.loggedIn" class="navbar-text">
-                        Hello, {{ main.user.fname | capitalize:true}}!
+                    <li ng-if="main.loggedIn">
+                        <p class="navbar-text" style="margin-left: 15px">Hello, {{ main.user.fname | capitalize:true}}!</p>
                     </li>
-                    <li ng-if="main.loggedIn" class="navbar-text">
-                        Logged in as {{main.user.username}}
+                    <li ng-if="main.loggedIn">
+                        <p class="navbar-text" style="margin-left: 15px">Logged in as {{main.user.username}}</p>
                     </li>
                     <li ng-if="main.loggedIn">
                         <a href="#">
