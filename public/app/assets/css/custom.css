@@ -1,3 +1,7 @@
+html {
+	overflow-y: scroll;	
+}
+
 .fadein.ng-hide-remove,
 .fadeout.ng-hide-add {
     -webkit-transition: 400ms ease-in-out all;

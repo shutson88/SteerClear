@@ -12,7 +12,7 @@ var bcrypt      = require('bcrypt-nodejs'); // Encryption module
 var jwt         = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config      = require('../config'); // get our config file
 var nodemailer 	= require('nodemailer');
-var os 			=require('os');
+var os 			= require('os');
 //var async 		= require('async');
 
 
@@ -56,17 +56,32 @@ var verifyPermission = function(sourceID, destID, callback) {
 	}
 }
 
-var verifyAdmin = function(code) {
-	if(code == 123456) { //perform some check on the code to verify it
-		return true;
-	} else {
-		return false
-	}
+// Sends notifications to all of your observers
+// To be called in every api function that needs to send a notification
+var sendNotifications = function(message, sender_id) {
 
-};
+	User.findOne({ _id: sender_id }, function(err, user) {
 
-
-
+		if(user) {
+			for(var i = 0; i < user.observedBy.length; i++) {
+				// console.log(sender_id + ' is observed by ' + user.observedBy[i].username);
+				var username = user.observedBy[i].username;
+				User.update(
+					{ _id: user.observedBy[i].username },
+					{ $addToSet: { notifications: {
+						date: new Date(),
+						read: false,
+						message: message, // TODO: pull message from request
+						sender: sender_id }}},
+					{ safe: true, upsert: true, new : true },
+					function(err) {
+						if(err) console.log(err);
+					}
+				);
+			}
+		}
+	});
+}
 
 // ===================================================
 // Open Routes
@@ -175,7 +190,7 @@ router.put('/passreset/', function(req, res) {
 				if(user) {
 					user.resetPasswordToken = "";
 					user.resetPasswordExpires = new Date();
-					
+
 					user.password = bcrypt.hashSync(req.body.resetNewPassword);
 					user.save(function(err) {
 						if(err) {
@@ -184,12 +199,12 @@ router.put('/passreset/', function(req, res) {
 							res.json({success: true, message: "Password reset successfully"});
 						}
 					});
-					
+
 				}
-				
-				
+
+
 			});
-			
+
 		}
 	} else {
 		var token;
@@ -198,7 +213,7 @@ router.put('/passreset/', function(req, res) {
 				token = jwt.sign({user: user._id}, app.get('resetSecret'), {
 					expiresInMinutes: 60 // expires in 1 hours
 				});
-				
+
 				user.resetPasswordToken = token;
 				var expDate = new Date();
 				user.resetPasswordExpires = expDate.setMinutes(expDate.getMinutes() + 60);
@@ -212,19 +227,19 @@ router.put('/passreset/', function(req, res) {
 			} else {
 				res.json({success: false, message: "No user found with that email"});
 			}
-			
-		
+
+
 			var resetUrl = "http://" + req.get('host') + "/manage/" + token;
 
-			
+
 			var mailOptions = {
 				from: 'No Reply <' + config. emailUser + '>',
 				to: req.body.email,
 				subject: 'Password reset',
 				html: '<a href="' + resetUrl + '">reset password</a>'
-			
+
 			};
-		
+
 			transporter.sendMail(mailOptions, function(err, info) {
 				if(err) {
 					console.log(err);
@@ -236,8 +251,15 @@ router.put('/passreset/', function(req, res) {
 
 
 	}
-	
+
 });
+
+// TODO: Remove, only for dev purposes
+router.get('/all', function(req, res) {
+	User.find({},function(err, users) {
+		res.json(users);
+	});
+})
 
 // ===================================================
 // Middleware token check
@@ -250,20 +272,15 @@ router.use(tokenAuth);
 // Authorized API Routes
 // ===================================================
 
-
-
-
-
 // Test function to test if token authentication worked
 router.post('/checktoken', function(req, res) {
+	sendNotifications(req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' just checked their token!', req.decoded.user._id);
 	res.json({success: true});
 });
 
 // ==================
 // User
 // ==================
-
-
 
 // Gets users information
 router.get('/user/', function(req, res) {
@@ -311,9 +328,9 @@ router.get('/users/', function(req, res) {
 
 // Update information for user
 router.put('/user/', function(req, res) {
-	
+
 	if(req.body.currentPassword && req.body.newPassword) {
-		
+
 		if(bcrypt.compareSync(req.body.currentPassword, req.decoded.user.password)) {
 			User.findOne({_id: req.decoded.user._id}, function(err, user) {
 				if(user) {
@@ -328,21 +345,19 @@ router.put('/user/', function(req, res) {
 				} else {
 					res.json({success: false, message: "User not found"});
 				}
-				
-				
+
+
 			});
-			
+
 		} else {
 			res.json({success: false, message: "The password you entered is not correct"});
 		}
-		
-		
+
+
 	}
-	
-	
+
+
 });
-
-
 
 // Adds/removes an observer for a user
 router.put('/users/', function(req, res) {
@@ -383,28 +398,22 @@ router.put('/users/', function(req, res) {
 				observing: {username: req.decoded.user._id}}};
 				updateMe = {$pull: {observing: {username: req.body.id},
 				observedBy: {username: req.body.id}}};
-
 			} else {
 				updateMe = {$addToSet: {observedBy: {username: req.body.id}}};
 				updateOther = {$addToSet: {observing: {username: req.decoded.user._id}}};
 			}
-
 			User.findOneAndUpdate(
 				{ _id: req.decoded.user._id},
 				updateMe,
 				{safe: true, upsert: true, new: true},
 				function(err, user) {
-
-
 					if (err) {
 						message.observedBy = {success: false};
 					} else {
-
 						message.observedBy = {success: true};
 					}
 					callback();
 				}
-
 			);
 			User.findOneAndUpdate(
 				{ _id: req.body.id},
@@ -422,20 +431,10 @@ router.put('/users/', function(req, res) {
 				}
 
 			);
-
 		} else {
 			res.json({success: false, message: req.body.id + " not found"});
 		}
-
 	});
-
-
-
-
-
-
-
-
 });
 
 // ==================
@@ -450,15 +449,15 @@ router.get('/animals/:id', function(req, res) {
 		verifyPermission(req.params.id, req.decoded.user._id, function(status) {
 			if(status === true) {
 				Animal.find({ managedBy: req.params.id }, function(err, animals) {
-				res.json({success: true, message: "Successfully sending animals", data: animals}); 
+				res.json({success: true, message: "Successfully sending animals", data: animals});
 			});
 			} else {
 				res.json({success: false, message: "You do not have permission to access this user's animals"});
 			}
-	
-	
+
+
 		});
-		
+
 	}
 
 
@@ -467,7 +466,7 @@ router.get('/animals/:id', function(req, res) {
 // Gets information for ONE animal
 router.get('/animal/:id', function(req, res) {
 	if(!req.params.id) {
-		res.json({success: false, message: "You did not send an animal ID"});		
+		res.json({success: false, message: "You did not send an animal ID"});
 	} else {
 		var animal = Animal.findOne({ _id: req.params.id }, function(err, animal) {
 			if(animal && animal.managedBy === req.decoded.user._id){
@@ -482,11 +481,11 @@ router.get('/animal/:id', function(req, res) {
 
 // Stop tracking the animal for this user
 router.delete('/animal/:id', function(req, res) {
+
 	if(!req.params.id) {
-		res.json({success: false, message: "You did not send an animal ID"});		
+		res.json({success: false, message: "You did not send an animal ID"});
 	} else {
 		Animal.findOne({ _id: req.params.id }, function(err, animal) {
-	
 			if(animal && animal.managedBy === req.decoded.user._id) {
 				animal.managedBy = "nobody";
 				animal.save(function(err) {
@@ -494,6 +493,8 @@ router.delete('/animal/:id', function(req, res) {
 						console.log(err);
 						res.json({success: false, message: "An error occurred"});
 					} else {
+						var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' removed ' + animal.name;
+						sendNotifications(notification, req.decoded.user._id);
 						res.json({success: true, message: "You stopped tracking this animal"});
 					}
 				});
@@ -510,7 +511,7 @@ router.delete('/animal/:id', function(req, res) {
 router.put('/animal/:id', function(req, res) {
 
 	if(!req.params.id) {
-		
+
 		res.json({success: false, message: "You did not send an animal ID"});
 	} else {
 		Animal.findOne({_id: req.params.id}, function(err, animal) {
@@ -519,23 +520,25 @@ router.put('/animal/:id', function(req, res) {
 				if(req.body.newName) {animal.name = req.body.newName;}
 				if(req.body.newType) {animal.type = req.body.newType;}
 				if(req.body.newBreed) {animal.breed = req.body.newBreed;}
-	
+
 				animal.save(function(err) {
 					if(err) {
 						console.log(err);
 						res.json({success: false, message: "An error occurred"});
 					} else {
+						var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' updated an animal\'s information';
+						sendNotifications(notification, req.decoded.user._id);
 						res.json({success: true, message: "Animal updated successfully"});
 					}
-	
+
 				});
-	
-	
+
+
 			} else {
 				res.json({success: false, message: "Animal not found or you don't have access to this animal"});
 			}
-	
-	
+
+
 		});
 	}
 
@@ -552,30 +555,21 @@ router.post('/animals', function(req, res) {
 	if(!req.body.id) {
 		res.json({success: false, message: "You did not send an ID"});
 	} else {
-		
-		
-	
-	
-	
+
 		Animal.findOne({_id: req.body.id}, function(err, animal) {
-	
-	
 			if(animal) {
-	
-	
 				animal.managedBy = req.decoded.user._id;
 				animal.save(function(err) {
 					if (err) {
 						console.log(err);
 						res.json({success: false});
 					} else {
+						var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' has a new animal';
+						sendNotifications(notification, req.decoded.user._id);
 						res.json({success: true});
 					}
-	
 				});
-	
 			} else {
-				
 				if(!req.body.name || !req.body.type || !req.body.breed) {
 					res.json({success: false, message: "You did not include all the required info"});
 				} else {
@@ -587,9 +581,9 @@ router.post('/animals', function(req, res) {
 						breed: req.body.breed
 					}).save(function(err) {
 						if(err) {
-		
+
 							if(err && err.code !== 11000) {
-		
+
 								res.json({success: false, message: "An error occurred"});
 							}
 							if(err && err.code === 11000) {
@@ -597,15 +591,13 @@ router.post('/animals', function(req, res) {
 							}
 						} else {
 							//console.log(req.body.name + ' saved successfully');
+							var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' added a new animal';
+							sendNotifications(notification, req.decoded.user._id);
 							res.json({ success: true, message: "Animal has been added" });
 						}
 					});
 				}
-	
-	
 			}
-	
-	
 		})
 	}
 });
@@ -618,7 +610,7 @@ var sortByKey = function(array, key) {
 		var x = a[key]; var y = b[key];
 		return ((x > y) ? -1 : ((x < y) ? 1 : 0));
 	});
-	
+
 }
 
 // View all the weights for a specific animal
@@ -631,14 +623,14 @@ router.get('/weights/:id', function(req, res) {
 				verifyPermission(animal.managedBy, req.decoded.user._id, function(status) {
 					if(status === true) {
 						console.log("Viewing weights for animal: " + req.params.id);
-						var animal = Weight.find({ id: req.params.id }, function(err, weights) {						
+						var animal = Weight.find({ id: req.params.id }, function(err, weights) {
 							res.json({success: true, message: "Sending weights", data: sortByKey(weights, 'date')});
-	
+
 						});
 					} else {
 						res.json({success: false, message: "You do not have access to this animal's weights"});
 					}
-	
+
 				});
 			}
 		});
@@ -649,8 +641,7 @@ router.get('/weights/:id', function(req, res) {
 
 // Deletes a weight
 router.delete('/weight/:id', function(req, res) {
-	
-	
+
 	if(!req.params.id) {
 		res.json({success: false, message: "You did not send a weight ID"});
 	} else {
@@ -662,27 +653,29 @@ router.delete('/weight/:id', function(req, res) {
 					} else {
 						weight.remove(function(err) {
 							if(err) {
-								res.json({success: false, message: "Failed removing weight"});	
+								res.json({success: false, message: "Failed removing weight"});
 							} else {
+								var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' removed a weight for ' + animal.name;
+								sendNotifications(notification, req.decoded.user._id);
 								res.json({success: true, message: "Weight removed successfully"});
 							}
-							
+
 						});
 					}
-				});				
+				});
 			} else {
 				res.json({success: false, message: "No weight with that ID"});
 			}
 
 		});
-	}	
+	}
 });
 
 // Add a weight for a specific animal
 router.post('/weights/:id', function(req, res) {
 	if(!req.params.id) {
 		res.json({success: false, message: "You did not send an animal ID"});
-	} else {	
+	} else {
 		Animal.findOne({
 			_id: req.params.id
 		}, function(err, animal) {
@@ -691,10 +684,10 @@ router.post('/weights/:id', function(req, res) {
 			} else {
 				if(!req.body.weight || !req.body.date) {
 					res.json({success: false, message: "You did not send the required info"});
-				} else {				
+				} else {
 					if(animal.managedBy !== req.decoded.user._id) {
 						res.json({success: false, message: "You do not have permission to add a weight for this animal"});
-		
+
 					} else {
 						Weight({
 								id: req.params.id,
@@ -710,15 +703,17 @@ router.post('/weights/:id', function(req, res) {
 										res.json({success: false, message: "Duplicate found?"});
 									}
 								} else if(weight){
+									var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' added a weight for ' + animal.name;
+									sendNotifications(notification, req.decoded.user._id);
 									res.json({ success: true, message: "Weight added successfully", data: weight._id});
 								}
 							});
-		
+
 					}
 				}
-	
-	
-	
+
+
+
 			}
 		});
 	}
@@ -750,14 +745,14 @@ router.post('/breeds', function(req, res) {
 	if(!req.body.type) {
 		res.json({success: false, message: "You did not send a type"});
 	} else {
-		
-	
+
+
 		if(req.decoded.user.admin === true) {
 			var update = {};
 			if(req.body.breed) {
 				update = {$addToSet: { breeds: {breed: req.body.breed}}};
 			}
-	
+
 			AnimalType.findOneAndUpdate(
 				{type: req.body.type},
 				update,
@@ -769,7 +764,7 @@ router.post('/breeds', function(req, res) {
 					} else {
 						res.json({ success: true, message: "Type/breed added successfully"});
 					}
-	
+
 				}
 			);
 		} else {
