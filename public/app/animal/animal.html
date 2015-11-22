@@ -24,8 +24,8 @@
         {{animal.params.name | capitalize:true}} -->
 		<button class="btn btn-danger btn-xs pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
     </h3>
-	<div class="form-group">
-		<button ng-hide="animal.observing" style="display: block"  type="button" class="btn btn-primary" ng-click="addUserCollapsed = !addUserCollapsed">
+	<div class="form-group btn-group-vertical" style="width: 100%">
+		<button ng-hide="animal.observing" style="display: block; text-align: left"  type="button" class="btn btn-primary" ng-click="addUserCollapsed = !addUserCollapsed">
 			<span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>	
 			New Weight
 		</button>
@@ -51,7 +51,7 @@
 				</div>
 			</form>
 		</div>
-		<button ng-hide="animal.observing" style="display: block"  type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
+		<button ng-hide="animal.observing" style="display: block; text-align: left"  type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
 			<span ng-class="{'glyphicon glyphicon-plus' : !editAnimalCollapsed, 'glyphicon glyphicon-minus' : editAnimalCollapsed}"></span>	
 			Edit Animal
 		</button>
@@ -81,7 +81,7 @@
 			</form>
 		</div>
 
-		<button type="button" style="display: block"  class="btn btn-default" ng-click="targetDateCollapsed = !targetDateCollapsed">
+		<button type="button" style="display: block; text-align: left"  class="btn btn-default" ng-click="targetDateCollapsed = !targetDateCollapsed">
 			<span ng-class="{'glyphicon glyphicon-plus' : !targetDateCollapsed, 'glyphicon glyphicon-minus' : targetDateCollapsed}"></span>
 			Target Date Estimation
 		</button>
@@ -98,22 +98,22 @@
 						</button>
 						<div class="alert alert-info form-group fadein fadeout"  style="display: inline-block" ng-show="animal.showTargetMessage">
 							{{animal.targetMessage}}
-					
+							<a class="close" ng-click="animal.showTargetMessage = !animal.showTargetMessage">&times;</a>
 						</div>
 					</div>
 				</div>
 			</form>
 		</div>
-		<button type="button" style="display: block"  class="btn btn-default" ng-click="animal.calculateADG()">
+		<button type="button" style="display: block; text-align: left"  class="btn btn-default" ng-click="animal.calculateADG()">
 			<span class="glyphicon glyphicon-stats"></span>
 			Calculate Average Daily Gains
 		</button>
 		<form class="form-inline">
 			<div class="form-group panel panel-default fadein fadeout" ng-show="animal.showDataMessage">
 				<div class="panel-body">
-					<div class="alert alert-info" style="padding: 8px" >
+					<div class="alert alert-info form-group" style="padding: 8px" >
 						{{ animal.dataMessage }} 
-								
+						<button class="close" ng-click="animal.showDataMessage = !animal.showDataMessage">&times;</button>		
 					</div>
 				</div>
 			</div>

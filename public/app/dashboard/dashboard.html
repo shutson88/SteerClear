@@ -21,8 +21,8 @@
 		</button>
 		Animals 
 	</h3> -->
-	<div class="form-group"  ng-show="!user.observing">
-        <button type="button" style="display: block" class="btn btn-primary" ng-click="addUserCollapsed = !addUserCollapsed">
+	<div class="form-group btn-group-vertical"  style="width: 100%" ng-show="!user.observing">
+        <button type="button" style="display: block; text-align: left" class="btn btn-primary" ng-click="addUserCollapsed = !addUserCollapsed">
             <span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>
             New Animal
         </button>
@@ -55,7 +55,7 @@
 				</div>
 			</form>
 		</div>
-		<button  type="button" style="display: block" class="btn btn-default" ng-click="addSupervisorCollapsed = !addSupervisorCollapsed">
+		<button  type="button" style="display: block; text-align: left" class="btn btn-default" ng-click="addSupervisorCollapsed = !addSupervisorCollapsed">
             <span ng-class="{'glyphicon glyphicon-plus' : !addSupervisorCollapsed, 'glyphicon glyphicon-minus' : addSupervisorCollapsed}"></span>
             Add Supervisor
         </button>
@@ -79,7 +79,7 @@
 				</div>
 			</form>
 		</div>
-		<button type="button" style="display: block" class="btn btn-default" ng-click="removeSupervisorCollapsed = !removeSupervisorCollapsed">
+		<button type="button" style="display: block; text-align: left" class="btn btn-default" ng-click="removeSupervisorCollapsed = !removeSupervisorCollapsed">
             <span ng-class="{'glyphicon glyphicon-plus' : !removeSupervisorCollapsed, 'glyphicon glyphicon-minus' : removeSupervisorCollapsed}"></span>			
             Remove Supervisor
         </button>
@@ -96,7 +96,7 @@
 						</div>
 						<div ng-repeat="super in user.supervisors">
 							<p style="display: inline-block">{{super.username}}</p>
-								<button class="btn btn-default" type="button" ng-click-confirm="user.removeSupervisor(super.username)" ng-confirm="Are you sure you want to remove this supervisor?">
+								<button class="btn btn-default btn-xs" type="button" ng-click-confirm="user.removeSupervisor(super.username)" ng-confirm="Are you sure you want to remove this supervisor?">
 									<span class="glyphicon glyphicon-minus-sign"></span>
 									Remove
 								</button>
