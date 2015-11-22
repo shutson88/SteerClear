@@ -22,7 +22,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 	} else {
 		vm.observing = false;
 	}
-	
+	vm.date = new Date();
 
     vm.sortType = 'date';
     vm.sortReverse = false;
