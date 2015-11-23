@@ -66,8 +66,8 @@
         <td>{{ youth._id }}</td>
         <td>{{ youth.first_name }}</td>
         <td>{{ youth.last_name}}</td>
-		<td><a href="mailto:{{ youth.email}}">{{youth.email}}</a></td>
-		<td class="col-sm-2">
+		<td ng-click="$event.stopPropagation()"><a href="mailto:{{ youth.email}}">{{youth.email}}</a></td>
+		<td ng-click="$event.stopPropagation()" class="col-sm-2">
 			<button class="btn btn-danger btn-xs" type="button" ng-click-confirm="observe.stopObserving( youth._id )" ng-confirm="Are you sure you want to stop observing {{youth._id}}?">Stop Observing</button>
 		</td>
     </tr>

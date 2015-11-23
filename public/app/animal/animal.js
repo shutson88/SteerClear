@@ -283,7 +283,13 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 		vm.adgMessage.alertType = 'alert-warning';
 		vm.adgMessage.message = vm.data;
 		vm.adgMessage.show = true;
+		
+		console.log("Starting timeout");
 		$timeout(function() {
+
+				
+
+			console.log("Ending timeout");
 			vm.adgMessage.show = false;
 		
 		}, 2000);

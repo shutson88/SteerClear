@@ -170,7 +170,7 @@
         <td>{{ a.id | capitalize}}</td>
         <td>{{ a.date | myDate }}</td>
         <td>{{ a.weight}}</td>
-        <td class="col-sm-2" ng-show="!animal.observing">
+        <td ng-click="$event.stopPropogation()" class="col-sm-2" ng-show="!animal.observing">
             <button ng-click-confirm="animal.removeWeight(a._id)"  class="btn btn-danger btn-xs" ng-confirm="Are you sure you want to remove this weight?">Delete</button>
         </td>
 

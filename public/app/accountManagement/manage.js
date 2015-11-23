@@ -10,7 +10,7 @@ manage.config(['$routeProvider', function($routeProvider) {
     });
 }]);
 
-manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', '$timeout', function($http, $location, $routeParams, $timeout) {
+manage.controller('ManageCtrl', [ 'Auth', '$http', '$location', '$routeParams', '$timeout', function(Auth, $http, $location, $routeParams, $timeout) {
 	
 	
 	var vm = this;
@@ -35,8 +35,10 @@ manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', '$timeou
 				vm.changePasswordMessage.show = true;				
 				$timeout(function() {
 					vm.changePasswordMessage.show = false;
+					Auth.logout();
+					$location.path('/signin');
 				}, 2000);
-							
+			
 
 				
 			});
@@ -60,9 +62,10 @@ manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', '$timeou
 				vm.resetPasswordMessage.show = true;
 				$timeout(function() {
 					vm.resetPasswordMessage.show = false;
-				
+					Auth.logout();
+					$location.path('/signin');					
 				}, 2000);
-				
+
 			});
 			
 			
@@ -82,12 +85,15 @@ manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', '$timeou
 				vm.resetPasswordMessage.show = true;
 				$timeout(function() {
 					vm.resetPasswordMessage.show = false;
-				
+					Auth.logout();
+					$location.path('/signin');				
 				}, 2000);
-				
+
 			});
 		}
 	};
+	
+
 	
 }]);
 
