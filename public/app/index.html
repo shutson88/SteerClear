@@ -63,7 +63,7 @@
             <div uib-collapse="isCollapsed">
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-if="!main.loggedIn">
-                        <a  href="/signin">Login</a>                       
+                        <a  href="/signin">Login</a>
                     </li>
 					<li ng-if="!main.loggedIn">
 						<a href="/register">Register</a>
@@ -74,11 +74,29 @@
                     <li ng-if="main.loggedIn">
                         <p class="navbar-text" style="margin-left: 15px">Logged in as {{main.user.username}}</p>
                     </li>
-                    <li ng-if="main.loggedIn">
-                        <a href="#">
+                    <!-- Notification Menu -->
+                    <li class="dropdown" ng-if="main.loggedIn">
+                        <a id="dLabel" role="button" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-bell"></span>
-                            <span class="badge">{{main.unread}}</span>
+                            <span class="badge" id="unreadNotifications">{{main.unread}}</span>
                         </a>
+
+                        <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
+
+                            <div class="notification-heading"><h4 class="menu-title">Notifications</h4>
+                            </div>
+                            <li class="divider"></li>
+                            <div class="notifications-wrapper" ng-repeat="notification in main.notifications">
+                                <a class="content" href="#">
+                                    <div class="notification-item">
+                                       <a href='dashboard/{{notification.sender}}'>
+                                           <h4 class="item-title">{{notification.message}}</h4>
+                                           <p class="item-info">{{notification.date | date:'MM/dd/yyyy h:mm a'}}</p>
+                                       </a>
+                                    </div>
+                                </a>
+                            </div>
+                        </ul>
                     </li>
 					<li ng-if="main.loggedIn">
 						<a href="#" ng-click="main.doLogout()">Logout</a>

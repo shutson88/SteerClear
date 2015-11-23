@@ -12,12 +12,12 @@ angular.module('app.main', ['ngRoute'])
 	vm.checkAdmin = function() {
 		if(Auth.isAdmin()) {
 			return true;
-			
+
 		} else {
 			return false;
 		}
-		
-		
+
+
 	};
     // check to see if a user is logged in on every request
     $rootScope.$on('$routeChangeStart', function() {
@@ -49,6 +49,19 @@ angular.module('app.main', ['ngRoute'])
 
     });
 
+    vm.readNotifications = function() {
+        $http({
+            method: 'PUT',
+            url: '/api/notifications'
+        }).then(function successCallback(response) {
+            console.log('Marked all notifications as read!');
+            vm.unread = 0;
+            document.getElementById("unreadNotifications").innerHTML = "0";
+        }, function errorCallback(response) {
+            console.log('ERROR: ' + response);
+        });
+    }
+
     vm.doLogin = function() {
       vm.processing = true;
 
@@ -63,7 +76,7 @@ angular.module('app.main', ['ngRoute'])
             //console.log('Username in MainCtrl: '+Auth.username);
 
           if(data.success){
-			  
+
             $location.path('/');
           } else {
             vm.error = data.message;
@@ -72,13 +85,13 @@ angular.module('app.main', ['ngRoute'])
     };
 
 	vm.goToRegister = function() {
-		$location.path('/register');		
+		$location.path('/register');
 	};
-	
+
 	vm.goToLogin = function() {
 		$location.path('/signin');
 	};
-	
+
     vm.registerUser = function(isValid) {
       if(isValid) {
         vm.error = '';

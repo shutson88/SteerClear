@@ -819,6 +819,21 @@ router.post('/notifications/:id', function(req, res) {
 	);
 });
 
+// Mark all notifications as read
+router.put('/notifications', function(req, res) {
+	// Mark as read
+	User.update({'_id': req.decoded.user._id, 'notifications.read': false},
+		{'$set': { 'notifications.$.read': true }
+	}, function(err) {
+		if(err) {
+			console.log(err);
+			res.json({success: false, message: "An error occurred"});
+		} else {
+			res.json({ success: true, message: "Notifications marked as read" });
+		}
+	})
+});
+
 // Mark notification with timestamp :id as read
 router.put('/notifications/:id', function(req, res) {
 	// Get timestamp for looking up notification
