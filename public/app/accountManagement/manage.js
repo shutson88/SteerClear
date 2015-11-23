@@ -10,13 +10,15 @@ manage.config(['$routeProvider', function($routeProvider) {
     });
 }]);
 
-manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', '$timeout', function($http, $location, $routeParams, $timeout) {
+manage.controller('ManageCtrl', [ 'Auth', '$http', '$location', '$routeParams', '$timeout', function(Auth, $http, $location, $routeParams, $timeout) {
 	
 	
 	var vm = this;
 	
 	vm.resetToken = $routeParams.resettoken;
 	
+	vm.changePasswordMessage = {};
+	vm.resetPasswordMessage = {};
 	
 	vm.changePassword = function() {
 		if(vm.newPassword == vm.newPasswordConfirm) {
@@ -24,23 +26,19 @@ manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', '$timeou
 			{currentPassword: vm.currentPassword, newPassword: vm.newPassword})
 			.success(function (data, status, headers, config) {
 				console.log(data);
-				if(data.message) {vm.changePasswordMessage = data.message;} else {vm.changePasswordMessage = "missing message";}
-				vm.showChangePasswordMessage = true;
-				
+				if(data.success) {
+					vm.changePasswordMessage.alertType = 'alert-success';
+				} else {
+					vm.changePasswordMessage.alertType = 'alert-warning';
+				}
+				if(data.message) {vm.changePasswordMessage.message = data.message;} else {vm.changePasswordMessage.message = "missing message";}
+				vm.changePasswordMessage.show = true;				
 				$timeout(function() {
-					vm.showChangePasswordMessage = false;
-					if(data.success) {
-						
-
-						console.log("Password updated successfully");
-					} else {
-						console.log("Password update failed");
-					}
-
-				
-					
+					vm.changePasswordMessage.show = false;
+					Auth.logout();
+					$location.path('/signin');
 				}, 2000);
-							
+			
 
 				
 			});
@@ -55,13 +53,19 @@ manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', '$timeou
 			$http.put("http://" + window.location.host + "/api/passreset/",
 			{resetToken: vm.resetToken, resetNewPassword: vm.resetNewPassword})
 			.success(function (data, status, headers, config) {
-				if(data.message) {vm.resetPasswordMessage = data.message;} else {vm.resetPasswordMessage = "missing message";}
-				vm.showResetPasswordMessage = true;
+				if(data.success) {
+					vm.resetPasswordMessage.alertType = 'alert-success';
+				} else {
+					vm.resetPasswordMessage.alertType = 'alert-warning';
+				}
+				if(data.message) {vm.resetPasswordMessage.message = data.message;} else {vm.resetPasswordMessage.message = "missing message";}
+				vm.resetPasswordMessage.show = true;
 				$timeout(function() {
-					vm.showResetPasswordMessage = false;
-				
+					vm.resetPasswordMessage.show = false;
+					Auth.logout();
+					$location.path('/signin');					
 				}, 2000);
-				
+
 			});
 			
 			
@@ -72,16 +76,24 @@ manage.controller('ManageCtrl', [ '$http', '$location', '$routeParams', '$timeou
 			$http.put("http://" + window.location.host + "/api/passreset/",
 			{email: vm.email})
 			.success(function (data, status, headers, config) {
-				if(data.message) {vm.resetPasswordMessage = data.message;} else {vm.resetPasswordMessage = "missing message";}
-				vm.showResetPasswordMessage = true;
+				if(data.success) {
+					vm.resetPasswordMessage.alertType = 'alert-success';
+				} else {
+					vm.resetPasswordMessage.alertType = 'alert-warning';
+				}
+				if(data.message) {vm.resetPasswordMessage.message = data.message;} else {vm.resetPasswordMessage.message = "missing message";}
+				vm.resetPasswordMessage.show = true;
 				$timeout(function() {
-					vm.showResetPasswordMessage = false;
-				
+					vm.resetPasswordMessage.show = false;
+					Auth.logout();
+					$location.path('/signin');				
 				}, 2000);
-				
+
 			});
 		}
 	};
+	
+
 	
 }]);
 

@@ -20,7 +20,9 @@ html {
 .fadein.ng-hide-remove.ng-hide-remove-active {
     opacity: 1;
 }
-.alert-info {
+.alert-info,
+.alert-success,
+.alert-warning {
 	padding: 6px;
 	display: inline;
 
@@ -86,3 +88,30 @@ html {
  background:#ccc;
  border-radius:4px;
  }
+
+.navbar-inverse {
+  background-color: #500000;
+  border-color: #332c2c;
+
+}
+
+.navbar-inverse .navbar-text{
+	color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-brand {
+	color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-brand:focus {
+  color: #EDDD9E;
+  background-color: transparent;
+}
+
+.nav.navbar-nav.navbar-right > li > a {
+	color: #FFFFFF;
+}
+.nav.navbar-nav.navbar-right li a:hover {
+  color: #EDDD9E;
+}

@@ -39,7 +39,10 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
       vm.selectedRow = index;
     }
 
-	
+	vm.editMessage = {};
+	vm.addWeightMessage = {};
+	vm.targetMessage = {};
+	vm.adgMessage = {};
 	
     $http.get('/api/weights/'+vm.animalID)
       .success(function (data) {
@@ -61,10 +64,15 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 			.success(function (data, status, headers, config) {
 				if(vm.newName) {vm.params.name = vm.newName;}
 				console.log(vm.params.name);
-				if(data.message) {vm.editMessage = data.message;} else {vm.editMessage = "Animal edited successfully...";}
-				vm.showEditMessage = true;
+				if(data.success) {
+					vm.editMessage.alertType = 'alert-success';
+				} else {
+					vm.editMessage = 'alert-warning';
+				}
+				if(data.message) {vm.editMessage.message = data.message;} else {vm.editMessage.message = "missing message";}
+				vm.editMessage.show = true;
 				$timeout(function() {
-					vm.showEditMessage = false;
+					vm.editMessage.show = false;
 				
 				}, 2000);
 				
@@ -107,11 +115,15 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
       console.log("Adding weight for: "+vm.date);
       $http.post("http://" + window.location.host + "/api/weights/"+vm.animalID, {date: vm.date, weight: vm.weight})
         .success(function (data, status, headers, config) {
-			//console.log(data);
-			if(data.message) {vm.addWeightMessage = data.message;} else {vm.addWeightMessage = "Missing message";}
-			vm.showWeightMessage = true;
+			if(data.success) {
+				vm.addWeightMessage.alertType = 'alert-success';
+			} else {
+				vm.addWeightMessage.alertType = 'alert-warning';
+			}
+			if(data.message) {vm.addWeightMessage.message = data.message;} else {vm.addWeightMessage.message = "missing message";}
+			vm.addWeightMessage.show = true;
 			$timeout(function() {
-				vm.showWeightMessage = false;
+				vm.addWeightMessage.show = false;
 			
 			}, 2000);
 			$http.get('/api/weights/'+vm.animalID)
@@ -122,8 +134,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 				//console.log("Data: "+JSON.stringify(data));
 				
 			});
-        })
-
+        });
     }
 
 
@@ -172,34 +183,6 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
     }
 
-    vm.calculate = function () {
-
-      //console.log("Average dates"+averageDates);
-      var regressionData = vm.getAverageArray();
-
-      //console.log("Regression data:" + regressionData);
-      var referenceDate = regressionData[0][0]; //take the earliest date as a referece
-
-      for (var i = 0; i < regressionData.length; i++) {
-        var second = new Date(regressionData[i][0]);
-        var first = new Date(referenceDate);
-        regressionData[i][0] = Math.round((second - first) / (1000 * 60 * 60 * 24));
-        console.log("Days since start : " + Math.round((second - first) / (1000 * 60 * 60 * 24)));
-
-      }
-      //TODO: ensure that each date is unique so that the data can be used to form a regression line
-      console.log(regressionData);
-
-      if (vm.targetWeight) {
-        console.log("target weight");
-
-      } else if (vm.targetDate) {
-        console.log("target date");
-
-      }
-
-    }
-
     vm.averageGainInRange = function () {
       if (!vm.start_date || !vm.end_date) {
         vm.data = "Please enter start date and end date."
@@ -239,10 +222,11 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     vm.targetDateCalculator = function(){
 		if(vm.targetDate == null){
 			vm.data = "Please enter a target date"
-			vm.targetMessage = vm.data;
-			vm.showTargetMessage = true;
+			vm.targetMessage.alertType = 'alert-warning';
+			vm.targetMessage.message = vm.data;
+			vm.targetMessage.show = true;
 			$timeout(function() {
-				vm.showTargetMessage = false;
+				vm.targetMessage.show = false;
 			
 			}, 2000);
 		}
@@ -286,8 +270,9 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 		targetWeight += gain;
 		var formattedDate = vm.targetDate.toLocaleDateString("en-US");
 		vm.data = "Target weight at "+formattedDate+" is estimated to be "+Math.round(targetWeight)+"lbs";
-		vm.targetMessage = vm.data;
-		vm.showTargetMessage = true;
+		vm.targetMessage.message = vm.data;
+		vm.targetMessage.alertType = 'alert-success';
+		vm.targetMessage.show = true;
     }
 
     //When two rows are selected, calculate the ADG in that date range
@@ -295,10 +280,17 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
       if(vm.selectedRow == null || vm.selectedRow == null){
         vm.data = "Please click two rows (start and end)"
-		vm.dataMessage = vm.data;
-		vm.showDataMessage = true;
+		vm.adgMessage.alertType = 'alert-warning';
+		vm.adgMessage.message = vm.data;
+		vm.adgMessage.show = true;
+		
+		console.log("Starting timeout");
 		$timeout(function() {
-			vm.showDataMessage = false;
+
+				
+
+			console.log("Ending timeout");
+			vm.adgMessage.show = false;
 		
 		}, 2000);
 
@@ -320,8 +312,9 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
 
         vm.averageGainInRange();
-		vm.dataMessage = vm.data;
-		vm.showDataMessage = true;
+		vm.adgMessage.message = vm.data;
+		vm.adgMessage.alertType = 'alert-success';
+		vm.adgMessage.show = true;
 
       }
 

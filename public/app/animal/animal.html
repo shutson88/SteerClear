@@ -18,10 +18,6 @@
 	</ol>    
 	<h3>
 		{{animal.params.name | capitalize:true}}
-<!-- 		<button class="btn btn-link" ng-click="animal.goDashboard()">
-			<span class="glyphicon glyphicon-menu-left"></span>
-		</button>
-        {{animal.params.name | capitalize:true}} -->
 		<button class="btn btn-danger btn-xs pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
     </h3>
 	<div class="form-group btn-group-vertical" style="width: 100%">
@@ -43,8 +39,8 @@
 							<span class="glyphicon glyphicon-plus-sign"></span>
 							Add
 						</button>
-						<div class="alert alert-info form-group fadein fadeout"  ng-show="animal.showWeightMessage">
-							{{animal.addWeightMessage}}
+						<div class="alert alert-info form-group fadein fadeout" ng-class="animal.addWeightMessage.alertType" ng-show="animal.addWeightMessage.show">
+							{{animal.addWeightMessage.message}}
 					
 						</div>
 					</div>
@@ -72,8 +68,8 @@
 							<span class="glyphicon glyphicon-edit"></span>
 							Edit
 						</button>
-						<div class="alert alert-info form-group fadein fadeout"  ng-show="animal.showEditMessage">
-							{{animal.editMessage}}
+						<div class="alert alert-info form-group fadein fadeout" ng-class="animal.editMessage.alertType" ng-show="animal.editMessage.show">
+							{{animal.editMessage.message}}
 					
 						</div>
 					</div>
@@ -96,9 +92,10 @@
 							<span class="glyphicon glyphicon-screenshot"></span>
 							Calculate
 						</button>
-						<div class="alert alert-info form-group fadein fadeout"  style="display: inline-block" ng-show="animal.showTargetMessage">
-							{{animal.targetMessage}}
-							<a class="close" ng-click="animal.showTargetMessage = !animal.showTargetMessage">&times;</a>
+
+						<div class="alert alert-info form-group fadein fadeout" ng-class="animal.targetMessage.alertType" style="display: inline-block" ng-show="animal.targetMessage.show">
+							{{animal.targetMessage.message}}
+							<a class="close" ng-click="animal.targetMessage.show = !animal.targetMessage.show">&times;</a>
 						</div>
 					</div>
 				</div>
@@ -106,35 +103,19 @@
 		</div>
 		<button type="button" style="display: block; text-align: left"  class="btn btn-default" ng-click="animal.calculateADG()">
 			<span class="glyphicon glyphicon-stats"></span>
-			Calculate Average Daily Gains
+			Calculate Average Daily Gain
 		</button>
 		<form class="form-inline">
-			<div class="form-group panel panel-default fadein fadeout" ng-show="animal.showDataMessage">
+			<div class="form-group panel panel-default fadein fadeout" ng-show="animal.adgMessage.show">
 				<div class="panel-body">
-					<div class="alert alert-info form-group" style="padding: 8px" >
-						{{ animal.dataMessage }} 
-						<button class="close" ng-click="animal.showDataMessage = !animal.showDataMessage">&times;</button>		
+					<div class="form-group alert" ng-class="animal.adgMessage.alertType" style="padding: 8px" >
+						{{ animal.adgMessage.message }} 
+						<button class="close" ng-click="animal.adgMessage.show = !animal.adgMessage.show">&times;</button>			
 					</div>
 				</div>
 			</div>
 		</form>
-<!-- 		<div uib-collapse="!rangeDateCollapsed">
-			<form class="form-inline" role="form">
-				<div class="form-group panel panel-default">
-					<div class="panel-body">
-						<div class="form-group">
-							<input type="date" class="form-control" ng-model="animal.start_date" placeholder="Start Date">
-						</div>
-						<div class="form-group">
-							<input type="date" class="form-control" ng-model="animal.end_date" placeholder="End Date">
-						</div>
-						<button class="btn btn-default" type="button" ng-click="animal.averageGainInRange()">
-							Calculate
-						</button>
-					</div>
-				</div>
-			</form>
-		</div> -->
+
 
 
 	</div>
@@ -189,7 +170,7 @@
         <td>{{ a.id | capitalize}}</td>
         <td>{{ a.date | myDate }}</td>
         <td>{{ a.weight}}</td>
-        <td class="col-sm-2" ng-show="!animal.observing">
+        <td ng-click="$event.stopPropogation()" class="col-sm-2" ng-show="!animal.observing">
             <button ng-click-confirm="animal.removeWeight(a._id)"  class="btn btn-danger btn-xs" ng-confirm="Are you sure you want to remove this weight?">Delete</button>
         </td>
 
