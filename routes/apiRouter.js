@@ -689,25 +689,37 @@ router.post('/weights/:id', function(req, res) {
 						res.json({success: false, message: "You do not have permission to add a weight for this animal"});
 
 					} else {
-						Weight({
-								id: req.params.id,
-								weight: req.body.weight,
-								date: req.body.date
-							}).save(function(err, weight) {
-								if(err) {
-									if(err && err.code !== 11000) {
-										console.log(err);
-										res.json({success: false, message: "Another error occurred"});
-									}
-									if(err && err.code === 11000) { //TODO: shouldn't need this
-										res.json({success: false, message: "Duplicate found?"});
-									}
-								} else if(weight){
-									var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' added a weight for ' + animal.name;
-									sendNotifications(notification, req.decoded.user._id);
-									res.json({ success: true, message: "Weight added successfully", data: weight._id});
-								}
-							});
+						var tempDate = new Date(req.body.date);
+						var tempMonth = tempDate.getMonth();
+						var tempDay = tempDate.getDate();
+						var tempYear = tempDate.getFullYear();						
+						Weight.findOne({date: {$gt: new Date(tempYear, tempMonth, tempDay), $lt: new Date(tempYear, tempMonth, tempDay+1)}}, function(err, weight) {
+							if(!weight) {
+								Weight({
+										id: req.params.id,
+										weight: req.body.weight,
+										date: req.body.date
+									}).save(function(err, weight) {
+										if(err) {
+											if(err && err.code !== 11000) {
+												console.log(err);
+												res.json({success: false, message: "Another error occurred"});
+											}
+											if(err && err.code === 11000) { //TODO: shouldn't need this
+												res.json({success: false, message: "Duplicate found?"});
+											}
+										} else if(weight){
+											var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' added a weight for ' + animal.name;
+											sendNotifications(notification, req.decoded.user._id);
+											res.json({ success: true, message: "Weight added successfully", data: weight._id});
+										}
+									});								
+							} else {
+								res.json({success: false, message: "There is already a weight for this date"});
+							}
+						});
+						
+
 
 					}
 				}

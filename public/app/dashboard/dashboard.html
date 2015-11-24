@@ -8,19 +8,10 @@
 	</ol> 
 	
 	<h3 ng-show="user.observing">
-<!-- 		<button class="btn btn-link" ng-click="user.goObserving()">
-			<span class="glyphicon glyphicon-menu-left"></span>
-		</button> -->
 		{{ user.id | capitalize:true}}
 		
 	</h3>
 	
-<!-- 	<h3 ng-show="!user.observing">
-        <button class="btn btn-link" ng-click="user.goHome()">
-			<span class="glyphicon glyphicon-menu-left"></span>
-		</button>
-		Animals 
-	</h3> -->
 	<div class="form-group btn-group-vertical"  style="width: 100%" ng-show="!user.observing">
         <button type="button" style="display: block; text-align: left" class="btn btn-primary" ng-click="addUserCollapsed = !addUserCollapsed">
             <span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>
@@ -89,19 +80,25 @@
 					<div class="panel-body">
 						<div class="alert alert-info form-group fadein fadeout" ng-class="user.removeSupervisorMessage.alertType" ng-show="user.removeSupervisorMessage.show">
 							{{user.removeSupervisorMessage.message}}
-						
 						</div>
 						<div class="alert alert-info form-group" ng-show="user.supervisors.length == 0">
 							You have no supervisors
 						</div>
-						<div ng-repeat="super in user.supervisors">
-							<p style="display: inline-block">{{super.username}}</p>
-								<button class="btn btn-default btn-xs" type="button" ng-click-confirm="user.removeSupervisor(super.username)" ng-confirm="Are you sure you want to remove this supervisor?">
-									<span class="glyphicon glyphicon-minus-sign"></span>
-									Remove
-								</button>
-								
-						</div>
+						<table class="table table-bordered">
+							<tbody>
+								<tr ng-repeat="super in user.supervisors">
+									<td>{{super.username}}</td>
+									<td>
+										<button class="btn btn-danger btn-xs" type="button" ng-click-confirm="user.removeSupervisor(super.username)" ng-confirm="Are you sure you want to remove this supervisor?">
+											<span class="glyphicon glyphicon-minus-sign"></span>
+											Remove
+										</button>
+									</td>
+										
+								</tr>
+							</tbody>
+						</table>
+
 					</div>
 				</div>
 			</form>    

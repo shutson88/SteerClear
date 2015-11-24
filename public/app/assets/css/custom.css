@@ -115,3 +115,11 @@ html {
 .nav.navbar-nav.navbar-right li a:hover {
   color: #EDDD9E;
 }
+
+.btn-primary {
+	background-color: #1D3362;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+	background-color: #104554;
+}
