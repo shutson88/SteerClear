@@ -43,6 +43,10 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 	vm.addWeightMessage = {};
 	vm.targetMessage = {};
 	vm.adgMessage = {};
+	vm.newWeightTimeout = undefined;
+	vm.editAnimalTimeout = undefined;
+	vm.targetDateTimeout = undefined;
+	vm.calculateAdgTimeout = undefined;
 	
     $http.get('/api/weights/'+vm.animalID)
       .success(function (data) {
@@ -71,7 +75,8 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 				}
 				if(data.message) {vm.editMessage.message = data.message;} else {vm.editMessage.message = "missing message";}
 				vm.editMessage.show = true;
-				$timeout(function() {
+				if(vm.editAnimalTimeout) $timeout.cancel(vm.editAnimalTimeout);
+				vm.editAnimalTimeout = $timeout(function() {
 					vm.editMessage.show = false;
 				
 				}, 2000);
@@ -122,7 +127,8 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 			}
 			if(data.message) {vm.addWeightMessage.message = data.message;} else {vm.addWeightMessage.message = "missing message";}
 			vm.addWeightMessage.show = true;
-			$timeout(function() {
+			if(vm.addWeightTimeout) $timeout.cancel(vm.addWeightTimeout);
+			vm.addWeightTimeout = $timeout(function() {
 				vm.addWeightMessage.show = false;
 			
 			}, 2000);
@@ -225,7 +231,8 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 			vm.targetMessage.alertType = 'alert-warning';
 			vm.targetMessage.message = vm.data;
 			vm.targetMessage.show = true;
-			$timeout(function() {
+			if(vm.targetDateTimeout) $timeout.cancel(vm.targetDateTimeout);			
+			vm.targetDateTimeout = $timeout(function() {
 				vm.targetMessage.show = false;
 			
 			}, 2000);
@@ -273,7 +280,8 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 		vm.targetMessage.message = vm.data;
 		vm.targetMessage.alertType = 'alert-success';
 		vm.targetMessage.show = true;
-    }
+		if(vm.targetDateTimeout) $timeout.cancel(vm.targetDateTimeout);	 
+	}
 
     //When two rows are selected, calculate the ADG in that date range
     vm.calculateADG = function(){
@@ -284,16 +292,10 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 		vm.adgMessage.message = vm.data;
 		vm.adgMessage.show = true;
 		
-		console.log("Starting timeout");
-		$timeout(function() {
-
-				
-
-			console.log("Ending timeout");
+		if(vm.calculateAdgTimeout) $timeout.cancel(vm.calculateAdgTimeout);
+		vm.calculateAdgTimeout = $timeout(function() {
 			vm.adgMessage.show = false;
-		
 		}, 2000);
-
       }
       else {
         if(vm.selectedRow < vm.selectedRow2) {
@@ -315,7 +317,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 		vm.adgMessage.message = vm.data;
 		vm.adgMessage.alertType = 'alert-success';
 		vm.adgMessage.show = true;
-
+		if(vm.calculateAdgTimeout) $timeout.cancel(vm.calculateAdgTimeout);
       }
 
 
