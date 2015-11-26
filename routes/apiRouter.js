@@ -704,7 +704,7 @@ router.post('/weights/:id', function(req, res) {
 						var tempMonth = tempDate.getMonth();
 						var tempDay = tempDate.getDate();
 						var tempYear = tempDate.getFullYear();						
-						Weight.findOne({date: {$gt: new Date(tempYear, tempMonth, tempDay), $lt: new Date(tempYear, tempMonth, tempDay+1)}}, function(err, weight) {
+						Weight.findOne({id: req.params.id, date: {$gt: new Date(tempYear, tempMonth, tempDay), $lt: new Date(tempYear, tempMonth, tempDay+1)}}, function(err, weight) {
 							if(!weight) {
 								Weight({
 										id: req.params.id,
