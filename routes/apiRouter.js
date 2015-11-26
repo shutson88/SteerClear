@@ -55,6 +55,17 @@ var verifyPermission = function(sourceID, destID, callback) {
 		});
 	}
 }
+var verifyAdmin = function(code) {
+	if(code == 123456) { //perform some check on the code to verify it
+		return true;
+	} else {
+		return false
+	}
+	
+};
+
+
+
 
 // Sends notifications to all of your observers
 // To be called in every api function that needs to send a notification
