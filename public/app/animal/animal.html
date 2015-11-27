@@ -32,8 +32,14 @@
 						<div class="form-group">
 							<input type="text" class="form-control" ng-model="animal.weight" placeholder="Weight (lbs)">
 						</div>
-						<div class="form-group">
-							<input type="date" class="form-control" ng-model="animal.date" placeholder="Date">
+						
+						<div class="form-group">							
+							<p class="input-group" style="margin: 0">
+								<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="animal.date" is-open="datepicker.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="datepicker.opened = !datepicker.opened"><i class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</p>
 						</div>
 						<button class="btn btn-default" type="button" ng-click="animal.addWeight()">
 							<span class="glyphicon glyphicon-plus-sign"></span>
@@ -86,7 +92,12 @@
 				<div class="form-group panel panel-default">
 					<div class="panel-body">
 						<div class="form-group">
-							<input type="date" class="form-control" ng-model="animal.targetDate" placeholder="Target Date">
+							<p class="input-group" style="margin: 0">
+								<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="animal.targetDate" is-open="datepicker.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="datepicker.opened = !datepicker.opened"><i class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</p>
 						</div>
 						<button type="button" class="btn btn-default" ng-click="animal.targetDateCalculator()">
 							<span class="glyphicon glyphicon-screenshot"></span>
@@ -143,19 +154,22 @@
 <table class="table table-hover table-bordered table-striped"  style="cursor: pointer" ng-show="animal.animals">
     <thead>
     <tr>
-        <th>
+        <th class="col-lg-1">
+
+		</th>
+		<th class="col-lg-5">
 			<a href="#">
                 ID
             </a>
         </th>
-        <th>
+        <th class="col-lg-2">
             <a href="#" ng-click="animal.sortType = 'date'; animal.sortReverse = !animal.sortReverse">
                 Date
                 <span ng-show="animal.sortType == 'date' && !animal.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="animal.sortType == 'date' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <th>
+        <th class="col-lg-4">
             <a href="#" ng-click="animal.sortType = 'weight'; animal.sortReverse = !animal.sortReverse">
                 Weight
                 <span ng-show="animal.sortType == 'weight' && !animal.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
@@ -166,11 +180,12 @@
     </thead>
     <tbody>
     <!-- LOOP OVER THE WEIGHTS -->
-    <tr ng-repeat="a in animal.animals | orderBy:animal.sortType:!animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date, animal)" ng-click="animal.selectDates(a.date)">
-        <td>{{ a.id | capitalize}}</td>
+    <tr ng-repeat="a in animal.animals | orderBy:animal.sortType:!animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date)" ng-click="animal.selectDates(a.date, $index)">
+        <td ng-click="$event.stopPropogation()"><input ng-checked="animal.highlight(a.date) == 'selected'" type="checkbox"></td>
+		<td>{{ a.id | capitalize}}</td>
         <td>{{ a.date | myDate }}</td>
         <td>{{ a.weight}}</td>
-        <td ng-click="$event.stopPropogation()" class="col-sm-2" ng-show="!animal.observing">
+        <td ng-click="$event.stopPropogation()" class="col-lg-1" ng-show="!animal.observing">
             <button ng-click-confirm="animal.removeWeight(a._id)"  class="btn btn-danger btn-xs" ng-confirm="Are you sure you want to remove this weight?">Delete</button>
         </td>
 

@@ -10,8 +10,9 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     });
   }])
 
-  .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', '$timeout', function ($routeParams, $http, $location, $scope, $timeout) {
+  .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', '$timeout', 'dateFilter', function ($routeParams, $http, $location, $scope, $timeout, dateFilter) {
     var vm = this;
+	//var dateFilter = $filter('date');
 	vm.params = $location.search();
 	console.log(vm.params);
     vm.animalID = vm.params.id;
@@ -24,6 +25,10 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 	}
 	vm.date = new Date();
 
+
+	
+	
+	
     vm.sortType = 'date';
     vm.sortReverse = false;
     vm.searchAnimals = '';
@@ -118,7 +123,8 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 	  
     vm.addWeight = function($scope){
       console.log("Adding weight for: "+vm.date);
-      $http.post("http://" + window.location.host + "/api/weights/"+vm.animalID, {date: vm.date, weight: vm.weight})
+       
+	  $http.post("http://" + window.location.host + "/api/weights/"+vm.animalID, {date: vm.date, weight: vm.weight})
         .success(function (data, status, headers, config) {
 			if(data.success) {
 				vm.addWeightMessage.alertType = 'alert-success';
@@ -323,7 +329,8 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
     }
 
-    vm.selectDates = function(date){
+    vm.selectDates = function(date, index){
+		console.log("clicked");
 		if(vm.selectedRow == date) {
 			vm.selectedRow = null;
 			vm.alternateSelection = false;

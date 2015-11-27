@@ -36,14 +36,13 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 				
 		});
 		
-	User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
+
     vm.sortType = '_id';
     vm.sortReverse = false;
     vm.searchAnimals = '';
     vm.addUserCollapsed = false;
 	vm.addAnimalMessage = {};
-	vm.addSupervisorMessage = {};
-	vm.removeSupervisorMessage = {};
+
 
 	
 	
@@ -80,47 +79,6 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 		
 	}
 	
-	vm.addSupervisor = function() {
-		console.log("Adding supervisor " + vm.addSupervisorID)
-		$http.put("http://" + window.location.host + "/api/users/", {id: vm.addSupervisorID})
-			.success(function(data, status, headers, config) {
-				console.log(data);
-				User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
-				if(data.success) {
-					vm.addSupervisorMessage.alertType = 'alert-success';
-				} else {
-					vm.addSupervisorMessage.alertType = 'alert-warning';
-				}
-				
-				if(data.message) {vm.addSupervisorMessage.message = data.message;} else {vm.addSupervisorMessage.message = "missing message";}
-				vm.addSupervisorMessage.show = true;
-				$timeout(function() {
-					vm.addSupervisorMessage.show = false;
-				
-				}, 2000);
-			});
-		
-		
-	}
-	
-	vm.removeSupervisor = function(id) {
-		console.log("removing " + id + " as supervisor");
-		$http.put("http://" + window.location.host + "/api/users/", {id: id, stop: true})
-			.success(function(data, status, headers, config) {
-				User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
-				if(data.success) {
-					vm.removeSupervisorMessage.alertType = 'alert-success';
-				} else {
-					vm.removeSupervisorMessage.alertType = 'alert-warning';
-				}
-				if(data.message) {vm.removeSupervisorMessage.message = data.message;} else {vm.removeSupervisorMessage.message = "missing message";}
-				vm.removeSupervisorMessage.show = true;
-				$timeout(function() {
-					vm.removeSupervisorMessage.show = false;
-				
-				}, 2000);
-			});
-	}
 	
 	vm.removeFromUser = function(id) {
 	console.log("removing " + id + " from user");

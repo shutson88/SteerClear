@@ -4,6 +4,65 @@
 			<li><a href="/">Home</a></li>
 			<li class="active">Account Management</li>
 		</ol>     
+		<div class="form-group btn-group-vertical"  style="width: 100%">
+			<button  type="button" style="display: block; text-align: left" class="btn btn-default" ng-click="addSupervisorCollapsed = !addSupervisorCollapsed">
+				<span ng-class="{'glyphicon glyphicon-plus' : !addSupervisorCollapsed, 'glyphicon glyphicon-minus' : addSupervisorCollapsed}"></span>
+				Add Supervisor
+			</button>
+			<div uib-collapse="!addSupervisorCollapsed">
+				<form class="form-inline" role="form">
+					<div class="form-group panel panel-default">
+						<div class="panel-body">
+		
+							<div class="form-group">
+								<input type="text" class="form-control" ng-model="manage.addSupervisorID" placeholder="ID">
+							</div>
+							<button class="btn btn-default" type="button" ng-click="manage.addSupervisor()">
+								<span class="glyphicon glyphicon-plus-sign"></span>
+								Add
+							</button>
+							<div class="alert alert-info form-group fadein fadeout" ng-class="manage.addSupervisorMessage.alertType" ng-show="manage.addSupervisorMessage.show">
+								{{manage.addSupervisorMessage.message}}
+							
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<button type="button" style="display: block; text-align: left" class="btn btn-default" ng-click="removeSupervisorCollapsed = !removeSupervisorCollapsed">
+				<span ng-class="{'glyphicon glyphicon-plus' : !removeSupervisorCollapsed, 'glyphicon glyphicon-minus' : removeSupervisorCollapsed}"></span>			
+				Remove Supervisor
+			</button>
+			<div uib-collapse="!removeSupervisorCollapsed">
+				<form class="form-inline" role="form">
+					<div class="form-group panel panel-default">
+						<div class="panel-body">
+							<div class="alert alert-info form-group fadein fadeout" ng-class="manage.removeSupervisorMessage.alertType" ng-show="manage.removeSupervisorMessage.show">
+								{{manage.removeSupervisorMessage.message}}
+							</div>
+							<div class="alert alert-info form-group" ng-show="manage.supervisors.length == 0">
+								You have no supervisors
+							</div>
+							<table class="table table-bordered">
+								<tbody>
+									<tr ng-repeat="super in manage.supervisors">
+										<td>{{super.username}}</td>
+										<td>
+											<button class="btn btn-danger btn-xs" type="button" ng-click-confirm="manage.removeSupervisor(super.username)" ng-confirm="Are you sure you want to remove this supervisor?">
+												<span class="glyphicon glyphicon-minus-sign"></span>
+												Remove
+											</button>
+										</td>
+											
+									</tr>
+								</tbody>
+							</table>
+	
+						</div>
+					</div>
+				</form>    
+			</div>	
+		</div>
 		<form name="changePasswordForm" ng-submit="manage.changePassword()" ng-show="main.loggedIn"> 
 			<h4>Change Password</h4>
 			<div class="form-group">
