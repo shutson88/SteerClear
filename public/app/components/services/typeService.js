@@ -6,9 +6,13 @@ angular
   .factory('Type', function($http) {
     var typeFactory = {};
 
-    typeFactory.get = function() {
+    typeFactory.get = function(callback) {
       console.log("Getting types and breeds");
-      return $http.get('/api/breeds/');
+      $http.get('/api/breeds/')
+		.success(function(data) {
+			callback(data);
+		});
+
     };
 
     typeFactory.post = function() {

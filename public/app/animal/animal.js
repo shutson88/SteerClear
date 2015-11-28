@@ -3,29 +3,30 @@
 angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filter'])
 
   .config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/animal/', {
+    $routeProvider.when('/animal/:animalID', {
       templateUrl: 'animal/animal.html',
       controller: 'AnimalCtrl',
       controllerAs: 'animal'
     });
   }])
 
-  .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', '$timeout', 'dateFilter', function ($routeParams, $http, $location, $scope, $timeout, dateFilter) {
+  .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', '$timeout', 'Animal', function ($routeParams, $http, $location, $scope, $timeout, Animal) {
     var vm = this;
-	//var dateFilter = $filter('date');
 	vm.params = $location.search();
 	console.log(vm.params);
-    vm.animalID = vm.params.id;
-    //console.log(vm.animalID);
-	//console.log($routeParams.observing);
 	if(vm.params.observing == true || vm.params.observing == 'true') {
 		vm.observing = true;
 	} else {
 		vm.observing = false;
 	}
 	vm.date = new Date();
-
-
+	vm.animal = {};
+	Animal.getOne($routeParams.animalID, function(data) {
+		console.log(data);
+		if(data.success) {
+			vm.animal = data.data;
+		}
+	});
 	
 	
 	
@@ -53,7 +54,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 	vm.targetDateTimeout = undefined;
 	vm.calculateAdgTimeout = undefined;
 	
-    $http.get('/api/weights/'+vm.animalID)
+    $http.get('/api/weights/'+$routeParams.animalID)
       .success(function (data) {
         if(data.success == false) {
 

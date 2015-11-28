@@ -520,39 +520,45 @@ router.delete('/animal/:id', function(req, res) {
 
 //Update an animal given an id
 router.put('/animal/:id', function(req, res) {
-
-	if(!req.params.id) {
-
-		res.json({success: false, message: "You did not send an animal ID"});
+	
+	
+	if(!req.body.newID || !req.body.newName || !req.body.newType || !req.body.newBreed) {
+		res.json({success: false, message: "No new info, animal not updated"});
 	} else {
-		Animal.findOne({_id: req.params.id}, function(err, animal) {
-			if(animal && animal.managedBy === req.decoded.user._id) {
-				if(req.body.newID) {animal._id = req.body.newID;}
-				if(req.body.newName) {animal.name = req.body.newName;}
-				if(req.body.newType) {animal.type = req.body.newType;}
-				if(req.body.newBreed) {animal.breed = req.body.newBreed;}
-
-				animal.save(function(err) {
-					if(err) {
-						console.log(err);
-						res.json({success: false, message: "An error occurred"});
-					} else {
-						var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' updated an animal\'s information';
-						sendNotifications(notification, req.decoded.user._id);
-						res.json({success: true, message: "Animal updated successfully"});
-					}
-
-				});
-
-
-			} else {
-				res.json({success: false, message: "Animal not found or you don't have access to this animal"});
-			}
-
-
-		});
+		
+	
+		if(!req.params.id) {
+	
+			res.json({success: false, message: "You did not send an animal ID"});
+		} else {
+			Animal.findOne({_id: req.params.id}, function(err, animal) {
+				if(animal && animal.managedBy === req.decoded.user._id) {
+					if(req.body.newID) {animal._id = req.body.newID;}
+					if(req.body.newName) {animal.name = req.body.newName;}
+					if(req.body.newType) {animal.type = req.body.newType;}
+					if(req.body.newBreed) {animal.breed = req.body.newBreed;}
+	
+					animal.save(function(err) {
+						if(err) {
+							console.log(err);
+							res.json({success: false, message: "An error occurred"});
+						} else {
+							var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' updated an animal\'s information';
+							sendNotifications(notification, req.decoded.user._id);
+							res.json({success: true, message: "Animal updated successfully"});
+						}
+	
+					});
+	
+	
+				} else {
+					res.json({success: false, message: "Animal not found or you don't have access to this animal"});
+				}
+	
+	
+			});
+		}
 	}
-
 
 
 
@@ -760,7 +766,7 @@ router.get('/breeds', function(req, res) {
 			res.json({success: false, message: "An error occurred"});
 		} else {
 			//console.log(types);
-			res.json({ success: true, types: types});
+			res.json({ success: true, message: "Successfully sending types", data: types});
 		}
 	});
 });

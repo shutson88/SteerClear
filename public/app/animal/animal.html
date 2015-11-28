@@ -62,13 +62,13 @@
 				<div class="form-group panel panel-default">
 					<div class="panel-body">
 						<div class="form-group">
-							<input type="text" class="form-control" ng-model="animal.newName" placeholder="Name: {{animal.params.name}}">
+							<input type="text" class="form-control" ng-model="animal.newName" placeholder="Name: {{animal.animal.name}}">
 						</div>
 						<div class="form-group">
-							<input type="text" class="form-control" ng-model="animal.newType" placeholder="Type: {{animal.params.type}}">
+							<input type="text" class="form-control" ng-model="animal.newType" placeholder="Type: {{animal.animal.type}}">
 						</div>
 						<div class="form-group">
-							<input type="text" class="form-control" ng-model="animal.newBreed" placeholder="Breed: {{animal.params.breed}}">
+							<input type="text" class="form-control" ng-model="animal.newBreed" placeholder="Breed: {{animal.animal.breed}}">
 						</div>
 						<button class="btn btn-default" type="button" ng-click="animal.editAnimal()">
 							<span class="glyphicon glyphicon-edit"></span>

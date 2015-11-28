@@ -28,10 +28,16 @@
 							<input type="text" class="form-control" ng-model="user.addName" placeholder="Name">
 						</div>
 						<div class="form-group">
-							<input type="text" class="form-control" ng-model="user.addType" placeholder="Type">
+<!-- 							<input type="text" class="form-control" ng-model="user.addType" placeholder="Type"> -->
+							<select class="form-control" ng-model="user.selectTypes" ng-change="user.getBreedOptions()">
+								<option ng-repeat="(type, value) in user.existingTypes" value = "{{type}}">{{type}}</option>
+							</select>
 						</div>
 						<div class="form-group">
-							<input type="text" class="form-control" ng-model="user.addBreed" placeholder="Breed">
+<!-- 							<input type="text" class="form-control" ng-model="user.addBreed" placeholder="Breed"> -->
+							<select ng-model="user.selectBreeds" class="form-control">
+								<option ng-repeat="breed in user.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
+							</select>
 						</div>
 						<button class="btn btn-default" type="button" ng-click="user.addAnimal();">
 							<span class="glyphicon glyphicon-plus-sign"></span>

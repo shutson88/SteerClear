@@ -14,16 +14,12 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
   }])
   
   
-  .controller('homeCtrl', ['Type', '$location', '$http', '$timeout', function(Type, $location, $http, $timeout) {
+  .controller('homeCtrl', ['Type', '$location', '$http', '$timeout', 'Auth', function(Type, $location, $http, $timeout, Auth) {
 	var vm = this;
 
 	
 	vm.getBreedOptions = function() {
-		//console.log(vm.selectTypes);
-		//console.log("Populating breeds");
 		vm.existingBreeds = vm.existingTypes[vm.selectTypes];
-		//console.log(vm.existingBreeds);
-		
 	}
 	
 	vm.addType = function() {
@@ -81,19 +77,17 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 		
 	};
 	
+	if(Auth.isLoggedIn()) {
+		Type.get(function(data) {
+			var types = {};
+			for(var i = 0; i < data.data.length; i++) {
+				types[data.data[i].type] = data.data[i].breeds;
+			}
+			vm.existingTypes = types;
+		});
+		
+	}
 
-		Type.get()
-			.success(function (data) {
-				var types = {};
-				
-				for(var i = 0; i < data.types.length; i++) {
-						types[data.types[i].type] = data.types[i].breeds;
-				}
-						
-				vm.existingTypes = types;
-				
-				
-			});
 
 	  
 

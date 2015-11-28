@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.bootstrap', 'ngAnimate'])
+angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'typeService', 'ui.bootstrap', 'ngAnimate'])
 
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/dashboard/:id?', {
@@ -10,7 +10,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
     });
   }])
 
-  .controller('DashboardCtrl', ['Animal', 'User', 'AuthToken', 'Auth', '$routeParams', '$location', '$http', '$timeout', '$scope', function (Animal, User, AuthToken, Auth, $routeParams, $location, $http, $timeout, $scope) {
+  .controller('DashboardCtrl', ['Animal', 'User', 'Type', 'AuthToken', 'Auth', '$routeParams', '$location', '$http', '$timeout', '$scope', function (Animal, User, Type, AuthToken, Auth, $routeParams, $location, $http, $timeout, $scope) {
     var vm = this;
 	//console.log($routeParams.id);
 	if($routeParams.id) {
@@ -24,21 +24,17 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	}
 
 	Animal.getAll(vm.id)
-			.success(function (data) {
-				console.log(data);
-				if(data.success === false) {
-					console.log(data.message);
-				} else if(data.success == true) {
-					vm.animals = data.data;
-					if(vm.animals.length == 0) {
-						$scope.searchPlaceholder = "You have no animals";
-					} else {
-						$scope.searchPlaceholder = "Search Animals";
-					}
+		.success(function (data) {
+			if(data.success === false) {
+				console.log(data.message);
+			} else if(data.success == true) {
+				vm.animals = data.data;
+				if(vm.animals.length == 0) {
+					$scope.searchPlaceholder = "You have no animals";
+				} else {
+					$scope.searchPlaceholder = "Search Animals";
 				}
-				
-				
-				
+			}
 		});
 		
 
@@ -52,9 +48,9 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	
 	
 	vm.addAnimal = function($scope){
-		console.log("Adding animal: "+vm.add_id + " " + vm.addName + " " + vm.addType + " " + vm.addBreed);
+		console.log("Adding animal: "+vm.add_id + " " + vm.addName + " " + vm.selectTypes + " " + vm.selectBreeds);
 		
-		$http.post("http://" + window.location.host + "/api/animals/", {id: vm.add_id, managedBy: vm.id, name: vm.addName, type: vm.addType, breed: vm.addBreed})
+		$http.post("http://" + window.location.host + "/api/animals/", {id: vm.add_id, managedBy: vm.id, name: vm.addName, type: vm.selectTypes, breed: vm.selectBreeds})
 			.success(function (data, status, headers, config) {
 				if(data.success) {
 					$http.get('/api/animals/'+vm.id)
@@ -81,7 +77,6 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 				}, 2000);
 				
 			});
-		
 	}
 	
 	
@@ -114,7 +109,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	};
 
 	vm.openAnimalPage = function(animal){
-		$location.path("/animal/").search({id: animal._id, name: animal.name, type: animal.type, breed: animal.breed, observing: vm.observing, user: vm.id});
+		$location.path("/animal/" + animal._id).search({observing: vm.observing, user: vm.id});
 
 		
 	};
@@ -127,7 +122,16 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 	vm.goObserving = function() {
 		$location.url('/observeDashboard');
 	}
-    
-
+    Type.get(function(data) {
+		var types = {};
+		
+		for(var i = 0; i < data.data.length; i++) {
+			types[data.data[i].type] = data.data[i].breeds;
+		}
+		vm.existingTypes = types;
+	});
+	vm.getBreedOptions = function() {
+		vm.existingBreeds = vm.existingTypes[vm.selectTypes];
+	}
   }]);
 
