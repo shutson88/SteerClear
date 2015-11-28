@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="page-header" ng-cloak>
 	
 	<ol class="breadcrumb">
 		<li><a href="/">Home</a></li>
@@ -55,19 +55,19 @@
 
 </div>
 <!-- LOADING MESSAGE -->
-<div class="jumbotron text-center" ng-show="user.processing"><span class="glyphicon glyphicon-repeat spinner"></span>
+<div class="jumbotron text-center" ng-show="user.processing"><span class="glyphicon glyphicon-repeat spinner" ng-cloak></span>
 
     <p>Loading Animals...</p>
 </div>
 <form>
-    <div class="form-group">
+    <div class="form-group" ng-show="user.animals.length > 0">
         <div class="input-group">
             <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-            <input type="text" class="form-control" ng-model="user.searchAnimals" placeholder="Search Animals">
+            <input type="text" class="form-control" ng-model="user.searchAnimals" placeholder="{{searchPlaceholder}}">
         </div>
     </div>
 </form>
-<table class="table table-hover table-bordered table-striped" style="cursor: pointer" ng-show="user.animals">
+<table class="table table-hover table-bordered table-striped" style="cursor: pointer" ng-show="user.animals.length > 0" ng-cloak>
     <thead>
     <tr>
         <th>
@@ -102,7 +102,7 @@
     </thead>
     <tbody>
     <!-- LOOP OVER THE ANIMALS -->
-    <tr ng-repeat="animal in user.animals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals" ng-click="user.openAnimalPage(animal)">
+    <tr ng-repeat="animal in user.animals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals" ng-click="user.openAnimalPage(animal)" >
         <td>{{ animal._id}}</td>
         <td>{{ animal.name | capitalize}}</td>
 		<td>{{ animal.type | capitalize}}
@@ -110,3 +110,7 @@
     </tr>
     </tbody>
 </table>
+<div class="jumbotron text-center" ng-show="(user.animals.length == 0)" ng-cloak>
+
+    <p>You have no animals</p>
+</div>

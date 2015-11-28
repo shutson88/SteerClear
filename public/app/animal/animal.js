@@ -59,10 +59,10 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
 			alert(data.message);
 		} else if(data.success = true) {
-			vm.animals = data.data;
+			vm.weights = data.data;
 		}
 		
-        console.log("Data: "+JSON.stringify(data));
+        console.log(vm.weights);
       });
 
 
@@ -115,7 +115,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 				console.log(data.message);
 				$http.get('/api/weights/'+vm.animalID)
 				.success(function (data) {
-					vm.animals = data.data;
+					vm.weights = data.data;
 				});				
 				
 			});
@@ -142,7 +142,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 			.success(function (data) {
 				
 			
-				vm.animals = data.data;
+				vm.weights = data.data;
 				//console.log("Data: "+JSON.stringify(data));
 				
 			});
@@ -154,9 +154,9 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
       var regressionData = new Array();
 
-      for (var i = 0; i < vm.animals.length; i++) {
+      for (var i = 0; i < vm.weights.length; i++) {
 
-        regressionData.push([vm.animals[i].date, vm.animals[i].weight]); //build array [date, weight] for regression fitting
+        regressionData.push([vm.weights[i].date, vm.weights[i].weight]); //build array [date, weight] for regression fitting
       }
 
       regressionData.sort(function (a, b) {

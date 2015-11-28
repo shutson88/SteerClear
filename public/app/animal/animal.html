@@ -7,8 +7,8 @@
         font-weight:bold;
     }
 </style>
-<script src="/javascripts/client.js"></script>
-<div class="page-header">
+
+<div class="page-header" ng-cloak>
 	<ol class="breadcrumb">
 		<li><a href="/">Home</a></li>
 		<li ng-show="!animal.observing"><a href="/dashboard">Animals</a></li>
@@ -139,19 +139,19 @@
 	
 </div>
 <!-- LOADING MESSAGE -->
-<div class="jumbotron text-center" ng-show="user.processing"><span class="glyphicon glyphicon-repeat spinner"></span>
+<div class="jumbotron text-center" ng-show="user.processing" ng-cloak><span class="glyphicon glyphicon-repeat spinner"></span>
 
     <p>Loading Weights...</p>
 </div>
 <form>
-    <div class="form-group">
+    <div class="form-group" ng-show="animal.weights.length > 0">
         <div class="input-group">
             <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
             <input type="text" class="form-control" ng-model="animal.searchAnimals" placeholder="Search Weights">
         </div>
     </div>
 </form>
-<table class="table table-hover table-bordered table-striped"  style="cursor: pointer" ng-show="animal.animals">
+<table class="table table-hover table-bordered table-striped"  style="cursor: pointer" ng-show="animal.weights.length > 0" ng-cloak>
     <thead>
     <tr>
         <th class="col-lg-1">
@@ -180,7 +180,7 @@
     </thead>
     <tbody>
     <!-- LOOP OVER THE WEIGHTS -->
-    <tr ng-repeat="a in animal.animals | orderBy:animal.sortType:!animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date)" ng-click="animal.selectDates(a.date, $index)">
+    <tr ng-repeat="a in animal.weights | orderBy:animal.sortType:!animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date)" ng-click="animal.selectDates(a.date, $index)">
         <td ng-click="$event.stopPropogation()"><input ng-checked="animal.highlight(a.date) == 'selected'" type="checkbox"></td>
 		<td>{{ a.id | capitalize}}</td>
         <td>{{ a.date | myDate }}</td>
@@ -192,3 +192,7 @@
     </tr>
     </tbody>
 </table>
+<div class="jumbotron text-center" ng-show="(animal.weights.length == 0)" ng-cloak>
+
+    <p>No weights for this animal</p>
+</div>

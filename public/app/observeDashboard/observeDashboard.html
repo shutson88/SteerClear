@@ -20,14 +20,14 @@
     <p>Loading Youth...</p>
 </div>
 <form>
-    <div class="form-group">
+    <div class="form-group" ng-show="observe.youths.length > 0">
         <div class="input-group">
             <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
             <input type="text" class="form-control" ng-model="observe.searchYouth" placeholder="Search Youth">
         </div>
     </div>
 </form>
-<table class="table table-hover table-bordered table-striped" style="cursor: pointer" ng-show="observe.youths">
+<table class="table table-hover table-bordered table-striped" style="cursor: pointer" ng-show="observe.youths.length > 0" ng-cloak>
     <thead>
     <tr>
         <th>
@@ -73,3 +73,7 @@
     </tr>
     </tbody>
 </table>
+<div class="jumbotron text-center" ng-show="(observe.youths.length == 0)" ng-cloak>
+
+    <p>You are not observing anyone</p>
+</div>

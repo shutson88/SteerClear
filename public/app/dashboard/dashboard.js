@@ -10,7 +10,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
     });
   }])
 
-  .controller('DashboardCtrl', ['Animal', 'User', 'AuthToken', 'Auth', '$routeParams', '$location', '$http', '$timeout', function (Animal, User, AuthToken, Auth, $routeParams, $location, $http, $timeout) {
+  .controller('DashboardCtrl', ['Animal', 'User', 'AuthToken', 'Auth', '$routeParams', '$location', '$http', '$timeout', '$scope', function (Animal, User, AuthToken, Auth, $routeParams, $location, $http, $timeout, $scope) {
     var vm = this;
 	//console.log($routeParams.id);
 	if($routeParams.id) {
@@ -30,6 +30,11 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'ui.
 					console.log(data.message);
 				} else if(data.success == true) {
 					vm.animals = data.data;
+					if(vm.animals.length == 0) {
+						$scope.searchPlaceholder = "You have no animals";
+					} else {
+						$scope.searchPlaceholder = "Search Animals";
+					}
 				}
 				
 				

@@ -23,9 +23,8 @@ angular.module('app.observeDashboard', ['ngRoute', 'authService', 'userService',
 		console.log("Stopping observation of " + id);
 		$http.put("http://" + window.location.host + "/api/users/", {id: id, stop: true})
 			.success(function(data, status, headers, config) {
-				console.log("Observing: " + data.observing.success);
-				console.log("ObservedBy: " + data.observedBy.success);
-				if(data.observing.success == true && data.observedBy.success == true) {
+				console.log(data);
+				if(data.success == true) {
 					User.getObserved()
 						.success(function (data) {
 							console.log(data);
@@ -33,8 +32,7 @@ angular.module('app.observeDashboard', ['ngRoute', 'authService', 'userService',
 						});
 					
 				} else {
-					
-					console.log(data);
+					alert(data.message);
 				}
 				
 				
