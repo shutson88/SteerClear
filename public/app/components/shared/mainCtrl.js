@@ -21,32 +21,27 @@ angular.module('app.main', ['ngRoute'])
 	};
     // check to see if a user is logged in on every request
     $rootScope.$on('$routeChangeStart', function() {
-		  vm.loggedIn = Auth.isLoggedIn();
-		  vm.user = AuthToken.getData();
-      console.log("Username: "+vm.user.username);
-      $http.get('/api/user', {headers:  {
-        'username': vm.user.username
-       }
-      })
-        .success(function (data) {
-          if(data.success == false) {
-            alert(data.message);
-          } else if(data.success = true) {
-            //console.log("Successful");
-            vm.unread = 0;
-            vm.notifications = data.notifications;
-            for(var i = 0; i < data.notifications.length; i++){
-              if(!vm.notifications[i].read){
-                vm.unread++;
-              }
-            }
-
-          }
-
-          //console.log("Data: "+JSON.stringify(data));
-        });
-      //console.log("vm user: "+JSON.stringify(vm.user));
-
+		vm.loggedIn = Auth.isLoggedIn();
+		if(vm.loggedIn) {
+			vm.user = AuthToken.getData();
+			console.log("Username: "+vm.user.username);
+			$http.get('/api/user', {headers:  {'username': vm.user.username}})
+				.success(function (data) {
+					if(data.success == false) {
+						alert(data.message);
+					} else if(data.success = true) {
+						//console.log("Successful");
+						vm.unread = 0;
+						vm.notifications = data.notifications;
+						for(var i = 0; i < data.notifications.length; i++){
+						if(!vm.notifications[i].read){
+							vm.unread++;
+						}
+						}
+			
+					}
+				});
+		}
     });
 
     vm.readNotifications = function() {
