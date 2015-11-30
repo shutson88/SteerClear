@@ -23,7 +23,7 @@
 	<div class="form-group btn-group-vertical" style="width: 100%">
 		<button ng-hide="animal.observing" style="display: block; text-align: left"  type="button" class="btn btn-primary" ng-click="addUserCollapsed = !addUserCollapsed">
 			<span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>	
-			New Weight
+			<strong>New Weight</strong>
 		</button>
 		<div uib-collapse="!addUserCollapsed">
 			<form class="form-inline"  role="form">
@@ -58,9 +58,10 @@
 			Edit Animal
 		</button>
 		<div uib-collapse="!editAnimalCollapsed">
+			<form class="form-inline"  role="form">
 				<div class="form-group panel panel-default">
-					<div class="panel-body">						
-						<span style="display:inline-block; padding-right:10px">
+					<div class="panel-body">
+ 						<span style="display:inline-block; padding-right:10px">
 							<label style="display:block">Name: {{animal.animal.name}}</label>	
 							<input type="text" class="form-control" ng-model="animal.newName">							
 						</span>
@@ -77,7 +78,7 @@
 							</select>	
 						</span>
 						<span style="display:inline-block">   
-							<button class="btn btn-default span3" type="button" ng-click="animal.editAnimal()">
+							<button class="btn btn-default" type="button" ng-click="animal.editAnimal()">
 								<span class="glyphicon glyphicon-edit"></span>
 								Edit
 							</button>	
@@ -87,7 +88,7 @@
 						</div>
 					</div>
 				</div>
-
+			</form>
 		</div>
 
 		<button type="button" style="display: block; text-align: left"  class="btn btn-default" ng-click="targetDateCollapsed = !targetDateCollapsed">
