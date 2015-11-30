@@ -12,24 +12,23 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
 
   .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', '$timeout', 'Animal', 'Type', function ($routeParams, $http, $location, $scope, $timeout, Animal, Type) {
     var vm = this;
-	vm.params = $location.search();
-	console.log(vm.params);
-	if(vm.params.observing == true || vm.params.observing == 'true') {
-		vm.observing = true;
-	} else {
-		vm.observing = false;
-	}
-	vm.date = new Date();
-	vm.animal = {};
-	Animal.getOne($routeParams.animalID, function(data) {
-		console.log(data);
-		if(data.success) {
-			vm.animal = data.data;
-		}
-	});
-	
-	
-	
+    vm.params = $location.search();
+    console.log(vm.params);
+    if (vm.params.observing == true || vm.params.observing == 'true') {
+      vm.observing = true;
+    } else {
+      vm.observing = false;
+    }
+    vm.date = new Date();
+    vm.animal = {};
+    Animal.getOne($routeParams.animalID, function (data) {
+      console.log(data);
+      if (data.success) {
+        vm.animal = data.data;
+      }
+    });
+
+
     vm.sortType = 'date';
     vm.sortReverse = false;
     vm.searchAnimals = '';
@@ -40,122 +39,131 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     vm.selectedRow2 = null;
     vm.alternateSelection = false;
     vm.targetDate = null;
-    $scope.setClickedRow = function(index){
-      console.log("SJIFSAJI");
+    $scope.setClickedRow = function (index) {
       vm.selectedRow = index;
     }
 
-	vm.editMessage = {};
-	vm.addWeightMessage = {};
-	vm.targetMessage = {};
-	vm.adgMessage = {};
-	vm.newWeightTimeout = undefined;
-	vm.editAnimalTimeout = undefined;
-	vm.targetDateTimeout = undefined;
-	vm.calculateAdgTimeout = undefined;
-	
-    $http.get('/api/weights/'+$routeParams.animalID)
-      .success(function (data) {
-        if(data.success == false) {
+    vm.editMessage = {};
+    vm.addWeightMessage = {};
+    vm.targetMessage = {};
+    vm.adgMessage = {};
+    vm.newWeightTimeout = undefined;
+    vm.editAnimalTimeout = undefined;
+    vm.targetDateTimeout = undefined;
+    vm.calculateAdgTimeout = undefined;
 
-			alert(data.message);
-		} else if(data.success = true) {
-			vm.weights = data.data;
-		}
-		
+    $http.get('/api/weights/' + $routeParams.animalID)
+      .success(function (data) {
+        if (data.success == false) {
+
+          alert(data.message);
+        } else if (data.success = true) {
+          vm.weights = data.data;
+        }
+
         console.log(vm.weights);
       });
 
 
-
-	
-	vm.editAnimal = function() {
-		$http.put("http://" + window.location.host + "/api/animal/"+$routeParams.animalID, {newName: vm.newName, newType: vm.newType, newBreed: vm.newBreed})
-			.success(function (data, status, headers, config) {
-				if(data.success) {
-					vm.editMessage.alertType = 'alert-success';
-					Animal.getOne($routeParams.animalID, function(data) {
-						console.log(data);
-						if(data.success) {
-							vm.animal = data.data;
-						}
-					});
-				} else {
-					vm.editMessage.alertType = 'alert-warning';
-				}
-				if(data.message) {vm.editMessage.message = data.message;} else {vm.editMessage.message = "missing message";}
-				vm.editMessage.show = true;
-				if(vm.editAnimalTimeout) $timeout.cancel(vm.editAnimalTimeout);
-				vm.editAnimalTimeout = $timeout(function() {
-					vm.editMessage.show = false;
-				
-				}, 2000);
-
-			});
-		
-	};
-	
-
-	vm.removeFromUser = function() {
-		$http.delete("http://" + window.location.host + "/api/animal/" + vm.animalID)
-				.success(function(data, status, headers, config) {
-					console.log(data);
-					if(data.success) {
-						$location.url('/dashboard/');
-						
-					} else {
-						console.log(data.message);
-					}
-					
-					
-					
-				});		
-		
-		
-	};
-	  
-	vm.removeWeight = function(id) {
-		$http.delete("http://" + window.location.host + "/api/weight/" + id)
-			.success(function(data, status, headers, config) {
-				console.log(data.message);
-				$http.get('/api/weights/'+vm.animalID)
-				.success(function (data) {
-					vm.weights = data.data;
-				});				
-				
-			});
-	};
-	  
-    vm.addWeight = function($scope){
-      console.log("Adding weight for: "+vm.date);
-       
-	  $http.post("http://" + window.location.host + "/api/weights/"+vm.animalID, {date: vm.date, weight: vm.weight})
+    vm.editAnimal = function () {
+      $http.put("http://" + window.location.host + "/api/animal/" + $routeParams.animalID, {
+        newName: vm.newName,
+        newType: vm.newType,
+        newBreed: vm.newBreed
+      })
         .success(function (data, status, headers, config) {
-			if(data.success) {
-				vm.addWeightMessage.alertType = 'alert-success';
-			} else {
-				vm.addWeightMessage.alertType = 'alert-warning';
-			}
-			if(data.message) {vm.addWeightMessage.message = data.message;} else {vm.addWeightMessage.message = "missing message";}
-			vm.addWeightMessage.show = true;
-			if(vm.addWeightTimeout) $timeout.cancel(vm.addWeightTimeout);
-			vm.addWeightTimeout = $timeout(function() {
-				vm.addWeightMessage.show = false;
-			
-			}, 2000);
-			$http.get('/api/weights/'+vm.animalID)
-			.success(function (data) {
-				
-			
-				vm.weights = data.data;
-				//console.log("Data: "+JSON.stringify(data));
-				
-			});
+          if (data.success) {
+            vm.editMessage.alertType = 'alert-success';
+            Animal.getOne($routeParams.animalID, function (data) {
+              console.log(data);
+              if (data.success) {
+                vm.animal = data.data;
+              }
+            });
+          } else {
+            vm.editMessage.alertType = 'alert-warning';
+          }
+          if (data.message) {
+            vm.editMessage.message = data.message;
+          } else {
+            vm.editMessage.message = "missing message";
+          }
+          vm.editMessage.show = true;
+          if (vm.editAnimalTimeout) $timeout.cancel(vm.editAnimalTimeout);
+          vm.editAnimalTimeout = $timeout(function () {
+            vm.editMessage.show = false;
+
+          }, 2000);
+
+        });
+
+    };
+
+
+    vm.removeFromUser = function () {
+      $http.delete("http://" + window.location.host + "/api/animal/" + vm.animalID)
+        .success(function (data, status, headers, config) {
+          console.log(data);
+          if (data.success) {
+            $location.url('/dashboard/');
+
+          } else {
+            console.log(data.message);
+          }
+
+
+        });
+
+
+    };
+
+    vm.removeWeight = function (weightID, animalID) {
+      console.log("Animal ID: " + animalID);
+      $http.delete("http://" + window.location.host + "/api/weight/" + weightID)
+        .success(function (data, status, headers, config) {
+          console.log(data.message);
+          $http.get('/api/weights/' + animalID)
+            .success(function (data) {
+              vm.weights = data.data;
+            });
+
+        });
+    };
+
+    vm.addWeight = function (id) {
+      console.log("Adding weight for: " + id);
+
+      $http.post("http://" + window.location.host + "/api/weights/" + id, {date: vm.date, weight: vm.weight})
+        .success(function (data, status, headers, config) {
+          if (data.success) {
+            vm.addWeightMessage.alertType = 'alert-success';
+          } else {
+            vm.addWeightMessage.alertType = 'alert-warning';
+          }
+          if (data.message) {
+            vm.addWeightMessage.message = data.message;
+          } else {
+            vm.addWeightMessage.message = "missing message";
+          }
+          vm.addWeightMessage.show = true;
+          if (vm.addWeightTimeout) $timeout.cancel(vm.addWeightTimeout);
+          vm.addWeightTimeout = $timeout(function () {
+            vm.addWeightMessage.show = false;
+
+          }, 2000);
+          $http.get('/api/weights/' + id)
+            .success(function (data) {
+
+
+              vm.weights = data.data;
+              //console.log("Data: "+JSON.stringify(data));
+
+            });
         });
     }
 
 
-    vm.getAverageArray = function() {
+    vm.getAverageArray = function () {
 
       var regressionData = new Array();
 
@@ -210,7 +218,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
       else {
         var averageDates = vm.getAverageArray();
         //console.log("Days: "+ (new Date(vm.end_date) - new Date(vm.start_date))/ (1000 * 3600 * 24));
-        var numDays = (new Date(vm.end_date) - new Date(vm.start_date))/ (1000 * 3600 * 24);
+        var numDays = (new Date(vm.end_date) - new Date(vm.start_date)) / (1000 * 3600 * 24);
 
         var dailyGains = new Array();
         for (var i = 0; i < averageDates.length; i++) {
@@ -230,90 +238,90 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
           return 0;
         }
         else {
-          vm.data = "Average daily weight gain: " + Math.round((averageDailyGain / numDays)*10)/10;
+          vm.data = "Average daily weight gain: " + Math.round((averageDailyGain / numDays) * 10) / 10;
           return averageDailyGain / numDays;
         }
       }
     }
 
-    vm.targetDateCalculator = function(){
-		if(vm.targetDate == null){
-			vm.data = "Please enter a target date"
-			vm.targetMessage.alertType = 'alert-warning';
-			vm.targetMessage.message = vm.data;
-			vm.targetMessage.show = true;
-			if(vm.targetDateTimeout) $timeout.cancel(vm.targetDateTimeout);			
-			vm.targetDateTimeout = $timeout(function() {
-				vm.targetMessage.show = false;
-			
-			}, 2000);
-		} else {
-			//Get ADG of latest two with list of weights
-			var averageDates = vm.getAverageArray();
-			//Start Period is the day two weeks prior to last weigh in
-			var startPeriod = new Date(averageDates[averageDates.length-1][0]);
-			startPeriod.setDate(startPeriod.getDate()-14);
-			
-			//Get all weight inputs of last two weeks
-			var boundedDates = new Array();
-			for(var i = 0; i < averageDates.length; i++){
-			if(new Date(averageDates[i][0]) >= new Date(startPeriod)){
-				if(boundedDates.length == 0){
-				startPeriod = new Date(averageDates[i][0]);
-				}
-				boundedDates.push(averageDates[i]);
-			
-			}
-			}
-			
-			console.log("Last two weeks: "+boundedDates);
-			console.log("Target date: "+vm.targetDate);
-			
-			//Store user input start and end date temporarily in order to calculate 2 week adg
-			var start_date = vm.start_date;
-			var end_date = vm.end_date;
-			vm.start_date = startPeriod;
-			vm.end_date = new Date(averageDates[averageDates.length-1][0]);
-			var adg = vm.averageGainInRange();
-			console.log("adg: "+adg);
-			vm.start_date = start_date;
-			vm.end_date = end_date;
-			
-			//Current weight of animal
-			var targetWeight = averageDates[averageDates.length-1][1];
-			var numDays = Math.floor((new Date(vm.targetDate) - new Date(averageDates[averageDates.length-1][0]))/ (1000 * 3600 * 24));
-			console.log("Num Days: "+numDays);
-			var gain = numDays*adg;
-			targetWeight += gain;
-			var formattedDate = vm.targetDate.toLocaleDateString("en-US");
-			vm.data = "Target weight at "+formattedDate+" is estimated to be "+Math.round(targetWeight)+"lbs";
-			vm.targetMessage.message = vm.data;
-			vm.targetMessage.alertType = 'alert-success';
-			vm.targetMessage.show = true;
-			if(vm.targetDateTimeout) $timeout.cancel(vm.targetDateTimeout);
-		}
-	}
+    vm.targetDateCalculator = function () {
+      if (vm.targetDate == null) {
+        vm.data = "Please enter a target date"
+        vm.targetMessage.alertType = 'alert-warning';
+        vm.targetMessage.message = vm.data;
+        vm.targetMessage.show = true;
+        if (vm.targetDateTimeout) $timeout.cancel(vm.targetDateTimeout);
+        vm.targetDateTimeout = $timeout(function () {
+          vm.targetMessage.show = false;
+
+        }, 2000);
+      } else {
+        //Get ADG of latest two with list of weights
+        var averageDates = vm.getAverageArray();
+        //Start Period is the day two weeks prior to last weigh in
+        var startPeriod = new Date(averageDates[averageDates.length - 1][0]);
+        startPeriod.setDate(startPeriod.getDate() - 14);
+
+        //Get all weight inputs of last two weeks
+        var boundedDates = new Array();
+        for (var i = 0; i < averageDates.length; i++) {
+          if (new Date(averageDates[i][0]) >= new Date(startPeriod)) {
+            if (boundedDates.length == 0) {
+              startPeriod = new Date(averageDates[i][0]);
+            }
+            boundedDates.push(averageDates[i]);
+
+          }
+        }
+
+        console.log("Last two weeks: " + boundedDates);
+        console.log("Target date: " + vm.targetDate);
+
+        //Store user input start and end date temporarily in order to calculate 2 week adg
+        var start_date = vm.start_date;
+        var end_date = vm.end_date;
+        vm.start_date = startPeriod;
+        vm.end_date = new Date(averageDates[averageDates.length - 1][0]);
+        var adg = vm.averageGainInRange();
+        console.log("adg: " + adg);
+        vm.start_date = start_date;
+        vm.end_date = end_date;
+
+        //Current weight of animal
+        var targetWeight = averageDates[averageDates.length - 1][1];
+        var numDays = Math.floor((new Date(vm.targetDate) - new Date(averageDates[averageDates.length - 1][0])) / (1000 * 3600 * 24));
+        console.log("Num Days: " + numDays);
+        var gain = numDays * adg;
+        targetWeight += gain;
+        var formattedDate = vm.targetDate.toLocaleDateString("en-US");
+        vm.data = "Target weight at " + formattedDate + " is estimated to be " + Math.round(targetWeight) + "lbs";
+        vm.targetMessage.message = vm.data;
+        vm.targetMessage.alertType = 'alert-success';
+        vm.targetMessage.show = true;
+        if (vm.targetDateTimeout) $timeout.cancel(vm.targetDateTimeout);
+      }
+    }
 
     //When two rows are selected, calculate the ADG in that date range
-    vm.calculateADG = function(){
+    vm.calculateADG = function () {
 
-      if(vm.selectedRow == null || vm.selectedRow == null){
+      if (vm.selectedRow == null || vm.selectedRow == null) {
         vm.data = "Please click two rows (start and end)"
-		vm.adgMessage.alertType = 'alert-warning';
-		vm.adgMessage.message = vm.data;
-		vm.adgMessage.show = true;
-		
-		if(vm.calculateAdgTimeout) $timeout.cancel(vm.calculateAdgTimeout);
-		vm.calculateAdgTimeout = $timeout(function() {
-			vm.adgMessage.show = false;
-		}, 2000);
+        vm.adgMessage.alertType = 'alert-warning';
+        vm.adgMessage.message = vm.data;
+        vm.adgMessage.show = true;
+
+        if (vm.calculateAdgTimeout) $timeout.cancel(vm.calculateAdgTimeout);
+        vm.calculateAdgTimeout = $timeout(function () {
+          vm.adgMessage.show = false;
+        }, 2000);
       }
       else {
-        if(vm.selectedRow < vm.selectedRow2) {
+        if (vm.selectedRow < vm.selectedRow2) {
           vm.start_date = vm.selectedRow;
           vm.end_date = vm.selectedRow2;
         }
-        else{
+        else {
           vm.start_date = vm.selectedRow2;
           vm.end_date = vm.selectedRow;
         }
@@ -325,60 +333,60 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
 
 
         vm.averageGainInRange();
-		vm.adgMessage.message = vm.data;
-		vm.adgMessage.alertType = 'alert-success';
-		vm.adgMessage.show = true;
-		if(vm.calculateAdgTimeout) $timeout.cancel(vm.calculateAdgTimeout);
+        vm.adgMessage.message = vm.data;
+        vm.adgMessage.alertType = 'alert-success';
+        vm.adgMessage.show = true;
+        if (vm.calculateAdgTimeout) $timeout.cancel(vm.calculateAdgTimeout);
       }
 
 
     }
 
-    vm.selectDates = function(date, index){
-		console.log("clicked");
-		if(vm.selectedRow == date) {
-			vm.selectedRow = null;
-			vm.alternateSelection = false;
-		} else if(vm.selectedRow2 == date) {
-			vm.selectedRow2 = null;
-			vm.alternateSelection = true;
-		} else {
-			if(vm.alternateSelection) {
-				vm.selectedRow2 = date;
-				vm.alternateSelection = false;
-			} else {
-				vm.selectedRow = date;
-				vm.alternateSelection = true;
-			}			
-		}
+    vm.selectDates = function (date, index) {
+      console.log("clicked");
+      if (vm.selectedRow == date) {
+        vm.selectedRow = null;
+        vm.alternateSelection = false;
+      } else if (vm.selectedRow2 == date) {
+        vm.selectedRow2 = null;
+        vm.alternateSelection = true;
+      } else {
+        if (vm.alternateSelection) {
+          vm.selectedRow2 = date;
+          vm.alternateSelection = false;
+        } else {
+          vm.selectedRow = date;
+          vm.alternateSelection = true;
+        }
+      }
     }
 
-    vm.highlight = function(date){
+    vm.highlight = function (date) {
 
       //console.log("Row1: " + vm.selectedRow);
       //console.log("Row2: " + vm.selectedRow2);
-      if(date == vm.selectedRow){
+      if (date == vm.selectedRow) {
         return "selected";
       }
-      if(date == vm.selectedRow2 && date != vm.selectedRow){
+      if (date == vm.selectedRow2 && date != vm.selectedRow) {
         return "selected";
       }
     }
 
-	vm.goDashboard = function() {
-		
-		$location.url("/dashboard/");
-	}
-    Type.get(function(data) {
-		var types = {};
-		
-		for(var i = 0; i < data.data.length; i++) {
-			types[data.data[i].type] = data.data[i].breeds;
-		}
-		vm.existingTypes = types;
-	});
-	vm.getBreedOptions = function() {
-		vm.existingBreeds = vm.existingTypes[vm.selectTypes];
-	}	
+    vm.goDashboard = function () {
+
+      $location.url("/dashboard/");
+    }
+    Type.get(function (data) {
+      var types = {};
+
+      for (var i = 0; i < data.data.length; i++) {
+        types[data.data[i].type] = data.data[i].breeds;
+      }
+      vm.existingTypes = types;
+    });
+    vm.getBreedOptions = function () {
+      vm.existingBreeds = vm.existingTypes[vm.selectTypes];
+    }
   }]);
 

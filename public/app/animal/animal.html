@@ -41,7 +41,7 @@
 								</span>
 							</p>
 						</div>
-						<button class="btn btn-default" type="button" ng-click="animal.addWeight()">
+						<button class="btn btn-default" type="button" ng-click="animal.addWeight(animal.animal._id)">
 							<span class="glyphicon glyphicon-plus-sign"></span>
 							Add
 						</button>
@@ -182,7 +182,7 @@
         <td>{{ a.date | myDate }}</td>
         <td>{{ a.weight}}</td>
         <td ng-click="$event.stopPropogation()" class="col-lg-1" ng-show="!animal.observing">
-            <button ng-click-confirm="animal.removeWeight(a._id)"  class="btn btn-danger btn-xs" ng-confirm="Are you sure you want to remove this weight?">Delete</button>
+            <button ng-click-confirm="animal.removeWeight(a._id, animal.animal._id)"  class="btn btn-danger btn-xs" ng-confirm="Are you sure you want to remove this weight?">Delete</button>
         </td>
 
     </tr>
