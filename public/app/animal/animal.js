@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filter'])
+angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
 
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/animal/:animalID', {
@@ -10,7 +10,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
     });
   }])
 
-  .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', '$timeout', 'Animal', function ($routeParams, $http, $location, $scope, $timeout, Animal) {
+  .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', '$timeout', 'Animal', 'Type', function ($routeParams, $http, $location, $scope, $timeout, Animal, Type) {
     var vm = this;
 	vm.params = $location.search();
 	console.log(vm.params);
@@ -70,14 +70,18 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 
 	
 	vm.editAnimal = function() {
-		$http.put("http://" + window.location.host + "/api/animal/"+vm.animalID, {newName: vm.newName, newType: vm.newType, newBreed: vm.newBreed})
+		$http.put("http://" + window.location.host + "/api/animal/"+$routeParams.animalID, {newName: vm.newName, newType: vm.newType, newBreed: vm.newBreed})
 			.success(function (data, status, headers, config) {
-				if(vm.newName) {vm.params.name = vm.newName;}
-				console.log(vm.params.name);
 				if(data.success) {
 					vm.editMessage.alertType = 'alert-success';
+					Animal.getOne($routeParams.animalID, function(data) {
+						console.log(data);
+						if(data.success) {
+							vm.animal = data.data;
+						}
+					});
 				} else {
-					vm.editMessage = 'alert-warning';
+					vm.editMessage.alertType = 'alert-warning';
 				}
 				if(data.message) {vm.editMessage.message = data.message;} else {vm.editMessage.message = "missing message";}
 				vm.editMessage.show = true;
@@ -86,7 +90,7 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 					vm.editMessage.show = false;
 				
 				}, 2000);
-				
+
 			});
 		
 	};
@@ -243,51 +247,51 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 				vm.targetMessage.show = false;
 			
 			}, 2000);
-		}
-		
-		//Get ADG of latest two with list of weights
-		var averageDates = vm.getAverageArray();
-		//Start Period is the day two weeks prior to last weigh in
-		var startPeriod = new Date(averageDates[averageDates.length-1][0]);
-		startPeriod.setDate(startPeriod.getDate()-14);
-		
-		//Get all weight inputs of last two weeks
-		var boundedDates = new Array();
-		for(var i = 0; i < averageDates.length; i++){
-		if(new Date(averageDates[i][0]) >= new Date(startPeriod)){
-			if(boundedDates.length == 0){
-			startPeriod = new Date(averageDates[i][0]);
+		} else {
+			//Get ADG of latest two with list of weights
+			var averageDates = vm.getAverageArray();
+			//Start Period is the day two weeks prior to last weigh in
+			var startPeriod = new Date(averageDates[averageDates.length-1][0]);
+			startPeriod.setDate(startPeriod.getDate()-14);
+			
+			//Get all weight inputs of last two weeks
+			var boundedDates = new Array();
+			for(var i = 0; i < averageDates.length; i++){
+			if(new Date(averageDates[i][0]) >= new Date(startPeriod)){
+				if(boundedDates.length == 0){
+				startPeriod = new Date(averageDates[i][0]);
+				}
+				boundedDates.push(averageDates[i]);
+			
 			}
-			boundedDates.push(averageDates[i]);
-		
+			}
+			
+			console.log("Last two weeks: "+boundedDates);
+			console.log("Target date: "+vm.targetDate);
+			
+			//Store user input start and end date temporarily in order to calculate 2 week adg
+			var start_date = vm.start_date;
+			var end_date = vm.end_date;
+			vm.start_date = startPeriod;
+			vm.end_date = new Date(averageDates[averageDates.length-1][0]);
+			var adg = vm.averageGainInRange();
+			console.log("adg: "+adg);
+			vm.start_date = start_date;
+			vm.end_date = end_date;
+			
+			//Current weight of animal
+			var targetWeight = averageDates[averageDates.length-1][1];
+			var numDays = Math.floor((new Date(vm.targetDate) - new Date(averageDates[averageDates.length-1][0]))/ (1000 * 3600 * 24));
+			console.log("Num Days: "+numDays);
+			var gain = numDays*adg;
+			targetWeight += gain;
+			var formattedDate = vm.targetDate.toLocaleDateString("en-US");
+			vm.data = "Target weight at "+formattedDate+" is estimated to be "+Math.round(targetWeight)+"lbs";
+			vm.targetMessage.message = vm.data;
+			vm.targetMessage.alertType = 'alert-success';
+			vm.targetMessage.show = true;
+			if(vm.targetDateTimeout) $timeout.cancel(vm.targetDateTimeout);
 		}
-		}
-		
-		console.log("Last two weeks: "+boundedDates);
-		console.log("Target date: "+vm.targetDate);
-		
-		//Store user input start and end date temporarily in order to calculate 2 week adg
-		var start_date = vm.start_date;
-		var end_date = vm.end_date;
-		vm.start_date = startPeriod;
-		vm.end_date = new Date(averageDates[averageDates.length-1][0]);
-		var adg = vm.averageGainInRange();
-		console.log("adg: "+adg);
-		vm.start_date = start_date;
-		vm.end_date = end_date;
-		
-		//Current weight of animal
-		var targetWeight = averageDates[averageDates.length-1][1];
-		var numDays = Math.floor((new Date(vm.targetDate) - new Date(averageDates[averageDates.length-1][0]))/ (1000 * 3600 * 24));
-		console.log("Num Days: "+numDays);
-		var gain = numDays*adg;
-		targetWeight += gain;
-		var formattedDate = vm.targetDate.toLocaleDateString("en-US");
-		vm.data = "Target weight at "+formattedDate+" is estimated to be "+Math.round(targetWeight)+"lbs";
-		vm.targetMessage.message = vm.data;
-		vm.targetMessage.alertType = 'alert-success';
-		vm.targetMessage.show = true;
-		if(vm.targetDateTimeout) $timeout.cancel(vm.targetDateTimeout);	 
 	}
 
     //When two rows are selected, calculate the ADG in that date range
@@ -365,6 +369,16 @@ angular.module('app.animal', ['ngRoute', 'animalService', 'ui.bootstrap', 'filte
 		
 		$location.url("/dashboard/");
 	}
-	
+    Type.get(function(data) {
+		var types = {};
+		
+		for(var i = 0; i < data.data.length; i++) {
+			types[data.data[i].type] = data.data[i].breeds;
+		}
+		vm.existingTypes = types;
+	});
+	vm.getBreedOptions = function() {
+		vm.existingBreeds = vm.existingTypes[vm.selectTypes];
+	}	
   }]);
 

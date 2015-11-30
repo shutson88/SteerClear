@@ -14,10 +14,10 @@
 		<li ng-show="!animal.observing"><a href="/dashboard">Animals</a></li>
 		<li ng-show="animal.observing"><a href="/observeDashboard">Observing</a></li>
 		<li ng-show="animal.observing"><a href="/dashboard/{{animal.params.user}}">{{animal.params.user}}</a></li>
-		<li class="active">{{animal.animalID}}</li>
+		<li class="active">{{animal.animal._id}}</li>
 	</ol>    
 	<h3>
-		{{animal.params.name | capitalize:true}}
+		{{animal.animal.name | capitalize:true}}
 		<button class="btn btn-danger btn-xs pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
     </h3>
 	<div class="form-group btn-group-vertical" style="width: 100%">
@@ -58,29 +58,36 @@
 			Edit Animal
 		</button>
 		<div uib-collapse="!editAnimalCollapsed">
-			<form class="form-inline" role="form">
 				<div class="form-group panel panel-default">
-					<div class="panel-body">
-						<div class="form-group">
-							<input type="text" class="form-control" ng-model="animal.newName" placeholder="Name: {{animal.animal.name}}">
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" ng-model="animal.newType" placeholder="Type: {{animal.animal.type}}">
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" ng-model="animal.newBreed" placeholder="Breed: {{animal.animal.breed}}">
-						</div>
-						<button class="btn btn-default" type="button" ng-click="animal.editAnimal()">
-							<span class="glyphicon glyphicon-edit"></span>
-							Edit
-						</button>
+					<div class="panel-body">						
+						<span style="display:inline-block; padding-right:10px">
+							<label style="display:block">Name: {{animal.animal.name}}</label>	
+							<input type="text" class="form-control" ng-model="animal.newName">							
+						</span>
+						<span style="display:inline-block; padding-right:10px">
+							<label style="display:block">Type: {{animal.animal.type}}</label>	
+							<select class="form-control" ng-model="animal.selectTypes" ng-change="animal.getBreedOptions()">
+								<option ng-repeat="(type, value) in animal.existingTypes" value = "{{type}}">{{type}}</option>
+							</select>
+						</span>						
+						<span style="display:inline-block; padding-right:10px">   
+							<label style="display:block">Breed: {{animal.animal.breed}}</label>	
+							<select class="form-control" ng-model="animal.selectBreeds">
+								<option ng-repeat="breed in animal.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
+							</select>	
+						</span>
+						<span style="display:inline-block">   
+							<button class="btn btn-default span3" type="button" ng-click="animal.editAnimal()">
+								<span class="glyphicon glyphicon-edit"></span>
+								Edit
+							</button>	
+						</span>
 						<div class="alert alert-info form-group fadein fadeout" ng-class="animal.editMessage.alertType" ng-show="animal.editMessage.show">
 							{{animal.editMessage.message}}
-					
 						</div>
 					</div>
 				</div>
-			</form>
+
 		</div>
 
 		<button type="button" style="display: block; text-align: left"  class="btn btn-default" ng-click="targetDateCollapsed = !targetDateCollapsed">
@@ -126,21 +133,10 @@
 				</div>
 			</div>
 		</form>
-
-
-
 	</div>
-    
-	
-
-
-
-
-	
 </div>
 <!-- LOADING MESSAGE -->
 <div class="jumbotron text-center" ng-show="user.processing" ng-cloak><span class="glyphicon glyphicon-repeat spinner"></span>
-
     <p>Loading Weights...</p>
 </div>
 <form>
@@ -193,6 +189,5 @@
     </tbody>
 </table>
 <div class="jumbotron text-center" ng-show="(animal.weights.length == 0)" ng-cloak>
-
     <p>No weights for this animal</p>
 </div>

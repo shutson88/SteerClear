@@ -522,7 +522,7 @@ router.delete('/animal/:id', function(req, res) {
 router.put('/animal/:id', function(req, res) {
 	
 	
-	if(!req.body.newID || !req.body.newName || !req.body.newType || !req.body.newBreed) {
+	if(!req.body.newID && !req.body.newName && !req.body.newType && !req.body.newBreed) {
 		res.json({success: false, message: "No new info, animal not updated"});
 	} else {
 		
