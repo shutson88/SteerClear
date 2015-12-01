@@ -117,6 +117,10 @@
     </tbody>
 </table>
 <div class="jumbotron text-center" ng-show="(user.animals.length == 0)" ng-cloak>
-
+	
     <p>You have no animals</p>
+</div>
+<div class="jumbotron text-center" ng-show="user.message" ng-cloak>
+	
+    <p>{{user.message}}</p>
 </div>

@@ -27,6 +27,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'typ
 		.success(function (data) {
 			if(data.success === false) {
 				console.log(data.message);
+				vm.message = data.message;
 			} else if(data.success == true) {
 				vm.animals = data.data;
 				if(vm.animals.length == 0) {
