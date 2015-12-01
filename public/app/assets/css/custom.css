@@ -45,8 +45,9 @@ html {
   }
 
   .notifications-wrapper {
-     overflow:auto;
-      max-height:250px;
+     overflow:hidden;
+      max-height:500px;
+	  overflow-y:scroll;
     }
 
  .menu-title {
@@ -85,8 +86,12 @@ html {
 .notification-item {
  padding:10px;
  margin:5px;
- background:#ccc;
+ background:#efefef;
  border-radius:4px;
+ }
+
+ .unread {
+	background:#ccc !important;
  }
 
 .navbar-inverse {

@@ -61,7 +61,7 @@ var verifyAdmin = function(code) {
 	} else {
 		return false
 	}
-	
+
 };
 
 
@@ -394,9 +394,9 @@ router.put('/users/', function(req, res) {
 				} else {
 					res.json({success: true, message: "Observer added successfully"});
 				}
-				
+
 			}
-			
+
 		}
 
 	}
@@ -520,15 +520,15 @@ router.delete('/animal/:id', function(req, res) {
 
 //Update an animal given an id
 router.put('/animal/:id', function(req, res) {
-	
-	
+
+
 	if(!req.body.newID && !req.body.newName && !req.body.newType && !req.body.newBreed) {
 		res.json({success: false, message: "No new info, animal not updated"});
 	} else {
-		
-	
+
+
 		if(!req.params.id) {
-	
+
 			res.json({success: false, message: "You did not send an animal ID"});
 		} else {
 			Animal.findOne({_id: req.params.id}, function(err, animal) {
@@ -537,7 +537,7 @@ router.put('/animal/:id', function(req, res) {
 					if(req.body.newName) {animal.name = req.body.newName;}
 					if(req.body.newType) {animal.type = req.body.newType;}
 					if(req.body.newBreed) {animal.breed = req.body.newBreed;}
-	
+
 					animal.save(function(err) {
 						if(err) {
 							console.log(err);
@@ -547,15 +547,15 @@ router.put('/animal/:id', function(req, res) {
 							sendNotifications(notification, req.decoded.user._id);
 							res.json({success: true, message: "Animal updated successfully"});
 						}
-	
+
 					});
-	
-	
+
+
 				} else {
 					res.json({success: false, message: "Animal not found or you don't have access to this animal"});
 				}
-	
-	
+
+
 			});
 		}
 	}
@@ -586,7 +586,7 @@ router.post('/animals', function(req, res) {
 							sendNotifications(notification, req.decoded.user._id);
 							res.json({success: true, message: "Animal already exists, adding..."});
 						}
-					});					
+					});
 				} else {
 					res.json({success: false, message: "This animal is already managed"});
 				}
@@ -714,7 +714,7 @@ router.post('/weights/:id', function(req, res) {
 						var tempDate = new Date(req.body.date);
 						var tempMonth = tempDate.getMonth();
 						var tempDay = tempDate.getDate();
-						var tempYear = tempDate.getFullYear();						
+						var tempYear = tempDate.getFullYear();
 						Weight.findOne({id: req.params.id, date: {$gt: new Date(tempYear, tempMonth, tempDay), $lt: new Date(tempYear, tempMonth, tempDay+1)}}, function(err, weight) {
 							if(!weight) {
 								Weight({
@@ -735,12 +735,12 @@ router.post('/weights/:id', function(req, res) {
 											sendNotifications(notification, req.decoded.user._id);
 											res.json({ success: true, message: "Weight added successfully", data: weight._id});
 										}
-									});								
+									});
 							} else {
 								res.json({success: false, message: "There is already a weight for this date"});
 							}
 						});
-						
+
 
 
 					}
@@ -866,14 +866,21 @@ router.post('/notifications/:id', function(req, res) {
 // Mark all notifications as read
 router.put('/notifications', function(req, res) {
 	// Mark as read
-	User.update({'_id': req.decoded.user._id, 'notifications.read': false},
-		{'$set': { 'notifications.$.read': true }
-	}, function(err) {
-		if(err) {
+	var user = User.findOne({'_id': req.decoded.user._id}, function(err, user) {
+		if(user) {
+			user.notifications.forEach(function(notification) {
+				User.update({'_id': req.decoded.user._id, 'notifications.read': false},
+					{'$set': { 'notifications.$.read': true }
+				}, function(err) {
+					if(err) {
+						console.log(err);
+					}
+				});
+			});
+			res.json({ success: true, message: "Notifications marked as read" });
+		} else {
 			console.log(err);
 			res.json({success: false, message: "An error occurred"});
-		} else {
-			res.json({ success: true, message: "Notifications marked as read" });
 		}
 	})
 });

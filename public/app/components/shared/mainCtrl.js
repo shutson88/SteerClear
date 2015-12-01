@@ -6,8 +6,8 @@ angular.module('app.main', ['ngRoute'])
   var vm = this;
   //Unread notifications
   vm.unread = 0;
+  vm.notifications = [];
   vm.user = {};
-  console.log(vm.user);
     vm.loggedIn = Auth.isLoggedIn();
 	vm.checkAdmin = function() {
 		if(Auth.isAdmin()) {
@@ -33,12 +33,13 @@ angular.module('app.main', ['ngRoute'])
 						//console.log("Successful");
 						vm.unread = 0;
 						vm.notifications = data.notifications;
+                        console.log(vm.notifications);
 						for(var i = 0; i < data.notifications.length; i++){
-						if(!vm.notifications[i].read){
-							vm.unread++;
+    						if(!vm.notifications[i].read){
+    							vm.unread++;
+    						}
 						}
-						}
-			
+
 					}
 				});
 		}
