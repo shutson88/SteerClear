@@ -78,20 +78,22 @@
                     </li>
                     <!-- Notification Menu -->
                     <li class="dropdown" ng-if="main.loggedIn">
-                        <a id="dLabel" role="button" data-toggle="dropdown" ng-click="main.readNotifications()">
+                        <a id="dLabel" role="button" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-bell"></span>
                             <span class="badge" id="unreadNotifications">{{main.unread}}</span>
                         </a>
 
                         <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
 
-                            <div class="notification-heading"><h4 class="menu-title">Notifications</h4>
+                            <div class="notification-heading">
+                                <h4 class="menu-title">Notifications</h4>
+                                <a style="position:relative;float:right;cursor:pointer" ng-click="main.readNotifications()">Mark all as read</a>
                             </div>
                             <li class="divider"></li>
                             <div class="notifications-wrapper">
                                 <a class="content" href="#">
-                                    <div class="notification-item" ng-repeat="notification in main.notifications | reverse">
-                                        <a href='dashboard/{{notification.sender}}'>
+                                        <div class="notification-item" ng-style="main.setNotificationColor(notification)" ng-repeat="notification in main.notifications | reverse">
+                                        <a ng-click='main.goToNotification(notification)'>
                                             <i class="material-icons" style="float:right" ng-if="!notification.read">info_outline</i>
                                             <h4 class="item-title">{{notification.message}}</h4>
                                             <p class="item-info">{{notification.date | date:'MM/dd/yyyy h:mm a'}}</p>

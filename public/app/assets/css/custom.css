@@ -90,10 +90,6 @@ html {
  border-radius:4px;
  }
 
- .unread {
-	background:#ccc !important;
- }
-
 .navbar-inverse {
   background-color: #500000;
   border-color: #332c2c;

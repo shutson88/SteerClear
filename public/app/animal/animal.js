@@ -13,7 +13,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
   .controller('AnimalCtrl', ['$routeParams', '$http', '$location', '$scope', '$timeout', 'Animal', 'Type', function ($routeParams, $http, $location, $scope, $timeout, Animal, Type) {
     var vm = this;
     vm.params = $location.search();
-    console.log(vm.params);
+    // console.log(vm.params);
     if (vm.params.observing == true || vm.params.observing == 'true') {
       vm.observing = true;
     } else {
@@ -22,7 +22,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     vm.date = new Date();
     vm.animal = {};
     Animal.getOne($routeParams.animalID, function (data) {
-      console.log(data);
+    //   console.log(data);
       if (data.success) {
         vm.animal = data.data;
       }
@@ -61,7 +61,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
           vm.weights = data.data;
         }
 
-        console.log(vm.weights);
+        // console.log(vm.weights);
       });
 
 
@@ -75,7 +75,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
           if (data.success) {
             vm.editMessage.alertType = 'alert-success';
             Animal.getOne($routeParams.animalID, function (data) {
-              console.log(data);
+            //   console.log(data);
               if (data.success) {
                 vm.animal = data.data;
               }
@@ -103,7 +103,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     vm.removeFromUser = function () {
       $http.delete("http://" + window.location.host + "/api/animal/" + vm.animalID)
         .success(function (data, status, headers, config) {
-          console.log(data);
+        //   console.log(data);
           if (data.success) {
             $location.url('/dashboard/');
 
@@ -118,7 +118,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     };
 
     vm.removeWeight = function (weightID, animalID) {
-      console.log("Animal ID: " + animalID);
+    //   console.log("Animal ID: " + animalID);
       $http.delete("http://" + window.location.host + "/api/weight/" + weightID)
         .success(function (data, status, headers, config) {
           console.log(data.message);
@@ -131,7 +131,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     };
 
     vm.addWeight = function (id) {
-      console.log("Adding weight for: " + id);
+    //   console.log("Adding weight for: " + id);
 
       $http.post("http://" + window.location.host + "/api/weights/" + id, {date: vm.date, weight: vm.weight})
         .success(function (data, status, headers, config) {
@@ -182,8 +182,8 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
       var averageWeight = 0;
       var averageSum = 0;
 
-      console.log("Current date: " + currentDate);
-      console.log(regressionData.length);
+    //   console.log("Current date: " + currentDate);
+    //   console.log(regressionData.length);
       for (var i = 0; i < regressionData.length; i++) {
         if (currentDate === regressionData[i][0]) {
           averageWeight += regressionData[i][1];
@@ -202,7 +202,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
           averageWeight = regressionData[i][1];
         }
       }
-      console.log("getAvgArray:" + averageDates);
+    //   console.log("getAvgArray:" + averageDates);
       return averageDates;
 
 
@@ -222,7 +222,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
 
         var dailyGains = new Array();
         for (var i = 0; i < averageDates.length; i++) {
-          console.log(averageDates[i][1]);
+        //   console.log(averageDates[i][1]);
 
           if (i < averageDates.length - 1 && new Date(averageDates[i][0]) >= new Date(vm.start_date) && new Date(vm.end_date) >= new Date(averageDates[i + 1][0])) {
             dailyGains.push(averageDates[i + 1][1] - averageDates[i][1])
@@ -389,4 +389,3 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
       vm.existingBreeds = vm.existingTypes[vm.selectTypes];
     }
   }]);
-

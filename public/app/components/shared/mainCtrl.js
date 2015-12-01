@@ -33,7 +33,6 @@ angular.module('app.main', ['ngRoute'])
 						//console.log("Successful");
 						vm.unread = 0;
 						vm.notifications = data.notifications;
-                        console.log(vm.notifications);
 						for(var i = 0; i < data.notifications.length; i++){
     						if(!vm.notifications[i].read){
     							vm.unread++;
@@ -50,9 +49,12 @@ angular.module('app.main', ['ngRoute'])
             method: 'PUT',
             url: '/api/notifications'
         }).then(function successCallback(response) {
-            console.log('Marked all notifications as read!');
+            vm.notifications.forEach(function(notification) {
+                notification.read = true;
+            });
+            // console.log('Marked all notifications as read!');
             vm.unread = 0;
-            document.getElementById("unreadNotifications").innerHTML = "0";
+            document.getElementById("unreadNotifications").innerHTML = vm.unread;
         }, function errorCallback(response) {
             console.log('ERROR: ' + response);
         });
@@ -125,5 +127,23 @@ angular.module('app.main', ['ngRoute'])
 
       $location.path('/signin');
     };
+
+    vm.goToNotification = function(notification) {
+        $http({
+            method: 'PUT',
+            url: '/api/notifications/' + notification.date
+        }).then(function successCallback(response) {
+            notification.read = true;
+            if(vm.unread > 0) vm.unread--;
+            document.getElementById("unreadNotifications").innerHTML = vm.unread;
+            $location.path('/dashboard/' + notification.sender);
+        }, function errorCallback(response) {
+            console.log('ERROR: ' + response);
+        });
+    }
+
+    vm.setNotificationColor = function(notification) {
+        if(!notification.read) return { background: "#d8d8ff" }
+    }
 
   }]);
