@@ -35,9 +35,9 @@
 						
 						<div class="form-group">							
 							<p class="input-group" style="margin: 0">
-								<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="animal.date" is-open="datepicker.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+								<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="animal.date" is-open="newWeight_datepicker.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
 								<span class="input-group-btn">
-									<button type="button" class="btn btn-default" ng-click="datepicker.opened = !datepicker.opened"><i class="glyphicon glyphicon-calendar"></i></button>
+									<button type="button" class="btn btn-default" ng-click="newWeight_datepicker.opened = !newWeight_datepicker.opened"><i class="glyphicon glyphicon-calendar"></i></button>
 								</span>
 							</p>
 						</div>
@@ -101,9 +101,9 @@
 					<div class="panel-body">
 						<div class="form-group">
 							<p class="input-group" style="margin: 0">
-								<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="animal.targetDate" is-open="datepicker.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+								<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="animal.targetDate" is-open="targetDate_datepicker.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
 								<span class="input-group-btn">
-									<button type="button" class="btn btn-default" ng-click="datepicker.opened = !datepicker.opened"><i class="glyphicon glyphicon-calendar"></i></button>
+									<button type="button" class="btn btn-default" ng-click="targetDate_datepicker.opened = !targetDate_datepicker.opened"><i class="glyphicon glyphicon-calendar"></i></button>
 								</span>
 							</p>
 						</div>
