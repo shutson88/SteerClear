@@ -68,8 +68,8 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     vm.editAnimal = function () {
       $http.put("http://" + window.location.host + "/api/animal/" + $routeParams.animalID, {
         newName: vm.newName,
-        newType: vm.newType,
-        newBreed: vm.newBreed
+        newType: vm.selectTypes,
+        newBreed: vm.selectBreeds
       })
         .success(function (data, status, headers, config) {
           if (data.success) {
