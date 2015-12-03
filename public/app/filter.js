@@ -10,10 +10,12 @@ angular.module('filter', [])
 	})
 
 	.filter('capitalize', function() {
-		// console.log("SSFSF");
-		return function(input, all) {
-			var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;
-			return (!!input) ? input.replace(reg, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) : '';
+
+		return function(input) {
+			//console.log("Input: "+input);
+			return input.toLowerCase().replace( /\b\w/g, function (m) {
+				return m.toUpperCase();
+			})
 		}
 	})
 
