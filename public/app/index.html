@@ -91,15 +91,16 @@
                             </div>
                             <li class="divider"></li>
                             <div class="notifications-wrapper">
-                                <a class="content" href="#">
-                                        <div class="notification-item" ng-style="main.setNotificationColor(notification)" ng-repeat="notification in main.notifications | reverse">
-                                        <a ng-click='main.goToNotification(notification)'>
-                                            <i class="material-icons" style="float:right" ng-if="!notification.read">info_outline</i>
+                                <div class="content" href="#">
+                                    <div ng-if="main.notifications.length == 0"><p><i>No notifications to show</i></p></div>
+                                    <div class="notification-item" ng-style="main.setNotificationColor(notification)" ng-repeat="notification in main.notifications | reverse">
+                                        <a style="float:right; cursor: pointer; :hover { background: red }" ng-click="main.deleteNotification(notification)">&times;</a>
+                                        <a style="cursor: pointer" ng-click='main.goToNotification(notification)'>
                                             <h4 class="item-title">{{notification.message}}</h4>
                                             <p class="item-info">{{notification.date | date:'MM/dd/yyyy h:mm a'}}</p>
                                         </a>
                                     </div>
-                                </a>
+                                </div>
                             </div>
                         </ul>
                     </li>

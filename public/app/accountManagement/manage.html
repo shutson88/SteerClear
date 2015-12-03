@@ -7,7 +7,7 @@
 		<div class="form-group btn-group-vertical"  style="width: 100%">
 			<button  type="button" style="display: block; text-align: left" class="btn btn-default" ng-click="addSupervisorCollapsed = !addSupervisorCollapsed">
 				<span ng-class="{'glyphicon glyphicon-plus' : !addSupervisorCollapsed, 'glyphicon glyphicon-minus' : addSupervisorCollapsed}"></span>
-				Add Supervisor
+				Add Observer
 			</button>
 			<div uib-collapse="!addSupervisorCollapsed">
 				<form class="form-inline" role="form">
@@ -31,7 +31,7 @@
 			</div>
 			<button type="button" style="display: block; text-align: left" class="btn btn-default" ng-click="removeSupervisorCollapsed = !removeSupervisorCollapsed">
 				<span ng-class="{'glyphicon glyphicon-plus' : !removeSupervisorCollapsed, 'glyphicon glyphicon-minus' : removeSupervisorCollapsed}"></span>			
-				Remove Supervisor
+				Remove Observer
 			</button>
 			<div uib-collapse="!removeSupervisorCollapsed">
 				<form class="form-inline" role="form">
@@ -41,7 +41,7 @@
 								{{manage.removeSupervisorMessage.message}}
 							</div>
 							<div class="alert alert-info form-group" ng-show="manage.supervisors.length == 0">
-								You have no supervisors
+								You have no observers
 							</div>
 							<table class="table table-bordered">
 								<tbody>
