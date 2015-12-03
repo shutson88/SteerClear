@@ -94,9 +94,9 @@ manage.controller('ManageCtrl', [ 'Auth', 'User', '$http', '$location', '$routeP
 		}
 	};
 	
-	vm.addSupervisor = function() {
-		console.log("Adding supervisor " + vm.addSupervisorID)
-		$http.put("http://" + window.location.host + "/api/users/", {id: vm.addSupervisorID})
+	vm.addObserver = function() {
+		console.log("Adding supervisor " + vm.addObserverID.toLowerCase())
+		$http.put("http://" + window.location.host + "/api/users/", {id: vm.addObserverID.toLowerCase()})
 			.success(function(data, status, headers, config) {
 				console.log(data);
 				User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});
@@ -117,8 +117,8 @@ manage.controller('ManageCtrl', [ 'Auth', 'User', '$http', '$location', '$routeP
 		
 	}
 	
-	vm.removeSupervisor = function(id) {
-		console.log("removing " + id + " as supervisor");
+	vm.removeObserver = function(id) {
+		console.log("removing " + id + " as observer");
 		$http.put("http://" + window.location.host + "/api/users/", {id: id, stop: true})
 			.success(function(data, status, headers, config) {
 				User.getObservedBy(function(supervisors) {vm.supervisors = supervisors});

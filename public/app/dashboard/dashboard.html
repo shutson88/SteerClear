@@ -28,14 +28,14 @@
 							<input type="text" class="form-control" ng-model="user.addName" placeholder="Name">
 						</div>
 						<div class="form-group">
-<!-- 							<input type="text" class="form-control" ng-model="user.addType" placeholder="Type"> -->
 							<select class="form-control" ng-model="user.selectTypes" ng-change="user.getBreedOptions()">
+								
 								<option ng-repeat="(type, value) in user.existingTypes" value = "{{type}}">{{type | capitalize}}</option>
 							</select>
 						</div>
 						<div class="form-group">
-<!-- 							<input type="text" class="form-control" ng-model="user.addBreed" placeholder="Breed"> -->
 							<select ng-model="user.selectBreeds" class="form-control">
+								
 								<option ng-repeat="breed in user.existingBreeds" value = "{{breed.breed}}">{{breed.breed | capitalize}}</option>
 							</select>
 						</div>
@@ -131,11 +131,11 @@
 </table>
 <strong>Inactive Projects</strong>
 <div ng-repeat="(key, value) in user.retiredAnimals">
-    <button type="button" style="display: block; text-align: left; width: 100%" class="btn btn-default" ng-click="test = !test">
-        <span ng-class="{'glyphicon glyphicon-plus' : !test, 'glyphicon glyphicon-minus' : test}"></span>
+    <button type="button" style="display: block; text-align: left; width: 100%" class="btn btn-default" ng-click="collapseYear = !collapseYear">
+        <span ng-class="{'glyphicon glyphicon-plus' : !collapseYear, 'glyphicon glyphicon-minus' : collapseYear}"></span>
         <strong>{{key}}</strong>
     </button>	
-	<div uib-collapse="!test">
+	<div uib-collapse="!collapseYear">
 		<table class="table table-hover table-bordered table-striped" style="cursor: pointer">
 			<thead>
 				<tr>

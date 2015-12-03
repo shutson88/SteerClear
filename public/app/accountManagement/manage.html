@@ -15,9 +15,9 @@
 						<div class="panel-body">
 		
 							<div class="form-group">
-								<input type="text" class="form-control" ng-model="manage.addSupervisorID" placeholder="ID">
+								<input type="text" class="form-control" ng-model="manage.addObserverID" placeholder="Username">
 							</div>
-							<button class="btn btn-default" type="button" ng-click="manage.addSupervisor()">
+							<button class="btn btn-default" type="button" ng-click="manage.addObserver()">
 								<span class="glyphicon glyphicon-plus-sign"></span>
 								Add
 							</button>
@@ -48,7 +48,7 @@
 									<tr ng-repeat="super in manage.supervisors">
 										<td>{{super.username}}</td>
 										<td>
-											<button class="btn btn-danger btn-xs" type="button" ng-click-confirm="manage.removeSupervisor(super.username)" ng-confirm="Are you sure you want to remove this supervisor?">
+											<button class="btn btn-danger btn-xs" type="button" ng-click-confirm="manage.removeObserver(super.username)" ng-confirm="Are you sure you want to remove this supervisor?">
 												<span class="glyphicon glyphicon-minus-sign"></span>
 												Remove
 											</button>

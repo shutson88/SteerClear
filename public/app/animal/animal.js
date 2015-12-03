@@ -21,11 +21,12 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     }
     vm.date = new Date();
     vm.animal = {};
+	vm.processing = true;
     Animal.getOne($routeParams.animalID, function (data) {
-    //   console.log(data);
-      if (data.success) {
-        vm.animal = data.data;
-      }
+		vm.processing = false;
+		if (data.success) {
+			vm.animal = data.data;
+		}
     });
 
 

@@ -17,7 +17,12 @@
 		<li class="active">{{animal.animal.id}}</li>
 	</ol>    
 	<h3>
-		{{animal.animal.name | capitalize:true}}
+		<div ng-show="animal.processing" ng-cloak><span class="glyphicon glyphicon-repeat spinner"></span>
+			Loading animal...
+		</div>
+		<div ng-show="!animal.processing"> 
+			{{animal.animal.name | capitalize:true}}
+		</div>
 		<button class="btn btn-danger btn-xs pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser(animal.animal.id, false)" ng-confirm="Are you sure you want to remove {{animal.animal.id}}?">Remove</button>
 		<button class="btn btn-danger btn-xs pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser(animal.animal.id, true)" ng-confirm="Are you sure you want to retire {{animal.animal.id}}?">Retire</button>
 	</h3>

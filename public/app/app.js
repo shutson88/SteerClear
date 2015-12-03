@@ -32,9 +32,10 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($ro
 app.directive('ngConfirm', [ function() {
 	return {
 		link: function(scope, element, attr) {
-			var msg = attr.ngConfirm || "Are you sure?";
+			
 			var clickAction = attr.ngClickConfirm;
 			element.bind('click', function(event) {
+				var msg = attr.ngConfirm || "Are you sure?";
 				if(window.confirm(msg)) {
 					scope.$eval(clickAction);
 				}

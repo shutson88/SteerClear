@@ -479,12 +479,18 @@ router.get('/animal/:id', function(req, res) {
 	if(!req.params.id) {
 		res.json({success: false, message: "You did not send an animal ID"});
 	} else {
-		var animal = Animal.findOne({ _id: req.params.id }, function(err, animal) {
-			if(animal && animal.managedBy === req.decoded.user._id){
-				res.json({success: true, message: "Successfully sending animal", data: animal});
-			}
-			else{
-				res.json({success: false, message: 'You do not have access to this animal.'});
+		Animal.findOne({ _id: req.params.id }, function(err, animal) {
+			if(animal){
+				verifyPermission(animal.managedBy, req.decoded.user._id, function(status) {
+					if(status === true) {
+						res.json({success: true, message: "Successfully sending animal", data: animal});
+					} else {
+						res.json({success: false, message: 'You do not have access to this animal.'});
+					}
+				});
+				
+			} else {
+				res.json({success: false, message: 'Animal not found'});
 			}
 		});
 	}
