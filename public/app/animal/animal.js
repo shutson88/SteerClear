@@ -39,6 +39,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     vm.selectedRow2 = null;
     vm.alternateSelection = false;
     vm.targetDate = null;
+    vm.calculateTargetDate = false;
     $scope.setClickedRow = function (index) {
       vm.selectedRow = index;
     }
@@ -163,6 +164,18 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     }
 
 
+
+    vm.getDateDifference = function getDateDifference(start, end) {
+
+      var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+      // Discard the time and time-zone information.
+      var utc1 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
+      var utc2 = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
+
+      return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+    }
+
+
     vm.getAverageArray = function () {
 
       var regressionData = new Array();
@@ -217,8 +230,8 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
       }
       else {
         var averageDates = vm.getAverageArray();
-        //console.log("Days: "+ (new Date(vm.end_date) - new Date(vm.start_date))/ (1000 * 3600 * 24));
-        var numDays = (new Date(vm.end_date) - new Date(vm.start_date)) / (1000 * 3600 * 24);
+
+        var numDays = vm.getDateDifference(new Date(vm.start_date), new Date(vm.end_date));
 
         var dailyGains = new Array();
         for (var i = 0; i < averageDates.length; i++) {
@@ -229,7 +242,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
           }
         }
         var averageDailyGain = 0;
-        //console.log("Daily gains: " + dailyGains);
+        console.log("Daily gains: " + dailyGains);
         for (var i = 0; i < dailyGains.length; i++) {
           averageDailyGain += dailyGains[i];
         }
@@ -238,6 +251,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
           return 0;
         }
         else {
+          console.log("adg: "+averageDailyGain+" numDay: " + numDays);
           vm.data = "Average daily weight gain: " + Math.round((averageDailyGain / numDays) * 10) / 10;
           return averageDailyGain / numDays;
         }
@@ -245,51 +259,37 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     }
 
     vm.targetDateCalculator = function () {
-      if (vm.targetDate == null) {
-        vm.data = "Please enter a target date"
+      if (vm.targetDate == null || vm.selectedRow == null || vm.selectedRow2 == null) {
+        vm.data = "Please select two rows and a target date"
         vm.targetMessage.alertType = 'alert-warning';
         vm.targetMessage.message = vm.data;
         vm.targetMessage.show = true;
+
         if (vm.targetDateTimeout) $timeout.cancel(vm.targetDateTimeout);
         vm.targetDateTimeout = $timeout(function () {
           vm.targetMessage.show = false;
 
         }, 2000);
       } else {
-        //Get ADG of latest two with list of weights
+        vm.calculateTargetDate = true;
+        var adg = vm.calculateADG();
+        console.log("ADG: "+adg);
+
         var averageDates = vm.getAverageArray();
-        //Start Period is the day two weeks prior to last weigh in
-        var startPeriod = new Date(averageDates[averageDates.length - 1][0]);
-        startPeriod.setDate(startPeriod.getDate() - 14);
 
-        //Get all weight inputs of last two weeks
-        var boundedDates = new Array();
-        for (var i = 0; i < averageDates.length; i++) {
-          if (new Date(averageDates[i][0]) >= new Date(startPeriod)) {
-            if (boundedDates.length == 0) {
-              startPeriod = new Date(averageDates[i][0]);
-            }
-            boundedDates.push(averageDates[i]);
-
-          }
-        }
-
-        console.log("Last two weeks: " + boundedDates);
         console.log("Target date: " + vm.targetDate);
 
-        //Store user input start and end date temporarily in order to calculate 2 week adg
-        var start_date = vm.start_date;
-        var end_date = vm.end_date;
-        vm.start_date = startPeriod;
-        vm.end_date = new Date(averageDates[averageDates.length - 1][0]);
-        var adg = vm.averageGainInRange();
         console.log("adg: " + adg);
-        vm.start_date = start_date;
-        vm.end_date = end_date;
+
 
         //Current weight of animal
         var targetWeight = averageDates[averageDates.length - 1][1];
-        var numDays = Math.floor((new Date(vm.targetDate) - new Date(averageDates[averageDates.length - 1][0])) / (1000 * 3600 * 24));
+        console.log("Target weight: "+targetWeight);
+        var lastWeight = new Date(averageDates[averageDates.length - 1][0]);
+        console.log("Last weight: "+lastWeight);
+
+        var numDays = vm.getDateDifference(new Date(averageDates[averageDates.length - 1][0]), new Date(vm.targetDate));
+
         console.log("Num Days: " + numDays);
         var gain = numDays * adg;
         targetWeight += gain;
@@ -305,7 +305,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     //When two rows are selected, calculate the ADG in that date range
     vm.calculateADG = function () {
 
-      if (vm.selectedRow == null || vm.selectedRow == null) {
+      if (vm.selectedRow == null || vm.selectedRow2 == null) {
         vm.data = "Please click two rows (start and end)"
         vm.adgMessage.alertType = 'alert-warning';
         vm.adgMessage.message = vm.data;
@@ -315,6 +315,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
         vm.calculateAdgTimeout = $timeout(function () {
           vm.adgMessage.show = false;
         }, 2000);
+
       }
       else {
         if (vm.selectedRow < vm.selectedRow2) {
@@ -332,11 +333,15 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
         console.log("VM: " + JSON.stringify(vm));
 
 
-        vm.averageGainInRange();
+        var adg = vm.averageGainInRange();
         vm.adgMessage.message = vm.data;
         vm.adgMessage.alertType = 'alert-success';
-        vm.adgMessage.show = true;
+        if(!vm.calculateTargetDate) {
+          vm.adgMessage.show = true;
+        }
         if (vm.calculateAdgTimeout) $timeout.cancel(vm.calculateAdgTimeout);
+
+        return adg;
       }
 
 
