@@ -146,4 +146,21 @@ angular.module('app.main', ['ngRoute'])
         if(!notification.read) return { background: "#d8d8ff" }
     }
 
-  }]);
+    vm.deleteNotification = function(notification) {
+        console.log(notification.date);
+        $http({
+            method: 'DELETE',
+            url: '/api/notifications/' + notification.date
+        }).then(function successCallback(response) {
+            var index = vm.notifications.indexOf(notification)
+            if(index > -1) {
+                vm.notifications.splice(index, 1);
+            }
+            if(vm.unread > 0) vm.unread--;
+            document.getElementById("unreadNotifications").innerHTML = vm.unread;
+        }, function errorCallback(response) {
+            console.log('ERROR: ' + response);
+        });
+    }
+
+}]);

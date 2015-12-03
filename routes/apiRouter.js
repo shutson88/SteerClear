@@ -924,5 +924,22 @@ router.delete('/notifications', function(req, res) {
 	);
 });
 
+// Deletes a single notification
+router.delete('/notifications/:id', function(req, res) {
+	var timestamp = req.params.id;
+	// Remove notification
+	User.update(
+		{ _id: req.decoded.user._id },
+		{ $pull: { notifications: { date: timestamp } } },
+		function(err) {
+			if(err) {
+				res.json({ success: false, message: "An error occurred: " + err });
+			} else {
+				res.json({ success: true, message: "Deleted notification" });
+			}
+		}
+	);
+});
+
 // Export for use in server.js
 module.exports = router
