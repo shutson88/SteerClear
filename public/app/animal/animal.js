@@ -52,6 +52,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     vm.editAnimalTimeout = undefined;
     vm.targetDateTimeout = undefined;
     vm.calculateAdgTimeout = undefined;
+    vm.animalID = $routeParams.animalID;
 
     $http.get('/api/weights/' + $routeParams.animalID)
       .success(function (data) {
@@ -102,7 +103,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
 
 
     vm.removeFromUser = function () {
-      $http.delete("http://" + window.location.host + "/api/animal/" + vm.animalID)
+      $http.delete("http://" + window.location.host + "/api/animal/" + $routeParams.animalID)
         .success(function (data, status, headers, config) {
         //   console.log(data);
           if (data.success) {
