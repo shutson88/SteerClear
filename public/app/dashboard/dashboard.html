@@ -39,6 +39,9 @@
 								<option ng-repeat="breed in user.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
 							</select>
 						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model="user.addProjectYear" placeholder="Project Start Year">
+						</div>
 						<button class="btn btn-default" type="button" ng-click="user.addAnimal();">
 							<span class="glyphicon glyphicon-plus-sign"></span>
 								Add
@@ -69,53 +72,117 @@
     <div class="form-group" ng-show="user.animals.length > 0">
         <div class="input-group">
             <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-            <input type="text" class="form-control" ng-model="user.searchAnimals" placeholder="{{searchPlaceholder}}">
+            <input type="text" class="form-control" ng-model="user.searchAnimals" placeholder="Search Animals">
         </div>
     </div>
 </form>
+<strong>Active Projects</strong>
 <table class="table table-hover table-bordered table-striped" style="cursor: pointer" ng-show="user.animals.length > 0" ng-cloak>
-    <thead>
+<!--     <caption><strong>Active Projects</strong></caption>
+ -->	<thead>
     <tr>
-        <th>
+        <th class="col-md-1">
             <a href="#" ng-click="user.sortType = '_id'; user.sortReverse = !user.sortReverse">
                 ID
                 <span ng-show="user.sortType == '_id' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == '_id' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <th>
+        <th class="col-md-3">
             <a href="#" ng-click="user.sortType = 'name'; user.sortReverse = !user.sortReverse">
                 Name
                 <span ng-show="user.sortType == 'name' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == 'name' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-		<th>
+		<th class="col-md-3">
             <a href="#" ng-click="user.sortType = 'type'; user.sortReverse = !user.sortReverse">
                 Type
                 <span ng-show="user.sortType == 'type' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == 'type' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <th>
+        <th class="col-md-3">
             <a href="#" ng-click="user.sortType = 'breed'; user.sortReverse = !user.sortReverse">
                 Breed
                 <span ng-show="user.sortType == 'breed' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == 'breed' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
+		<th class="col-md-2">
+            <a href="#" ng-click="user.sortType = 'projectYear'; user.sortReverse = !user.sortReverse">
+                Project Year
+                <span ng-show="user.sortType == 'projectYear' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="user.sortType == 'projectYear' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+		</th>
     </tr>
     </thead>
     <tbody>
     <!-- LOOP OVER THE ANIMALS -->
-    <tr ng-repeat="animal in user.animals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals" ng-click="user.openAnimalPage(animal)" >
-        <td>{{ animal._id}}</td>
+    <tr ng-repeat="animal in user.activeAnimals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals" ng-click="user.openAnimalPage(animal)" >
+        <td>{{ animal.id}}</td>
         <td>{{ animal.name | capitalize}}</td>
 		<td>{{ animal.type | capitalize}}
         <td>{{ animal.breed | capitalize}}</td>
+		<td>{{animal.projectYear}}</td>
     </tr>
     </tbody>
 </table>
+<strong>Inactive Projects</strong>
+<div ng-repeat="(key, value) in user.retiredAnimals">
+    <button type="button" style="display: block; text-align: left; width: 100%" class="btn btn-default" ng-click="test = !test">
+        <span ng-class="{'glyphicon glyphicon-plus' : !test, 'glyphicon glyphicon-minus' : test}"></span>
+        <strong>{{key}}</strong>
+    </button>	
+	<div uib-collapse="!test">
+		<table class="table table-hover table-bordered table-striped" style="cursor: pointer">
+			<thead>
+				<tr>
+					<th class="col-md-1">
+						<a href="#" ng-click="user.sortType = '_id'; user.sortReverse = !user.sortReverse">
+							ID
+							<span ng-show="user.sortType == '_id' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="user.sortType == '_id' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</th>
+					<th class="col-md-3">
+						<a href="#" ng-click="user.sortType = 'name'; user.sortReverse = !user.sortReverse">
+							Name
+							<span ng-show="user.sortType == 'name' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="user.sortType == 'name' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</th>
+					<th class="col-md-3">
+						<a href="#" ng-click="user.sortType = 'type'; user.sortReverse = !user.sortReverse">
+							Type
+							<span ng-show="user.sortType == 'type' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="user.sortType == 'type' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</th>
+					<th class="col-md-3">
+						<a href="#" ng-click="user.sortType = 'breed'; user.sortReverse = !user.sortReverse">
+							Breed
+							<span ng-show="user.sortType == 'breed' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="user.sortType == 'breed' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</th>
+				</tr>		
+			</thead>
+			<tbody>
+				<tr ng-repeat="animal in value" ng-click="user.openAnimalPage(animal)">
+					<td>{{ animal.id}}</td>
+					<td>{{ animal.name | capitalize}}</td>
+					<td>{{ animal.type | capitalize}}
+					<td>{{ animal.breed | capitalize}}</td>		
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+
 <div class="jumbotron text-center" ng-show="(user.animals.length == 0)" ng-cloak>
 	
     <p>You have no animals</p>

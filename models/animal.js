@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = mongoose.model('Animal', new Schema({
-	_id: {
+	id: {
 		type: String,
 		required: true,
 		lowercase: true
@@ -16,6 +16,15 @@ module.exports = mongoose.model('Animal', new Schema({
 	name: {
 		type: String,
 		required: true,
+	},
+	projectYear: {
+		type: Number,
+		required: true,		
+	},
+	active: {
+		type: Boolean,
+		required: true,
+		default: true
 	},
 	type: {
 		type: String,

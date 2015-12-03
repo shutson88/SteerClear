@@ -490,27 +490,44 @@ router.get('/animal/:id', function(req, res) {
 	}
 });
 
-// Stop tracking the animal for this user
+// Stop tracking or retire animal (given by id)
 router.delete('/animal/:id', function(req, res) {
-
+	
 	if(!req.params.id) {
 		res.json({success: false, message: "You did not send an animal ID"});
 	} else {
-		Animal.findOne({ _id: req.params.id }, function(err, animal) {
-			if(animal && animal.managedBy === req.decoded.user._id) {
-				animal.managedBy = "nobody";
-				animal.save(function(err) {
-					if (err) {
-						console.log(err);
-						res.json({success: false, message: "An error occurred"});
-					} else {
-						var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' removed ' + animal.name;
-						sendNotifications(notification, req.decoded.user._id);
-						res.json({success: true, message: "You stopped tracking this animal"});
-					}
-				});
+		Animal.findOne({ id: req.params.id, managedBy: req.decoded.user._id }, function(err, animal) {
+			if(animal) {
+				if(req.query.retire && req.query.retire == 'true') {
+					animal.active = false;
+					animal.save(function(err) {
+						if(err) {
+							res.json({success: false, message: "An error occurred"});
+						} else {
+							res.json({success: true, message: "You retired this animal"});
+						}
+						
+					});
+					
+				} else {
+					animal.managedBy = "nobody";
+					animal.save(function(err) {
+						if (err) {
+							console.log(err);
+							res.json({success: false, message: "An error occurred"});
+						} else {
+							var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' removed ' + animal.name;
+							sendNotifications(notification, req.decoded.user._id);
+							res.json({success: true, message: "You stopped tracking this animal"});
+						}
+					});					
+					
+				}
+				
+				
+
 			} else {
-				res.json({success: false, message: 'You do not have access to this animal.'});
+				res.json({success: false, message: 'You do not have an animal with that ID'});
 			}
 		});
 	}
@@ -518,11 +535,16 @@ router.delete('/animal/:id', function(req, res) {
 
 });
 
+
+
+
+
+
 //Update an animal given an id
 router.put('/animal/:id', function(req, res) {
 
 
-	if(!req.body.newID && !req.body.newName && !req.body.newType && !req.body.newBreed) {
+	if(!req.body.newName && !req.body.newType && !req.body.newBreed) {
 		res.json({success: false, message: "No new info, animal not updated"});
 	} else {
 
@@ -533,7 +555,7 @@ router.put('/animal/:id', function(req, res) {
 		} else {
 			Animal.findOne({_id: req.params.id}, function(err, animal) {
 				if(animal && animal.managedBy === req.decoded.user._id) {
-					if(req.body.newID) {animal._id = req.body.newID;}
+
 					if(req.body.newName) {animal.name = req.body.newName;}
 					if(req.body.newType) {animal.type = req.body.newType;}
 					if(req.body.newBreed) {animal.breed = req.body.newBreed;}
@@ -573,9 +595,10 @@ router.post('/animals', function(req, res) {
 		res.json({success: false, message: "You did not send an ID"});
 	} else {
 
-		Animal.findOne({_id: req.body.id}, function(err, animal) {
+		Animal.findOne({id: req.body.id, managedBy: req.decoded.user._id, active: true}, function(err, animal) {
 			if(animal) {
-				if(animal.managedBy == "nobody") {
+				res.json({success: false, message: "You already have an active animal with this ID"});
+/* 				if(animal.managedBy == "nobody") {
 					animal.managedBy = req.decoded.user._id;
 					animal.save(function(err) {
 						if (err) {
@@ -589,16 +612,18 @@ router.post('/animals', function(req, res) {
 					});
 				} else {
 					res.json({success: false, message: "This animal is already managed"});
-				}
+				} */
 
 			} else {
-				if(!req.body.name || !req.body.type || !req.body.breed) {
+				if(!req.body.name || !req.body.type || !req.body.breed || !req.body.projectyear) {
 					res.json({success: false, message: "You did not include all the required info"});
 				} else {
+					
 					Animal({
-						_id: req.body.id,
+						id: req.body.id,
 						managedBy: req.decoded.user._id,
 						name: req.body.name,
+						projectYear: req.body.projectyear,
 						type: req.body.type,
 						breed: req.body.breed
 					}).save(function(err) {

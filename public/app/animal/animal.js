@@ -100,23 +100,25 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
     };
 
 
-    vm.removeFromUser = function () {
-      $http.delete("http://" + window.location.host + "/api/animal/" + vm.animalID)
-        .success(function (data, status, headers, config) {
-        //   console.log(data);
-          if (data.success) {
-            $location.url('/dashboard/');
 
-          } else {
-            console.log(data.message);
-          }
-
-
-        });
-
-
-    };
-
+	vm.removeFromUser = function(id, retire) {
+		console.log("removing " + id + " from user");
+		var url = '';
+		if(retire) {
+			url = "http://" + window.location.host + "/api/animal/" + id + "?retire=true";
+		} else {
+			url = "http://" + window.location.host + "/api/animal/" + id;
+		}
+		$http.delete(url)
+			.success(function(data, status, headers, config) {
+				console.log(data);
+				if(data.success) {
+					$location.url('/dashboard/');;
+				} else {
+					console.log(data.message);
+				}
+			});
+	};
     vm.removeWeight = function (weightID, animalID) {
     //   console.log("Animal ID: " + animalID);
       $http.delete("http://" + window.location.host + "/api/weight/" + weightID)

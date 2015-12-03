@@ -42,14 +42,14 @@ module.exports = mongoose.model('User', new Schema({
 	observing: [
 		{
 			_id: false,
-			username: String
+			username: String,
 		}
 	],
 
 	observedBy: [
 		{
 			_id: false,
-			username: String
+			username: String,
 		}
 	],
 

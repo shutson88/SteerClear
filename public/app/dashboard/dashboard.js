@@ -23,40 +23,64 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'typ
 		vm.id = AuthToken.getData().username
 	}
 
+
+	vm.activeAnimals = [];
+	vm.retiredAnimals = {};
+	var updateArrays = function(data) {
+		vm.activeAnimals = [];
+		vm.retiredAnimals = {};
+		vm.animals = data;
+		var key = "";
+		
+		for(var i = 0; i < vm.animals.length; i++) {
+			if(vm.animals[i].active == true) {
+				vm.activeAnimals.push(vm.animals[i]);
+			} else {
+				key = vm.animals[i].projectYear;
+				console.log(String(key));
+				if(!vm.retiredAnimals.hasOwnProperty(String(key))) {
+					vm.retiredAnimals[String(key)] = [];
+				}
+				vm.retiredAnimals[String(key)].push(vm.animals[i]);
+			}
+			
+		}		
+		console.log(vm.activeAnimals);
+		console.log(vm.retiredAnimals);
+	};
+    
+    
+    
 	Animal.getAll(vm.id)
 		.success(function (data) {
 			if(data.success === false) {
 				console.log(data.message);
 				vm.message = data.message;
 			} else if(data.success == true) {
-				vm.animals = data.data;
-				if(vm.animals.length == 0) {
-					$scope.searchPlaceholder = "You have no animals";
-				} else {
-					$scope.searchPlaceholder = "Search Animals";
-				}
+				updateArrays(data.data);
+				
 			}
 		});
-		
-
-    vm.sortType = '_id';
+    
+    
+    vm.sortType = 'id';
     vm.sortReverse = false;
     vm.searchAnimals = '';
     vm.addUserCollapsed = false;
 	vm.addAnimalMessage = {};
-
-
+    
+    
 	
 	
 	vm.addAnimal = function($scope){
-		console.log("Adding animal: "+vm.add_id + " " + vm.addName + " " + vm.selectTypes + " " + vm.selectBreeds);
+		console.log("Adding animal: "+vm.add_id + " " + vm.addName + " " + vm.selectTypes + " " + vm.selectBreeds + " " + vm.addProjectYear);
 		
-		$http.post("http://" + window.location.host + "/api/animals/", {id: vm.add_id, managedBy: vm.id, name: vm.addName, type: vm.selectTypes, breed: vm.selectBreeds})
+		$http.post("http://" + window.location.host + "/api/animals/", {id: vm.add_id, managedBy: vm.id, name: vm.addName, type: vm.selectTypes, breed: vm.selectBreeds, projectyear: vm.addProjectYear})
 			.success(function (data, status, headers, config) {
 				if(data.success) {
 					$http.get('/api/animals/'+vm.id)
 					.success(function (data) {
-						vm.animals = data.data;
+						updateArrays(data.data);
 						console.log("Data: "+JSON.stringify(data));
 						
 						//Reset fields
@@ -64,6 +88,7 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'typ
 						vm.addName = '';
 						vm.addType = '';
 						vm.addBreed = '';
+						vm.projectyear = '';
 					});
 					
 					vm.addAnimalMessage.alertType = 'alert-success';
@@ -81,37 +106,31 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'typ
 	}
 	
 	
-	vm.removeFromUser = function(id) {
-	console.log("removing " + id + " from user");
-	$http.delete("http://" + window.location.host + "/api/animal/" + id)
-		.success(function(data, status, headers, config) {
-			console.log(data);
-			if(data.success) {
-				$http.get('/api/animals')
-				.success(function(data) {
-					vm.animals = data;
-					//console.log(data);
-					
-				});
-				
-			} else {
-				console.log(data.message);
-			}
-			
-			
-			
-		});
-	
-	
-	
-	
-	
-	
+	vm.removeFromUser = function(id, retire) {
+		console.log("removing " + id + " from user");
+		var url = '';
+		if(retire) {
+			url = "http://" + window.location.host + "/api/animal/" + id + "?retire=true";
+		} else {
+			url = "http://" + window.location.host + "/api/animal/" + id;
+		}
+		$http.delete(url)
+			.success(function(data, status, headers, config) {
+				console.log(data);
+				if(data.success) {
+					$http.get('/api/animals')
+					.success(function(data) {
+						updateArrays(data.data);
+					});
+				} else {
+					console.log(data.message);
+				}
+			});
 	};
-
+    
 	vm.openAnimalPage = function(animal){
 		$location.path("/animal/" + animal._id).search({observing: vm.observing, user: vm.id});
-
+    
 		
 	};
 	

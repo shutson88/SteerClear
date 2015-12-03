@@ -14,12 +14,13 @@
 		<li ng-show="!animal.observing"><a href="/dashboard">Animals</a></li>
 		<li ng-show="animal.observing"><a href="/observeDashboard">Observing</a></li>
 		<li ng-show="animal.observing"><a href="/dashboard/{{animal.params.user}}">{{animal.params.user}}</a></li>
-		<li class="active">{{animal.animal._id}}</li>
+		<li class="active">{{animal.animal.id}}</li>
 	</ol>    
 	<h3>
 		{{animal.animal.name | capitalize:true}}
-		<button class="btn btn-danger btn-xs pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser()" ng-confirm="Are you sure you want to remove {{animal.animalID}}?">Remove Animal</button>
-    </h3>
+		<button class="btn btn-danger btn-xs pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser(animal.animal.id, false)" ng-confirm="Are you sure you want to remove {{animal.animal.id}}?">Remove</button>
+		<button class="btn btn-danger btn-xs pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser(animal.animal.id, true)" ng-confirm="Are you sure you want to retire {{animal.animal.id}}?">Retire</button>
+	</h3>
 	<div class="form-group btn-group-vertical" style="width: 100%">
 		<button ng-hide="animal.observing" style="display: block; text-align: left"  type="button" class="btn btn-primary" ng-click="addUserCollapsed = !addUserCollapsed">
 			<span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>	
@@ -56,6 +57,7 @@
 		<button ng-hide="animal.observing" style="display: block; text-align: left"  type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
 			<span ng-class="{'glyphicon glyphicon-plus' : !editAnimalCollapsed, 'glyphicon glyphicon-minus' : editAnimalCollapsed}"></span>	
 			Edit Animal
+			<span ng-show="editAnimalCollapsed">- only fill in the fields you wish to update</span>
 		</button>
 		<div uib-collapse="!editAnimalCollapsed">
 			<form class="form-inline"  role="form">
