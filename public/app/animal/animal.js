@@ -303,6 +303,7 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
         vm.targetMessage.alertType = 'alert-success';
         vm.targetMessage.show = true;
         if (vm.targetDateTimeout) $timeout.cancel(vm.targetDateTimeout);
+        vm.calculateTargetDate = false;
       }
     }
 
