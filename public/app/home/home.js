@@ -55,12 +55,11 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 				}, 2000);
 				if(data.success === true) {
 					
-					Type.get()
-						.success(function (data) {
+					Type.get(function(data) {
 							var types = {};
-							
-							for(var i = 0; i < data.types.length; i++) {
-									types[data.types[i].type] = data.types[i].breeds;
+							console.log(data.data);
+							for(var i = 0; i < data.data.length; i++) {
+									types[data.data[i].type] = data.data[i].breeds;
 							}
 													
 							vm.existingTypes = types;
@@ -68,14 +67,45 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 							vm.textType = "";
 							vm.textBreed = "";
 							vm.selectTypes = "";
-							vm.selectBreeds = "";
-			
+							vm.selectBreed = "";						
 					});
+					
 				}
 			});
 		
 		
 	};
+	
+	vm.removeType = function(typeToRemove, breedToRemove) {
+		console.log("Type: " + typeToRemove + ", Breed: " + breedToRemove);
+		var url = '';
+		if(typeToRemove && !breedToRemove) {
+			url = "http://" + window.location.host + "/api/breeds?type=" + typeToRemove;
+		} else if(typeToRemove && breedToRemove) {
+			url = "http://" + window.location.host + "/api/breeds?type=" + typeToRemove + "&breed=" + breedToRemove;
+		}
+		$http.delete(url)
+			.success(function(data, status, headers, config) {
+				if(data.success == true) {
+					Type.get(function(data) {
+							var types = {};
+							
+							for(var i = 0; i < data.data.length; i++) {
+									types[data.data[i].type] = data.data[i].breeds;
+							}
+													
+							vm.existingTypes = types;
+							vm.getBreedOptions();
+							vm.textType = "";
+							vm.textBreed = "";
+							vm.selectTypes = "";
+							vm.selectBreed = "";						
+					});					
+				}
+				
+			});
+		
+	}
 	
 	if(Auth.isLoggedIn()) {
 		Type.get(function(data) {

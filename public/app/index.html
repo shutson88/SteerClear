@@ -77,7 +77,7 @@
 						<a href="/register">Register</a>
 					</li>
                     <li ng-if="main.loggedIn">
-                        <p class="navbar-text" style="margin-left: 15px">Hello, {{ main.user.fname | capitalize:true}}!</p>
+                        <p class="navbar-text" style="margin-left: 15px">Hello, {{ main.user.fname}}!</p>
                     </li>
                     <li ng-if="main.loggedIn">
                         <p class="navbar-text" style="margin-left: 15px">Logged in as {{main.user.username}}</p>

@@ -822,6 +822,45 @@ router.post('/breeds', function(req, res) {
 	}
 });
 
+router.delete('/breeds', function(req, res) {
+	console.log(req.query.type);
+	console.log(req.query.breed);
+	if(!req.query.type && !req.query.breed) {
+		res.json({success: false, message: "You did not send any information"});
+	} else {
+		if(req.decoded.user.admin === true) {
+			if(req.query.type && !req.query.breed) {
+				AnimalType.remove({type: req.query.type}, function(err) {
+					if(err) {
+						res.json({success: false, message: "Failed to remove type"});
+					} else {
+						res.json({success: true, message: "Successfully removed " + req.query.type});
+					}
+				});
+			} else if(req.query.type && req.query.breed) {
+				AnimalType.update({type: req.query.type}, { $pull: {breeds: {breed: req.query.breed}}}, function(err) {
+					if(err) {
+						res.json({success: false, message: "Failed to remove breed"});
+					} else {
+						res.json({success: true, message: "Successfully removed " + req.query.breed});
+					}
+					
+				});
+			} else {
+				res.json({success: false, message: "Which values do you want to delete?"});
+			}
+			
+			
+		} else {
+			res.json({success: false, message: "You are not an admin"});
+		}
+		
+	}
+	
+	
+});
+
+
 // ==================
 // Notifications
 // ==================

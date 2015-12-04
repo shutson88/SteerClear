@@ -62,26 +62,28 @@
 		<button ng-hide="animal.observing" style="display: block; text-align: left"  type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
 			<span ng-class="{'glyphicon glyphicon-plus' : !editAnimalCollapsed, 'glyphicon glyphicon-minus' : editAnimalCollapsed}"></span>	
 			Edit Animal
-			<span ng-show="editAnimalCollapsed">- only fill in the fields you wish to update</span>
+			
 		</button>
 		<div uib-collapse="!editAnimalCollapsed">
+			
 			<form class="form-inline"  role="form">
 				<div class="form-group panel panel-default">
 					<div class="panel-body">
+						<span style="display: block">Only fill in the fields you wish to update</span>
  						<span style="display:inline-block; padding-right:10px">
-							<label style="display:block">Name: {{animal.animal.name}}</label>	
+							<label style="display:block">Name: {{animal.animal.name | capitalize:true}}</label>	
 							<input type="text" class="form-control" ng-model="animal.newName">							
 						</span>
 						<span style="display:inline-block; padding-right:10px">
-							<label style="display:block">Type: {{animal.animal.type}}</label>	
+							<label style="display:block">Type: {{animal.animal.type | capitalize:true}}</label>	
 							<select class="form-control" ng-model="animal.selectTypes" ng-change="animal.getBreedOptions()">
-								<option ng-repeat="(type, value) in animal.existingTypes" value = "{{type}}">{{type}}</option>
+								<option ng-repeat="(type, value) in animal.existingTypes" value = "{{type}}">{{type | capitalize:true}}</option>
 							</select>
 						</span>						
 						<span style="display:inline-block; padding-right:10px">   
-							<label style="display:block">Breed: {{animal.animal.breed}}</label>	
+							<label style="display:block">Breed: {{animal.animal.breed | capitalize:true}}</label>	
 							<select class="form-control" ng-model="animal.selectBreeds">
-								<option ng-repeat="breed in animal.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
+								<option ng-repeat="breed in animal.existingBreeds" value = "{{breed.breed}}">{{breed.breed | capitalize:true}}</option>
 							</select>	
 						</span>
 						<span style="display:inline-block">   
