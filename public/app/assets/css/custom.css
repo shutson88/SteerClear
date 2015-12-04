@@ -105,12 +105,6 @@ html {
 	color: #FFFFFF;
 }
 
-.navbar-inverse .navbar-brand:hover,
-.navbar-inverse .navbar-brand:focus {
-  color: #EDDD9E;
-  background-color: transparent;
-}
-
 .nav.navbar-nav.navbar-right > li > a,
 .nav.navbar-nav.navbar-left > li > a {
 	color: #FFFFFF;
