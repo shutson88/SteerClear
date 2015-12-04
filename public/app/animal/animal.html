@@ -158,35 +158,33 @@
 <table class="table table-hover table-bordered table-striped"  style="cursor: pointer" ng-show="animal.weights.length > 0" ng-cloak>
     <thead>
     <tr>
-        <th class="col-lg-1">
+        <th class="col-md-1">
 
 		</th>
-		<th class="col-lg-5">
-			<a href="#">
-                ID
-            </a>
-        </th>
-        <th class="col-lg-2">
+
+        <th class="col-md-5">
             <a href="#" ng-click="animal.sortType = 'date'; animal.sortReverse = !animal.sortReverse">
                 Date
                 <span ng-show="animal.sortType == 'date' && !animal.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="animal.sortType == 'date' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <th class="col-lg-4">
+        <th class="col-lg-5">
             <a href="#" ng-click="animal.sortType = 'weight'; animal.sortReverse = !animal.sortReverse">
                 Weight
                 <span ng-show="animal.sortType == 'weight' && !animal.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="animal.sortType == 'weight' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
+        <th class="col-md-1">
+
+		</th>
     </tr>
     </thead>
     <tbody>
     <!-- LOOP OVER THE WEIGHTS -->
     <tr ng-repeat="a in animal.weights | orderBy:animal.sortType:!animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date)" ng-click="animal.selectDates(a.date, $index)">
         <td ng-click="$event.stopPropogation()"><input ng-checked="animal.highlight(a.date) == 'selected'" type="checkbox"></td>
-		<td>{{ a.id | capitalize}}</td>
         <td>{{ a.date | myDate }}</td>
         <td>{{ a.weight}}</td>
         <td ng-click="$event.stopPropogation()" class="col-lg-1" ng-show="!animal.observing">
