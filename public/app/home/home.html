@@ -26,8 +26,13 @@
 				Account Management
 			</a>
 		</div>
+		
 		<div ng-show="main.checkAdmin()">
-			<button type="button" class="btn btn-default" ng-click="addTypeCollapsed = !addTypeCollapsed">
+			<p><strong>Admin Tools</strong></p>		
+		</div>
+		
+		<div ng-show="main.checkAdmin()">
+			<button type="button" class="btn btn-default" ng-click="addTypeCollapsed = !addTypeCollapsed; home.selectAddType=''; home.selectAddBreed=''">
 					<span ng-class="{'glyphicon glyphicon-plus' : !addTypeCollapsed, 'glyphicon glyphicon-minus' : addTypeCollapsed}"></span>
 					Add Species
 			</button>
@@ -37,44 +42,47 @@
 		
 		<div class="form-group">
 			<div uib-collapse="!addTypeCollapsed">
-	
-					<div class="form-group" >
-		
-					
+				
+				<div class="form-group panel panel-default">
+					<div class="panel-body">	
+						<div class="form-group" >
+			
+						
 							<select class="form-control" name="typeSelect" ng-model="home.selectAddType" ng-focus="disableTypeText=true" ng-blur="disableTypeText=false" ng-disabled="disableTypeSelect" ng-change="home.getBreedOptions()">
-								<option value="">Select Existing Type</option>
+								<option value="" disabled>Select Existing Type</option>
 								<option ng-repeat="(type, value) in home.existingTypes" value = "{{type}}">{{type}}</option>
 								
 							</select>
+							<h6>or</h6>
 							<input type="text" class="form-control" ng-model="home.textType" ng-focus="disableTypeSelect=true" ng-blur="disableTypeSelect=false" ng-disabled="disableTypeText" placeholder="Add New Type">
-					
-					</div>
-					<br>
-					<div class="form-group" ng-cloak>	
-						<select class="form-control" name="typeSelect" ng-model="home.selectAddBreed" ng-focus="disableBreedText=true" ng-blur="disableBreedText=false" ng-disabled="disableBreedSelect" >
-								<option value="">Select Existing Breed</option>
+						
+						</div>
+						<br>
+						<div class="form-group" ng-cloak>	
+							<select class="form-control" name="typeSelect" ng-model="home.selectAddBreed" ng-focus="disableBreedText=true" ng-blur="disableBreedText=false" ng-disabled="disableBreedSelect" >
+								<option value="" disabled>Select Existing Breed</option>
 								<option ng-repeat="breed in home.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
-								
+									
 							</select>
-						
-						
+							<h6>or</h6>
+							
 							<input type="text" class="form-control" ng-model="home.textBreed" ng-focus="disableBreedSelect=true" ng-blur="disableBreedSelect=false" ng-disabled="disableBreedText" placeholder="Add New Breed">
+							<button class="btn btn-default" type="button" ng-click="home.addType()">
+								<span class="glyphicon glyphicon-plus-sign"></span>
+								Add
+							</button>
+							<div class="form-group alert-info fadein fadeout"  ng-show="home.addTypeMessage.show">
+								{{home.addTypeMessage.message}}
 						
-						
-		
-						<button class="btn btn-default" type="button" ng-click="home.addType()">
-							Add
-						</button>
-						<div class="form-group alert-info fadein fadeout"  ng-show="home.addTypeMessage.show">
-							{{home.addTypeMessage.message}}
-					
+							</div>
 						</div>
 					</div>
+				</div>
 	
 			</div>
 		</div>
  		<div ng-show="main.checkAdmin()">
-			<button type="button" class="btn btn-default" ng-click="removeTypeCollapsed = !removeTypeCollapsed">
+			<button type="button" class="btn btn-default" ng-click="removeTypeCollapsed = !removeTypeCollapsed; home.selectRemoveBreed=''; home.selectRemoveType=''">
 					<span ng-class="{'glyphicon glyphicon-plus' : !removeTypeCollapsed, 'glyphicon glyphicon-minus' : removeTypeCollapsed}"></span>
 					Remove Species
 			</button>
@@ -82,31 +90,34 @@
 		</div>	
 		<div class="form-group">
 			<div uib-collapse="!removeTypeCollapsed">
-	
-					<div class="form-group" >
-		
-					
+				<div class="form-group panel panel-default">
+					<div class="panel-body">	
+						<div class="form-group">
+			
+						
 							<select class="form-control" name="typeSelect" ng-model="home.selectRemoveType" ng-focus="disableTypeText=true" ng-blur="disableTypeText=false" ng-disabled="disableTypeSelect" ng-change="home.getBreedOptions()">
-								<option value="">Select Existing Type</option>
+								<option value="" disabled>Select Existing Type</option>
 								<option ng-repeat="(type, value) in home.existingTypes" value = "{{type}}">{{type}}</option>
 								
 							</select>		
-					</div>
-					<div class="form-group" ng-cloak>	
-						<select class="form-control" name="typeSelect" ng-model="home.selectRemoveBreed" ng-focus="disableBreedText=true" ng-blur="disableBreedText=false" ng-disabled="disableBreedSelect" >
-							<option value="">Select Existing Breed</option>
-							<option ng-repeat="breed in home.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
-								
-						</select>
-						<button class="btn btn-default" type="button" ng-click="home.removeType(home.selectRemoveType, home.selectRemoveBreed)">
-							Remove
-						</button>
-						<div class="form-group alert-info fadein fadeout"  ng-show="home.removeTypeMessage.show">
-							{{home.removeTypeMessage.message}}
-					
+						</div>
+						<div class="form-group" ng-cloak>	
+							<select class="form-control" name="typeSelect" ng-model="home.selectRemoveBreed" ng-focus="disableBreedText=true" ng-blur="disableBreedText=false" ng-disabled="disableBreedSelect" >
+								<option value="" disabled>Select Existing Breed</option>
+								<option ng-repeat="breed in home.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
+									
+							</select>
+							<button class="btn btn-default" type="button" ng-click="home.removeType(home.selectRemoveType, home.selectRemoveBreed)">
+								<span class="glyphicon glyphicon-minus-sign"></span>
+								Remove
+							</button>
+							<div class="form-group alert-info fadein fadeout"  ng-show="home.removeTypeMessage.show">
+								{{home.removeTypeMessage.message}}
+						
+							</div>
 						</div>
 					</div>
-	
+				</div>
 			</div>
 		</div>
 
