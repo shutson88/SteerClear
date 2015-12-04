@@ -159,9 +159,10 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
             .success(function (data) {
 
 
-              vm.weights = data.data;
-              //console.log("Data: "+JSON.stringify(data));
-
+				vm.weights = data.data;
+				//console.log("Data: "+JSON.stringify(data));
+				vm.weight = '';
+				
             });
         });
     }
