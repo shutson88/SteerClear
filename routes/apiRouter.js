@@ -840,6 +840,7 @@ router.delete('/breeds', function(req, res) {
 			} else if(req.query.type && req.query.breed) {
 				AnimalType.update({type: req.query.type}, { $pull: {breeds: {breed: req.query.breed}}}, function(err) {
 					if(err) {
+						console.log(err);
 						res.json({success: false, message: "Failed to remove breed"});
 					} else {
 						res.json({success: true, message: "Successfully removed " + req.query.breed});

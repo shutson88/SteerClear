@@ -89,7 +89,9 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'typ
 						vm.addName = '';
 						vm.addType = '';
 						vm.addBreed = '';
-						vm.projectyear = '';
+						vm.addProjectYear = '';
+						vm.selectTypes = '';
+						vm.selectBreeds = '';
 					});
 					
 					vm.addAnimalMessage.alertType = 'alert-success';

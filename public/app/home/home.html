@@ -29,7 +29,7 @@
 		<div ng-show="main.checkAdmin()">
 			<button type="button" class="btn btn-default" ng-click="addTypeCollapsed = !addTypeCollapsed">
 					<span ng-class="{'glyphicon glyphicon-plus' : !addTypeCollapsed, 'glyphicon glyphicon-minus' : addTypeCollapsed}"></span>
-					Add Type/Breed
+					Add Species
 			</button>
 			
 		</div>
@@ -65,18 +65,18 @@
 						<button class="btn btn-default" type="button" ng-click="home.addType()">
 							Add
 						</button>
-						<div class="form-group fadein fadeout"  ng-show="home.showTypeMessage">
-							{{home.addTypeMessage}}
+						<div class="form-group alert-info fadein fadeout"  ng-show="home.addTypeMessage.show">
+							{{home.addTypeMessage.message}}
 					
 						</div>
 					</div>
 	
 			</div>
 		</div>
-		<div ng-show="main.checkAdmin()">
+<!-- 		<div ng-show="main.checkAdmin()">
 			<button type="button" class="btn btn-default" ng-click="removeTypeCollapsed = !removeTypeCollapsed">
 					<span ng-class="{'glyphicon glyphicon-plus' : !removeTypeCollapsed, 'glyphicon glyphicon-minus' : removeTypeCollapsed}"></span>
-					Remove Type/Breed
+					Remove Species
 			</button>
 			
 		</div>	
@@ -101,14 +101,14 @@
 						<button class="btn btn-default" type="button" ng-click="home.removeType(home.selectTypes, home.selectBreed)">
 							Remove
 						</button>
-						<div class="form-group fadein fadeout"  ng-show="home.showTypeMessage">
-							{{home.addTypeMessage}}
+						<div class="form-group alert-info fadein fadeout"  ng-show="home.removeTypeMessage.show">
+							{{home.removeTypeMessage.message}}
 					
 						</div>
 					</div>
 	
 			</div>
-		</div>
+		</div> -->
 
 	</div>
 </div>

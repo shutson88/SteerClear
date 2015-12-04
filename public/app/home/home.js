@@ -17,7 +17,8 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
   .controller('homeCtrl', ['Type', '$location', '$http', '$timeout', 'Auth', function(Type, $location, $http, $timeout, Auth) {
 	var vm = this;
 
-	
+	vm.addTypeMessage = {};
+	vm.removeTypeMessage = {};
 	vm.getBreedOptions = function() {
 		vm.existingBreeds = vm.existingTypes[vm.selectTypes];
 	}
@@ -47,10 +48,10 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 		
 		$http.post("http://" + window.location.host + "/api/breeds", {type: typeToAdd, breed: breedToAdd})
 			.success(function(data, status, headers, config) {
-				if(data.message) {vm.addTypeMessage = data.message;} else {vm.addTypeMessage = "Message missing";}
-				vm.showTypeMessage = true;
+				if(data.message) {vm.addTypeMessage.message = data.message;} else {vm.addTypeMessage.message = "missing message";}
+				vm.addTypeMessage.show = true;
 				$timeout(function() {
-					vm.showTypeMessage = false;
+					vm.addTypeMessage.show = false;
 				
 				}, 2000);
 				if(data.success === true) {
@@ -86,6 +87,12 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 		}
 		$http.delete(url)
 			.success(function(data, status, headers, config) {
+				if(data.message) {vm.removeTypeMessage.message = data.message;} else {vm.removeTypeMessage.message = "missing message";}
+				vm.removeTypeMessage.show = true;
+				$timeout(function() {
+					vm.removeTypeMessage.show = false;
+				
+				}, 2000);
 				if(data.success == true) {
 					Type.get(function(data) {
 							var types = {};
