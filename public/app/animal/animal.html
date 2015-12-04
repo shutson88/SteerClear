@@ -72,17 +72,19 @@
 						<span style="display: block">Only fill in the fields you wish to update</span>
  						<span style="display:inline-block; padding-right:10px">
 							<label style="display:block">Name: {{animal.animal.name | capitalize:true}}</label>	
-							<input type="text" class="form-control" ng-model="animal.newName">							
+							<input type="text" class="form-control" ng-model="animal.newName" placeholder="New Name">							
 						</span>
 						<span style="display:inline-block; padding-right:10px">
 							<label style="display:block">Type: {{animal.animal.type | capitalize:true}}</label>	
 							<select class="form-control" ng-model="animal.selectTypes" ng-change="animal.getBreedOptions()">
+								<option value="" disabled>New Type</option>
 								<option ng-repeat="(type, value) in animal.existingTypes" value = "{{type}}">{{type | capitalize:true}}</option>
 							</select>
 						</span>						
 						<span style="display:inline-block; padding-right:10px">   
 							<label style="display:block">Breed: {{animal.animal.breed | capitalize:true}}</label>	
 							<select class="form-control" ng-model="animal.selectBreeds">
+								<option value="" disabled>New Breed</option>
 								<option ng-repeat="breed in animal.existingBreeds" value = "{{breed.breed}}">{{breed.breed | capitalize:true}}</option>
 							</select>	
 						</span>

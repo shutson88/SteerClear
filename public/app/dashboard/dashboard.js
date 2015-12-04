@@ -37,7 +37,6 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'typ
 				vm.activeAnimals.push(vm.animals[i]);
 			} else {
 				key = vm.animals[i].projectYear;
-				console.log(String(key));
 				if(!vm.retiredAnimals.hasOwnProperty(String(key))) {
 					vm.retiredAnimals[String(key)] = [];
 				}

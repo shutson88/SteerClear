@@ -41,7 +41,7 @@
 					<div class="form-group" >
 		
 					
-							<select class="form-control" name="typeSelect" ng-model="home.selectTypes" ng-focus="disableTypeText=true" ng-blur="disableTypeText=false" ng-disabled="disableTypeSelect" ng-change="home.getBreedOptions()">
+							<select class="form-control" name="typeSelect" ng-model="home.selectAddType" ng-focus="disableTypeText=true" ng-blur="disableTypeText=false" ng-disabled="disableTypeSelect" ng-change="home.getBreedOptions()">
 								<option value="">Select Existing Type</option>
 								<option ng-repeat="(type, value) in home.existingTypes" value = "{{type}}">{{type}}</option>
 								
@@ -51,7 +51,7 @@
 					</div>
 					<br>
 					<div class="form-group" ng-cloak>	
-						<select class="form-control" name="typeSelect" ng-model="home.selectBreed" ng-focus="disableBreedText=true" ng-blur="disableBreedText=false" ng-disabled="disableBreedSelect" >
+						<select class="form-control" name="typeSelect" ng-model="home.selectAddBreed" ng-focus="disableBreedText=true" ng-blur="disableBreedText=false" ng-disabled="disableBreedSelect" >
 								<option value="">Select Existing Breed</option>
 								<option ng-repeat="breed in home.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
 								
@@ -86,19 +86,19 @@
 					<div class="form-group" >
 		
 					
-							<select class="form-control" name="typeSelect" ng-model="home.selectTypes" ng-focus="disableTypeText=true" ng-blur="disableTypeText=false" ng-disabled="disableTypeSelect" ng-change="home.getBreedOptions()">
+							<select class="form-control" name="typeSelect" ng-model="home.selectRemoveType" ng-focus="disableTypeText=true" ng-blur="disableTypeText=false" ng-disabled="disableTypeSelect" ng-change="home.getBreedOptions()">
 								<option value="">Select Existing Type</option>
 								<option ng-repeat="(type, value) in home.existingTypes" value = "{{type}}">{{type}}</option>
 								
 							</select>		
 					</div>
 					<div class="form-group" ng-cloak>	
-						<select class="form-control" name="typeSelect" ng-model="home.selectBreed" ng-focus="disableBreedText=true" ng-blur="disableBreedText=false" ng-disabled="disableBreedSelect" >
-								<option value="">Select Existing Breed</option>
-								<option ng-repeat="breed in home.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
+						<select class="form-control" name="typeSelect" ng-model="home.selectRemoveBreed" ng-focus="disableBreedText=true" ng-blur="disableBreedText=false" ng-disabled="disableBreedSelect" >
+							<option value="">Select Existing Breed</option>
+							<option ng-repeat="breed in home.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
 								
-							</select>
-						<button class="btn btn-default" type="button" ng-click="home.removeType(home.selectTypes, home.selectBreed)">
+						</select>
+						<button class="btn btn-default" type="button" ng-click="home.removeType(home.selectRemoveType, home.selectRemoveBreed)">
 							Remove
 						</button>
 						<div class="form-group alert-info fadein fadeout"  ng-show="home.removeTypeMessage.show">

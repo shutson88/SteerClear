@@ -20,7 +20,7 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 	vm.addTypeMessage = {};
 	vm.removeTypeMessage = {};
 	vm.getBreedOptions = function() {
-		vm.existingBreeds = vm.existingTypes[vm.selectTypes];
+		vm.existingBreeds = vm.existingTypes[vm.selectAddType];
 	}
 	
 	vm.addType = function() {
@@ -31,7 +31,7 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 			typeToAdd = vm.textType;
 			//console.log("[TEXT] Type to add: " + typeToAdd);
 		} else {
-			typeToAdd = vm.selectTypes;
+			typeToAdd = vm.selectAddType;
 			//console.log("[SELECT] Type to add: " + typeToAdd);
 		}
 		
@@ -39,7 +39,7 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 			breedToAdd = vm.textBreed;
 			//console.log("[TEXT] Breed to add: " + breedToAdd);
 		} else {
-			breedToAdd = vm.selectBreeds;
+			breedToAdd = vm.selectAddBreed;
 			//console.log("[SELECT] Breed to add: " + breedToAdd);
 		}		
 		

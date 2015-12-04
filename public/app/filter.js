@@ -13,9 +13,12 @@ angular.module('filter', [])
 
 		return function(input) {
 			//console.log("Input: "+input);
-			return input.toLowerCase().replace( /\b\w/g, function (m) {
-				return m.toUpperCase();
-			})
+			if(input) {
+				return input.toLowerCase().replace( /\b\w/g, function (m) {
+					return m.toUpperCase();
+				})				
+			}
+
 		}
 	})
 

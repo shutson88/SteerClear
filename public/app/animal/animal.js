@@ -75,28 +75,31 @@ angular.module('app.animal', ['ngRoute', 'ui.bootstrap'])
         newBreed: vm.selectBreeds
       })
         .success(function (data, status, headers, config) {
-          if (data.success) {
-            vm.editMessage.alertType = 'alert-success';
-            Animal.getOne($routeParams.animalID, function (data) {
-            //   console.log(data);
-              if (data.success) {
-                vm.animal = data.data;
-              }
-            });
-          } else {
-            vm.editMessage.alertType = 'alert-warning';
-          }
-          if (data.message) {
-            vm.editMessage.message = data.message;
-          } else {
-            vm.editMessage.message = "missing message";
-          }
-          vm.editMessage.show = true;
-          if (vm.editAnimalTimeout) $timeout.cancel(vm.editAnimalTimeout);
-          vm.editAnimalTimeout = $timeout(function () {
-            vm.editMessage.show = false;
-
-          }, 2000);
+			if (data.success) {
+				vm.selectTypes = "";
+				vm.selectBreeds = "";
+				vm.newName = "";
+				
+				vm.editMessage.alertType = 'alert-success';
+				Animal.getOne($routeParams.animalID, function (data) {
+					if (data.success) {
+						vm.animal = data.data;
+					}
+				});
+			} else {
+				vm.editMessage.alertType = 'alert-warning';
+			}
+			if (data.message) {
+				vm.editMessage.message = data.message;
+			} else {
+				vm.editMessage.message = "missing message";
+			}
+			vm.editMessage.show = true;
+			if (vm.editAnimalTimeout) $timeout.cancel(vm.editAnimalTimeout);
+			vm.editAnimalTimeout = $timeout(function () {
+				vm.editMessage.show = false;
+	
+			}, 2000);
 
         });
 
