@@ -44,9 +44,10 @@ angular.module('app.dashboard', ['ngRoute', 'authService', 'animalService', 'typ
 				vm.retiredAnimals[String(key)].push(vm.animals[i]);
 			}
 			
-		}		
-		console.log(vm.activeAnimals);
-		console.log(vm.retiredAnimals);
+		}
+		if(jQuery.isEmptyObject(vm.retiredAnimals)) {
+			vm.hideInactive = true;
+		}
 	};
     
     

@@ -76,8 +76,8 @@
         </div>
     </div>
 </form>
-<strong>Active Projects</strong>
-<table class="table table-hover table-bordered table-striped" style="cursor: pointer" ng-show="user.animals.length > 0" ng-cloak>
+<strong ng-show="user.activeAnimals.length > 0">Active Projects</strong>
+<table class="table table-hover table-bordered table-striped" style="cursor: pointer" ng-show="user.activeAnimals.length > 0" ng-cloak>
 <!--     <caption><strong>Active Projects</strong></caption>
  -->	<thead>
     <tr>
@@ -129,7 +129,7 @@
     </tr>
     </tbody>
 </table>
-<strong>Inactive Projects</strong>
+<strong ng-show="!user.hideInactive">Inactive Projects</strong>
 <div ng-repeat="(key, value) in user.retiredAnimals">
     <button type="button" style="display: block; text-align: left; width: 100%" class="btn btn-default" ng-click="collapseYear = !collapseYear">
         <span ng-class="{'glyphicon glyphicon-plus' : !collapseYear, 'glyphicon glyphicon-minus' : collapseYear}"></span>

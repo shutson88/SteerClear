@@ -604,22 +604,6 @@ router.post('/animals', function(req, res) {
 		Animal.findOne({id: req.body.id, managedBy: req.decoded.user._id, active: true}, function(err, animal) {
 			if(animal) {
 				res.json({success: false, message: "You already have an active animal with this ID"});
-/* 				if(animal.managedBy == "nobody") {
-					animal.managedBy = req.decoded.user._id;
-					animal.save(function(err) {
-						if (err) {
-							console.log(err);
-							res.json({success: false, message: "Failed updating animal in database"});
-						} else {
-							var notification = req.decoded.user.first_name + ' ' + req.decoded.user.last_name + ' has a new animal';
-							sendNotifications(notification, req.decoded.user._id);
-							res.json({success: true, message: "Animal already exists, adding..."});
-						}
-					});
-				} else {
-					res.json({success: false, message: "This animal is already managed"});
-				} */
-
 			} else {
 				if(!req.body.name || !req.body.type || !req.body.breed || !req.body.projectyear) {
 					res.json({success: false, message: "You did not include all the required info"});
