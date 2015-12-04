@@ -111,10 +111,12 @@ html {
   background-color: transparent;
 }
 
-.nav.navbar-nav.navbar-right > li > a {
+.nav.navbar-nav.navbar-right > li > a,
+.nav.navbar-nav.navbar-left > li > a {
 	color: #FFFFFF;
 }
-.nav.navbar-nav.navbar-right li a:hover {
+.nav.navbar-nav.navbar-right li a:hover,
+.nav.navbar-nav.navbar-left li a:hover {
   color: #EDDD9E;
 }
 

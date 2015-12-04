@@ -56,14 +56,21 @@
                     <span class="icon-bar"></span>
 
                 </button>
-                <a href="/" class="navbar-brand">
+                <a href="#" class="navbar-brand" style="padding: 2px">
+					<img src="../images/TAMAgEXTwhite.png" style="height: 100%; width: auto">
 <!--                 <span class="glyphicon glyphicon-piggy-bank text-danger"></span> -->
-                LivestockCloud
-                <small><i>Inspired by 4H</i></small>
+                <!-- LivestockCloud
+                <small><i>Inspired by 4H</i></small> -->
 				</a>
             </div>
             <div uib-collapse="isCollapsed">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-left">
+					<li>
+						<a href="/">Home</a>
+					</li>
+				</ul>
+				
+				<ul class="nav navbar-nav navbar-right">
                     <li ng-if="!main.loggedIn">
                         <a  href="/signin">Login</a>
                     </li>
