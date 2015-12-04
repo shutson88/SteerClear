@@ -516,7 +516,7 @@ router.delete('/animal/:id', function(req, res) {
 					});
 					
 				} else {
-					animal.managedBy = "nobody";
+					animal.managedBy = "removed-" + req.decoded.user._id;
 					animal.save(function(err) {
 						if (err) {
 							console.log(err);
