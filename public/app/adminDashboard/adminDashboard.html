@@ -1,0 +1,132 @@
+<div class="page-header">
+    <h1>
+        Youth
+        <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add Youth
+        </button>
+		<button type="button" class="btn btn-default" ng-click="addTypeCollapsed = !addTypeCollapsed">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add Type/Breed
+        </button>
+    </h1>
+	<div class="form-group">
+		<div uib-collapse="!addUserCollapsed">
+			<form class="form-inline" role="form">
+				<div class="form-group">
+	
+					<div class="form-group">
+						<input type="text" class="form-control" ng-model="admin.addUsername" placeholder="Username">
+					</div>
+	
+					<button class="btn btn-default" type="button" ng-click="admin.addYouth();addUserCollapsed = !addUserCollapsed">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="form-group">
+		<div uib-collapse="!addTypeCollapsed">
+			<form class="form-inline" role="form">
+				<div class="form-group">
+	
+				
+						<select class="form-control" name="typeSelect" ng-model="admin.selectTypes" ng-change="admin.getBreedOptions()">
+							<option value="">Select Existing Type</option>
+							<option ng-repeat="(type, value) in admin.existingTypes" value = "{{type}}">{{type}}</option>
+							
+						</select>
+						<input type="text" class="form-control" ng-model="admin.textType" placeholder="Add New Type">
+				
+				</div>
+				<div class="form-group">	
+					<select class="form-control" name="typeSelect" ng-model="admin.selectBreed">
+							<option value="">Select Existing Breed</option>
+							<option ng-repeat="breed in admin.existingBreeds" value = "{{breed.breed}}">{{breed.breed}}</option>
+							
+						</select>
+					
+					
+						<input type="text" class="form-control" ng-model="admin.textBreed" placeholder="Add New Breed">
+					
+					
+	
+					<button class="btn btn-default" type="button" ng-click="admin.addType();addTypeCollapsed = !addTypeCollapsed">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- LOADING MESSAGE -->
+<div class="jumbotron text-center" ng-show="admin.processing"><span class="glyphicon glyphicon-repeat spinner"></span>
+
+    <p>Loading Youth...</p>
+</div>
+<form>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+            <input type="text" class="form-control" ng-model="admin.searchYouth" placeholder="Search Youth">
+        </div>
+    </div>
+</form>
+<table class="table table-bordered table-striped" ng-show="admin.youths">
+    <thead>
+    <tr>
+        <th>
+            <a href="#" ng-click="admin.sortType = '_id'; admin.sortReverse = !admin.sortReverse">
+                Username
+                <span ng-show="admin.sortType == '_id' && !admin.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="admin.sortType == '_id' && admin.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+        </th>
+        <th>
+            <a href="#" ng-click="admin.sortType = 'fname'; admin.sortReverse = !admin.sortReverse">
+                First Name
+                <span ng-show="admin.sortType == 'fname' && !admin.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="admin.sortType == 'fname' && admin.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+        </th>
+		<th>
+            <a href="#" ng-click="admin.sortType = 'lname'; admin.sortReverse = !admin.sortReverse">
+                Last Name
+                <span ng-show="admin.sortType == 'lname' && !admin.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="admin.sortType == 'lname' && admin.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+        </th>
+		<th>
+            <a href="#" ng-click="admin.sortType = 'email'; admin.sortReverse = !admin.sortReverse">
+                Email
+                <span ng-show="admin.sortType == 'email' && !admin.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="admin.sortType == 'email' && admin.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+        </th>
+        <!--<th>-->
+            <!--<a href="#" ng-click="admin.sortType = 'adminname'; admin.sortReverse = !admin.sortReverse">-->
+                <!--adminname-->
+                <!--<span ng-show="admin.sortType == 'adminname' && !admin.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>-->
+                <!--<span ng-show="admin.sortType == 'adminname' && admin.sortReverse" class="glyphicon glyphicon-triangle-top"></span>-->
+            <!--</a>-->
+        <!--</th>-->
+        <!-- <th class="col-sm-2"></th> -->
+    </tr>
+    </thead>
+    <tbody>
+    <!-- LOOP OVER THE adminS -->
+    <tr ng-repeat="youth in admin.youths | orderBy:admin.sortType:admin.sortReverse | filter:admin.searchYouth">
+        <td>{{ youth._id }}</td>
+        <td>{{ youth.first_name }}</td>
+        <td>{{ youth.last_name}}</td>
+		<td>{{ youth.email}}</td>
+        <td class="col-sm-2">
+            <a ng-href="/dashboard/{{ youth._id }}" class="btn btn-danger">View</a>
+        </td>
+		<td class="col-sm-2">
+			<button class="btn btn-default" type="button" ng-click="admin.removeFromUser( animal._id )">Remove</button>
+		</td>
+    </tr>
+    </tbody>
+</table>

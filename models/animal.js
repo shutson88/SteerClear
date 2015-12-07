@@ -3,11 +3,29 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = mongoose.model('Animal', new Schema({
-	id: String,
-	managedBy: String,
-	name: String,
-	type: String,
-	breed: String,
-	date: Date,
-	latestWeight: Number	
+	_id: {
+		type: String,
+		required: true,
+		lowercase: true
+	},
+	managedBy: {
+		type: String,
+		required: true,
+		lowercase: true
+	},
+	name: {
+		type: String,
+		required: true,
+	},
+	type: {
+		type: String,
+		required: true,
+		lowercase: true
+	},
+	breed: {
+		type: String,
+		required: true,
+		lowercase: true
+	}
+	
 }));

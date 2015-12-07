@@ -1,6 +1,0 @@
-framework module Pods_stearClear {
-  umbrella header "Pods-stearClear-umbrella.h"
-
-  export *
-  module * { export * }
-}
