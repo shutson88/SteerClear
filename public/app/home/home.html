@@ -48,7 +48,7 @@
 						<div class="form-group" >
 			
 						
-							<select class="form-control" name="typeSelect" ng-model="home.selectAddType" ng-focus="disableTypeText=true" ng-blur="disableTypeText=false" ng-disabled="disableTypeSelect" ng-change="home.getBreedOptions()">
+							<select class="form-control" name="typeSelect" ng-model="home.selectAddType" ng-focus="disableTypeText=true" ng-blur="disableTypeText=false" ng-disabled="disableTypeSelect" ng-change="home.getBreedOptions(home.selectAddType)">
 								<option value="" disabled>Select Existing Type</option>
 								<option ng-repeat="(type, value) in home.existingTypes" value = "{{type}}">{{type}}</option>
 								
@@ -95,7 +95,7 @@
 						<div class="form-group">
 			
 						
-							<select class="form-control" name="typeSelect" ng-model="home.selectRemoveType" ng-focus="disableTypeText=true" ng-blur="disableTypeText=false" ng-disabled="disableTypeSelect" ng-change="home.getBreedOptions()">
+							<select class="form-control" name="typeSelect" ng-model="home.selectRemoveType" ng-focus="disableTypeText=true" ng-blur="disableTypeText=false" ng-disabled="disableTypeSelect" ng-change="home.getBreedOptions(home.selectRemoveType)">
 								<option value="" disabled>Select Existing Type</option>
 								<option ng-repeat="(type, value) in home.existingTypes" value = "{{type}}">{{type}}</option>
 								
