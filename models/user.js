@@ -26,9 +26,9 @@ module.exports = mongoose.model('User', new Schema({
     {
         type: String,
         match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
-        unique: true, // TODO: figure out why it is not actually forcing uniqueness
+        unique: true,
         required: true,
-		    lowercase: true
+		lowercase: true
     },
 
 	admin:
@@ -36,22 +36,51 @@ module.exports = mongoose.model('User', new Schema({
 		type: Boolean,
 		required: true,
 		default: false
-		
+
 	},
-	
-	managedBy: 
-	{
-		type: String,
-		required: true,
-		default: ""
-		
-		
-	},
-	
+
+	observing: [
+		{
+			_id: false,
+			username: String,
+		}
+	],
+
+	observedBy: [
+		{
+			_id: false,
+			username: String,
+		}
+	],
+
+	resetPasswordToken: String,
+	resetPasswordExpires: Date,
+
     date_created:
     {
         type: Date,
         required: true,
         default: Date.now
-    }
+    },
+
+    notifications:[
+    {
+        _id:false,
+        sender: {
+            type:String,
+            required: true
+        },
+        message: {
+            type: String,
+            required: true
+        },
+        read: {
+            type: Boolean,
+            required: true
+        },
+        date: {
+            type: Date,
+            required: true
+        }
+    }]
 }));

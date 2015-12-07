@@ -6,19 +6,31 @@ angular.module('userService', [])
   .factory('User', function($http) {
     var userFactory = {};
 
-    var serverAddress = 'http://localhost:8080';
-
     //Get a single user
     userFactory.get = function(id) {
 		
-      return $http.get(serverAddress + '/api/users/' + id);
+      return $http.get('/api/users/' + id);
     };
 
-    //Get youth managed by a supervisor
-    userFactory.getYouth = function(supervisor) {
-		console.log("Getting youth for " + supervisor);
-      return $http.get(serverAddress + '/api/users/' + supervisor);
+    //Get youth you are observing
+    userFactory.getObserved = function() {
+		console.log("Getting youth you are observing");
+		return $http.get('/api/users/');
     };
+	
+	userFactory.getObservedBy = function(callback) {
+		console.log("Getting users observing you");
+		$http.get('/api/user/')
+			.success(function(data) {
+				if(data.observedBy.length <= 0) {
+					callback([]);
+				} else {
+					callback(data.observedBy);
+				}
+			});
+		
+		
+	};
 
     //TODO: Update user
 

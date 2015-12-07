@@ -115,7 +115,7 @@ angular.module('authService', [])
 	
 	
     authTokenFactory.setData = function(data) {
-      console.log(data);
+      if(data) console.log(data);
 	  if(data) {
         $window.sessionStorage.setItem('token', data.token);
 		$window.sessionStorage.setItem('username', data.username);

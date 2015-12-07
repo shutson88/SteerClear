@@ -1,110 +1,193 @@
-<div class="page-header">
-    <h1>
-        Animals
-        <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
-            <span class="glyphicon glyphicon-plus"></span>
-            New Animal
+<div class="page-header" ng-cloak>
+	
+	<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li ng-show="user.observing"><a href="/observeDashboard">Observing</a></li>
+		<li ng-show="!user.observing" class="active">Animals</li>
+		<li ng-show="user.observing" class="active">{{ user.id }}</li>
+	</ol> 
+	
+	<h3 ng-show="user.observing">
+		{{ user.id | capitalize:true}}
+		
+	</h3>
+	
+	<div class="form-group btn-group-vertical"  style="width: 100%" ng-show="!user.observing">
+        <button type="button" style="display: block; text-align: left" class="btn btn-primary" ng-click="addUserCollapsed = !addUserCollapsed">
+            <span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>
+            <strong>New Animal</strong>
         </button>
-		<button type="button" class="btn btn-default" ng-click="addSupervisorCollapsed = !addSupervisorCollapsed">
-            <span class="glyphicon glyphicon-plus"></span>
-            Add Supervisor
-        </button>
-    </h1>
-    <div uib-collapse="!addUserCollapsed">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="user.add_id" placeholder="ID">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="user.addName" placeholder="Name">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="user.addType" placeholder="Type">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="user.addBreed" placeholder="Breed">
-                </div>
-                    <button class="btn btn-default" type="button" ng-click="user.addAnimal();addUserCollapsed = !addUserCollapsed">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-            </div>
-        </form>
+		<div uib-collapse="!addUserCollapsed">
+			<form class="form-inline" role="form">
+				<div class="form-group panel panel-default">
+					<div class="panel-body">
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model="user.add_id" placeholder="ID">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model="user.addName" placeholder="Name">
+						</div>
+						<div class="form-group">
+							<select class="form-control" ng-model="user.selectTypes" ng-change="user.getBreedOptions()">
+								<option value="" disabled>Select Species</option>
+								<option ng-repeat="(type, value) in user.existingTypes" value = "{{type}}">{{type | capitalize}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select ng-model="user.selectBreeds" class="form-control">
+								<option value="" disabled>Select Breed</option>
+								<option ng-repeat="breed in user.existingBreeds" value = "{{breed.breed}}">{{breed.breed | capitalize}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model="user.addProjectYear" placeholder="Project Start Year">
+						</div>
+						<button class="btn btn-default" type="button" ng-click="user.addAnimal();">
+							<span class="glyphicon glyphicon-plus-sign"></span>
+								Add
+								
+						</button>
+						<div class="alert alert-info form-group fadein fadeout" ng-class="user.addAnimalMessage.alertType" ng-show="user.addAnimalMessage.show">
+							{{user.addAnimalMessage.message}}
+							
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		
     </div>
-	<div uib-collapse="!addSupervisorCollapsed">
-        <form class="form-inline" role="form">
-            <div class="form-group">
 
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="user.addSupervisorID" placeholder="ID">
-                </div>
-                <button class="btn btn-default" type="button" ng-click="user.addSupervisor();addSupervisorCollapsed = !addSupervisorCollapsed">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            </div>
-        </form>
-    </div>
+
+
+
+
 </div>
 <!-- LOADING MESSAGE -->
-<div class="jumbotron text-center" ng-show="user.processing"><span class="glyphicon glyphicon-repeat spinner"></span>
+<div class="jumbotron text-center" ng-show="user.processing"><span class="glyphicon glyphicon-repeat spinner" ng-cloak></span>
 
     <p>Loading Animals...</p>
 </div>
 <form>
-    <div class="form-group">
+    <div class="form-group" ng-show="user.animals.length > 0">
         <div class="input-group">
             <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
             <input type="text" class="form-control" ng-model="user.searchAnimals" placeholder="Search Animals">
         </div>
     </div>
 </form>
-<table class="table table-bordered table-striped" ng-show="user.animals">
-    <thead>
+<strong ng-show="user.activeAnimals.length > 0">Active Projects</strong>
+<table class="table table-hover table-bordered table-striped" style="cursor: pointer" ng-show="user.activeAnimals.length > 0" ng-cloak>
+<!--     <caption><strong>Active Projects</strong></caption>
+ -->	<thead>
     <tr>
-        <th>
+        <th class="col-md-1">
             <a href="#" ng-click="user.sortType = '_id'; user.sortReverse = !user.sortReverse">
                 ID
                 <span ng-show="user.sortType == '_id' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == '_id' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <th>
+        <th class="col-md-3">
             <a href="#" ng-click="user.sortType = 'name'; user.sortReverse = !user.sortReverse">
                 Name
                 <span ng-show="user.sortType == 'name' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == 'name' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <!--<th>-->
-            <!--<a href="#" ng-click="user.sortType = 'username'; user.sortReverse = !user.sortReverse">-->
-                <!--username-->
-                <!--<span ng-show="user.sortType == 'username' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>-->
-                <!--<span ng-show="user.sortType == 'username' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>-->
-            <!--</a>-->
-        <!--</th>-->
-        <th>
+		<th class="col-md-3">
+            <a href="#" ng-click="user.sortType = 'type'; user.sortReverse = !user.sortReverse">
+                Type
+                <span ng-show="user.sortType == 'type' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="user.sortType == 'type' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+        </th>
+        <th class="col-md-3">
             <a href="#" ng-click="user.sortType = 'breed'; user.sortReverse = !user.sortReverse">
                 Breed
                 <span ng-show="user.sortType == 'breed' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="user.sortType == 'breed' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <!-- <th class="col-sm-2"></th> -->
+		<th class="col-md-2">
+            <a href="#" ng-click="user.sortType = 'projectYear'; user.sortReverse = !user.sortReverse">
+                Project Year
+                <span ng-show="user.sortType == 'projectYear' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="user.sortType == 'projectYear' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+		</th>
     </tr>
     </thead>
     <tbody>
-    <!-- LOOP OVER THE USERS -->
-    <tr ng-repeat="animal in user.animals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals">
-        <td>{{ animal._id }}</td>
-        <td>{{ animal.name }}</td>
-        <td>{{ animal.breed}}</td>
-        <td class="col-sm-2">
-            <a ng-href="/animal/{{ animal._id }}" class="btn btn-danger">Weights</a>
-        </td>
-		<td class="col-sm-2">
-			<button class="btn btn-default" type="button" ng-click="user.removeFromUser( animal._id )">Remove</button>
-		</td>
+    <!-- LOOP OVER THE ANIMALS -->
+    <tr ng-repeat="animal in user.activeAnimals | orderBy:user.sortType:user.sortReverse | filter:user.searchAnimals" ng-click="user.openAnimalPage(animal)" >
+        <td>{{ animal.id}}</td>
+        <td>{{ animal.name | capitalize}}</td>
+		<td>{{ animal.type | capitalize}}
+        <td>{{ animal.breed | capitalize}}</td>
+		<td>{{animal.projectYear}}</td>
     </tr>
     </tbody>
 </table>
+<strong ng-show="!user.hideInactive">Inactive Projects</strong>
+<div ng-repeat="(key, value) in user.retiredAnimals">
+    <button type="button" style="display: block; text-align: left; width: 100%" class="btn btn-default" ng-click="collapseYear = !collapseYear">
+        <span ng-class="{'glyphicon glyphicon-plus' : !collapseYear, 'glyphicon glyphicon-minus' : collapseYear}"></span>
+        <strong>{{key}}</strong>
+    </button>	
+	<div uib-collapse="!collapseYear">
+		<table class="table table-hover table-bordered table-striped" style="cursor: pointer">
+			<thead>
+				<tr>
+					<th class="col-md-1">
+						<a href="#" ng-click="user.sortType = '_id'; user.sortReverse = !user.sortReverse">
+							ID
+							<span ng-show="user.sortType == '_id' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="user.sortType == '_id' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</th>
+					<th class="col-md-3">
+						<a href="#" ng-click="user.sortType = 'name'; user.sortReverse = !user.sortReverse">
+							Name
+							<span ng-show="user.sortType == 'name' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="user.sortType == 'name' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</th>
+					<th class="col-md-3">
+						<a href="#" ng-click="user.sortType = 'type'; user.sortReverse = !user.sortReverse">
+							Type
+							<span ng-show="user.sortType == 'type' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="user.sortType == 'type' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</th>
+					<th class="col-md-3">
+						<a href="#" ng-click="user.sortType = 'breed'; user.sortReverse = !user.sortReverse">
+							Breed
+							<span ng-show="user.sortType == 'breed' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+							<span ng-show="user.sortType == 'breed' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a>
+					</th>
+				</tr>		
+			</thead>
+			<tbody>
+				<tr ng-repeat="animal in value" ng-click="user.openAnimalPage(animal)">
+					<td>{{ animal.id}}</td>
+					<td>{{ animal.name | capitalize}}</td>
+					<td>{{ animal.type | capitalize}}
+					<td>{{ animal.breed | capitalize}}</td>		
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+
+<div class="jumbotron text-center" ng-show="(user.animals.length == 0)" ng-cloak>
+	
+    <p>You have no animals</p>
+</div>
+<div class="jumbotron text-center" ng-show="user.message" ng-cloak>
+	
+    <p>{{user.message}}</p>
+</div>

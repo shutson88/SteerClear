@@ -6,9 +6,13 @@ angular
   .factory('Animal', function($http) {
     var animalFactory = {};
 
-    animalFactory.getOne = function(id) {
+    animalFactory.getOne = function(id, callback) {
       console.log("ID is "+ id);
-      return $http.get('/api/animal/' + id);
+      $http.get('/api/animal/' + id) 
+		.success(function(data) {
+			callback(data);
+		});
+
     };
 
     animalFactory.getAll = function(id) {

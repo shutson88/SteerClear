@@ -1,7 +1,10 @@
 <div class="row col-sm-6 col-sm-offset-3">
-    <div class="jumbotron">
-        <h1>Register</h1>
 
+    <div class="jumbotron">
+		<ol class="breadcrumb">
+			<li><a href="/">Home</a></li>
+			<li class="active">Register</li>
+		</ol> 
         <form name="registerForm" ng-submit="register.registerUser(registerForm.$valid)" novalidate>
 
             <!-- USERNAME INPUT -->
@@ -49,7 +52,7 @@
                 </div>
             </div>
 
-			<label>Is Admin?
+			<label>Admin?
 				<input type="checkbox" ng-model="register.loginData.isAdmin" ng-click="isAdminCollapsed = !isAdminCollapsed">
 			</label>
 			<div class="form-group">

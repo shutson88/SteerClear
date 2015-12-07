@@ -7,9 +7,11 @@
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "jsonwebtoken": "^5.0.5",
-    "mongoose": "^4.1.9", 
+    "mongoose": "^4.1.9",
     "morgan": "^1.6.1",
-	"serve-favicon": "2.3.0",
-	"path": "0.12.7"
+    "node-schedule": "^0.5.1",
+    "nodemailer": "^1.8.0",
+    "path": "0.12.7",
+    "serve-favicon": "2.3.0"
   }
 }

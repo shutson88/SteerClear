@@ -2,21 +2,24 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SteerClear</title>
+    <title>LivestockCloud</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="/">
-
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
           crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>	<link href="assets/css/custom.css" rel="stylesheet">
     <link href="app.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-route.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-messages.min.js"></script>
-    <script src="assets/js/ui-bootstrap-0.14.2.min.js"></script>
-	<script src="../javascripts/regression.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+
 
 
     <!-- services -->
@@ -32,39 +35,86 @@
     <script src="signin/signin.js"></script>
 	<script src="signin/register.js"></script>
     <script src="dashboard/dashboard.js"></script>
-	<script src="adminDashboard/adminDashboard.js"></script>
+	<script src="observeDashboard/observeDashboard.js"></script>
     <script src="home/home.js"></script>
     <script src="animal/animal.js"></script>
 	<script src="filter.js"></script>
+	<script src="accountManagement/manage.js"></script>
 
     <!-- app -->
     <script src="app.js"></script>
 </head>
-<body>
+<html lang="en">
 <body ng-app="app" ng-controller="MainCtrl as main">
 <!-- Navbar -->
 <header>
 
-    <div class="navbar navbar-inverse" ng-if="main.loggedIn">
+    <div class="navbar navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <a href="/" class="navbar-brand">
-                    <span class="glyphicon glyphicon-piggy-bank text-danger"></span>
-                    SteerClear - Home
-                </a>
+                <button type="button" class="navbar-toggle" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed">
+                    <span class="icon-bar"></span>
+
+                </button>
+                <a href="#" class="navbar-brand" style="padding: 2px">
+					<span><img src="../images/TAMAgEXTwhite.png" style="height: 100%; width: auto"></span>
+					<span>LivestockCloud</span>
+                
+				</a>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li ng-if="!main.loggedIn">
-                    <a href="/signin">Login</a>
-					<a href="/register">Register</a>
-                </li>
-                <li ng-if="main.loggedIn" class="navbar-text">
-                    Hello {{ main.user.fname }}!
-                </li>
-                <li ng-if="main.loggedIn">
-                    <a href="#" ng-click="main.doLogout()">Logout</a>
-                </li>
-            </ul>
+            <div uib-collapse="isCollapsed">
+                <ul class="nav navbar-nav navbar-left">
+					<li>
+						<a href="/">Home</a>
+					</li>
+				</ul>
+				
+				<ul class="nav navbar-nav navbar-right">
+                    <li ng-if="!main.loggedIn">
+                        <a  href="/signin">Login</a>
+                    </li>
+					<li ng-if="!main.loggedIn">
+						<a href="/register">Register</a>
+					</li>
+                    <li ng-if="main.loggedIn">
+                        <p class="navbar-text" style="margin-left: 15px">Hello, {{ main.user.fname | capitalize: true}}!</p>
+                    </li>
+                    <li ng-if="main.loggedIn">
+                        <p class="navbar-text" style="margin-left: 15px">Logged in as {{main.user.username}}</p>
+                    </li>
+                    <!-- Notification Menu -->
+                    <li class="dropdown" ng-if="main.loggedIn">
+                        <a id="dLabel" role="button" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-bell"></span>
+                            <span class="badge" id="unreadNotifications">{{main.unread}}</span>
+                        </a>
+
+                        <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel" ng-click="$event.stopPropagation()">
+
+                            <div class="notification-heading">
+                                <h4 class="menu-title">Notifications</h4>
+                                <a style="position:relative;float:right;cursor:pointer" ng-click="main.readNotifications()">Mark all as read</a>
+                            </div>
+                            <li class="divider"></li>
+                            <div class="notifications-wrapper">
+                                <div class="content" href="#">
+                                    <div ng-if="main.notifications.length == 0"><p><i>No notifications to show</i></p></div>
+                                    <div class="notification-item" ng-style="main.setNotificationColor(notification)" ng-repeat="notification in main.notifications | reverse">
+                                        <a style="float:right; cursor: pointer; :hover { background: red }" ng-click="main.deleteNotification(notification)">&times;</a>
+                                        <a style="cursor: pointer" ng-click="main.goToNotification(notification)">
+                                            <h4 class="item-title">{{notification.message}}</h4>
+                                            <p class="item-info">{{notification.date | date:'MM/dd/yyyy h:mm a'}}</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+					<li ng-if="main.loggedIn">
+						<a href="#" ng-click="main.doLogout()">Logout</a>
+					</li>
+                </ul>
+            </div>
         </div>
     </div>
 </header>
@@ -72,8 +122,6 @@
 <main class="container">
     <div ng-view></div>
 </main>
-
-</body>
 
 </body>
 </html>

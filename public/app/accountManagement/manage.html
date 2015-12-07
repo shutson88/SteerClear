@@ -1,0 +1,135 @@
+<div class="row col-sm-6 col-sm-offset-3">
+	<div class="jumbotron">
+		<ol class="breadcrumb">
+			<li><a href="/">Home</a></li>
+			<li class="active">Account Management</li>
+		</ol>     
+		<div class="form-group btn-group-vertical"  style="width: 100%">
+			<button  type="button" style="display: block; text-align: left" class="btn btn-default" ng-click="addSupervisorCollapsed = !addSupervisorCollapsed">
+				<span ng-class="{'glyphicon glyphicon-plus' : !addSupervisorCollapsed, 'glyphicon glyphicon-minus' : addSupervisorCollapsed}"></span>
+				Add Observer
+			</button>
+			<div uib-collapse="!addSupervisorCollapsed">
+				<form class="form-inline" role="form">
+					<div class="form-group panel panel-default">
+						<div class="panel-body">
+		
+							<div class="form-group">
+								<input type="text" class="form-control" ng-model="manage.addObserverID" placeholder="Username">
+							</div>
+							<button class="btn btn-default" type="button" ng-click="manage.addObserver()">
+								<span class="glyphicon glyphicon-plus-sign"></span>
+								Add
+							</button>
+							<div class="alert alert-info form-group fadein fadeout" ng-class="manage.addSupervisorMessage.alertType" ng-show="manage.addSupervisorMessage.show">
+								{{manage.addSupervisorMessage.message}}
+							
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<button type="button" style="display: block; text-align: left" class="btn btn-default" ng-click="removeSupervisorCollapsed = !removeSupervisorCollapsed">
+				<span ng-class="{'glyphicon glyphicon-plus' : !removeSupervisorCollapsed, 'glyphicon glyphicon-minus' : removeSupervisorCollapsed}"></span>			
+				Remove Observer
+			</button>
+			<div uib-collapse="!removeSupervisorCollapsed">
+				<form class="form-inline" role="form">
+					<div class="form-group panel panel-default">
+						<div class="panel-body">
+							<div class="alert alert-info form-group fadein fadeout" ng-class="manage.removeSupervisorMessage.alertType" ng-show="manage.removeSupervisorMessage.show">
+								{{manage.removeSupervisorMessage.message}}
+							</div>
+							<div class="alert alert-info form-group" ng-show="manage.supervisors.length == 0">
+								You have no observers
+							</div>
+							<table class="table table-bordered">
+								<tbody>
+									<tr ng-repeat="super in manage.supervisors">
+										<td>{{super.username}}</td>
+										<td>
+											<button class="btn btn-danger btn-xs" type="button" ng-click-confirm="manage.removeObserver(super.username)" ng-confirm="Are you sure you want to remove this supervisor?">
+												<span class="glyphicon glyphicon-minus-sign"></span>
+												Remove
+											</button>
+										</td>
+											
+									</tr>
+								</tbody>
+							</table>
+	
+						</div>
+					</div>
+				</form>    
+			</div>	
+		</div>
+		<form name="changePasswordForm" ng-submit="manage.changePassword()" ng-show="main.loggedIn"> 
+			<h4>Change Password</h4>
+			<div class="form-group">
+				<label  for="currentPassword">Current Password</label>
+				<input class="form-control" type="password" ng-model="manage.currentPassword" id="currentPassword" placeholder="Current Password" required>		
+			</div>	 
+			<div class="form-group">
+				<label  for="newPassword">New Password</label>
+				<input class="form-control" type="password" name="newPassword" ng-model="manage.newPassword" id="newPassword" ng-required="true" placeholder="New Password">		
+			</div>
+			<div class="form-group">
+				<label  for="newPasswordConfirm">Confirm Password</label>
+				<input class="form-control" type="password" name="newPasswordConfirm" ng-model="manage.newPasswordConfirm" id="newPasswordConfirm" ng-required="true" password-match="manage.newPassword" placeholder="Confirm Password">		
+			</div>
+			
+			<div class="alert alert-danger" ng-show="changePasswordForm.newPasswordConfirm.$error.pwmatch">
+				Passwords must match!
+			</div>
+	
+			<button type="submit" class="btn btn-default btn-primary" ng-disabled="changePasswordForm.$invalid">
+				Change
+			</button>
+			<div class="alert alert-info fadein fadeout" ng-class="manage.changePasswordMessage.alertType" style="padding: 8px;" ng-show="manage.changePasswordMessage.show">
+				{{manage.changePasswordMessage.message}}			
+			</div>
+	
+		</form>
+		<form name="resetPasswordForm" ng-submit="manage.resetPassword()"> 
+	
+			<div class="form-group" ng-show="!manage.resetToken">
+				<h4>Reset Password</h4>
+	
+				
+					<label for="email">Email</label>
+					<input class="form-control" type="email" ng-model="manage.email" id="email" ng-required="!manage.resetToken" placeholder="Email of the account you wish to reset">
+					<br>
+					<button type="submit" class="btn btn-primary" ng-disabled="resetPasswordForm.$invalid">
+						Reset
+					</button>
+					<div class="alert alert-info fadein fadeout" ng-class="manage.resetPasswordMessage.alertType" style="padding: 8px;" ng-show="manage.resetPasswordMessage.show">
+						{{manage.resetPasswordMessage.message}}
+					
+					</div>
+			</div>
+			
+			<div class="form-group" ng-show="manage.resetToken">
+				<div class="form-group">
+					<label for="resetNewPassword">New Password</label>
+					<input class="form-control" type="password" name="resetNewPassword" ng-model="manage.resetNewPassword" id="resetNewPassword" ng-required="manage.resetToken">			
+				</div>
+				<div class="form-group">
+					<label for="resetNewPasswordConfirm">Verify Password</label>
+					<input class="form-control" type="password" name="resetNewPasswordConfirm" ng-model="manage.resetNewPasswordConfirm" id="resetNewPasswordConfirm" ng-required="manage.resetToken" password-match="manage.resetNewPassword">			
+				</div>
+	
+	
+				<div class="alert alert-danger" ng-show="resetPasswordForm.resetNewPasswordConfirm.$error.pwmatch">
+					Passwords must match!
+				</div>
+				<button type="submit" class="btn  btn-primary" ng-disabled="resetPasswordForm.$invalid">
+					Reset
+				</button>
+				<div class="alert alert-info fadein fadeout" ng-class="manage.resetPasswordMessage.alertType" style="padding: 8px;" ng-show="manage.resetPasswordMessage.show">
+					{{manage.resetPasswordMessage.message}}
+					
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -7,143 +7,197 @@
         font-weight:bold;
     }
 </style>
-<script src="/javascripts/client.js"></script>
-<div class="page-header">
-    <h1>
-        {{ animal.animalID }}
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">{{animal.data}}</h3>
-            </div>
-        </div>
-        <button type="button" class="btn btn-default" ng-click="addUserCollapsed = !addUserCollapsed">
-            <span class="glyphicon glyphicon-plus"></span>
-            Add new weight
-        </button>
-        <button type="button" class="btn btn-default" ng-click="targetDateCollapsed = !targetDateCollapsed">
-            <span class="glyphicon glyphicon-stats"></span>
-            Target Date Estimation
-        </button>
-        <button type="button" class="btn btn-default" ng-click="animal.calculateADG()">
-            <span class="glyphicon glyphicon-stats"></span>
-            Calculate Average Daily Gains
-        </button>
-		
-    </h1>
-    <div uib-collapse="!addUserCollapsed">
-        <form class="form-inline" role="form">
-            <div class="form-group">
 
-                <div class="form-group">
-                    <input type="text" class="form-control" ng-model="animal.weight" placeholder="Weight (lbs)">
-                </div>
-                <div class="form-group">
-                    <input type="date" class="form-control" ng-model="animal.date" placeholder="Date">
-                    <!--<button type="button" ng-click="animal.getCurrentDate()">Today</button>-->
-                </div>
-                <button class="btn btn-default" type="button" ng-click="animal.addWeight()">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
+<div class="page-header" ng-cloak>
+	<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li ng-show="!animal.observing"><a href="/dashboard">Animals</a></li>
+		<li ng-show="animal.observing"><a href="/observeDashboard">Observing</a></li>
+		<li ng-show="animal.observing"><a href="/dashboard/{{animal.params.user}}">{{animal.params.user}}</a></li>
+		<li class="active">{{animal.animal.id}}</li>
+	</ol>    
+	<h3>
+		<div ng-show="animal.processing" ng-cloak><span class="glyphicon glyphicon-repeat spinner"></span>
+			Loading animal...
+		</div>
+		<div ng-show="!animal.processing"> 
+			{{animal.animal.name | capitalize:true}}
+		</div>
+		<button class="btn btn-danger btn-xs pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser(animal.animal.id, false)" ng-confirm="Are you sure you want to remove {{animal.animal.id}}?">Remove</button>
+		<button class="btn btn-danger btn-xs pull-right" ng-show="!animal.observing"  ng-click-confirm="animal.removeFromUser(animal.animal.id, true)" ng-confirm="Are you sure you want to retire {{animal.animal.id}}?">Retire</button>
+	</h3>
+	<div class="form-group btn-group-vertical" style="width: 100%">
+		<button ng-hide="animal.observing" style="display: block; text-align: left"  type="button" class="btn btn-primary" ng-click="addUserCollapsed = !addUserCollapsed">
+			<span ng-class="{'glyphicon glyphicon-plus' : !addUserCollapsed, 'glyphicon glyphicon-minus' : addUserCollapsed}"></span>	
+			<strong>New Weight</strong>
+		</button>
+		<div uib-collapse="!addUserCollapsed">
+			<form class="form-inline"  role="form">
+				<div class="form-group panel panel-default">
+					<div class="panel-body">
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model="animal.weight" placeholder="Weight (lbs)">
+						</div>
+						
+						<div class="form-group">							
+							<p class="input-group" style="margin: 0">
+								<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="animal.date" is-open="newWeight_datepicker.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="newWeight_datepicker.opened = !newWeight_datepicker.opened"><i class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</p>
+						</div>
+						<button class="btn btn-default" type="button" ng-click="animal.addWeight(animal.animal._id)">
+							<span class="glyphicon glyphicon-plus-sign"></span>
+							Add
+						</button>
+						<div class="alert alert-info form-group fadein fadeout" ng-class="animal.addWeightMessage.alertType" ng-show="animal.addWeightMessage.show">
+							{{animal.addWeightMessage.message}}
+					
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<button ng-hide="animal.observing" style="display: block; text-align: left"  type="button" class="btn btn-default" ng-click="editAnimalCollapsed = !editAnimalCollapsed">
+			<span ng-class="{'glyphicon glyphicon-plus' : !editAnimalCollapsed, 'glyphicon glyphicon-minus' : editAnimalCollapsed}"></span>	
+			Edit Animal
+			
+		</button>
+		<div uib-collapse="!editAnimalCollapsed">
+			
+			<form class="form-inline"  role="form">
+				<div class="form-group panel panel-default">
+					<div class="panel-body">
+						<span style="display: block">Only fill in the fields you wish to update</span>
+ 						<span style="display:inline-block; padding-right:10px">
+							<label style="display:block">Name: {{animal.animal.name | capitalize:true}}</label>	
+							<input type="text" class="form-control" ng-model="animal.newName" placeholder="New Name">							
+						</span>
+						<span style="display:inline-block; padding-right:10px">
+							<label style="display:block">Type: {{animal.animal.type | capitalize:true}}</label>	
+							<select class="form-control" ng-model="animal.selectTypes" ng-change="animal.getBreedOptions()">
+								<option value="" disabled>New Type</option>
+								<option ng-repeat="(type, value) in animal.existingTypes" value = "{{type}}">{{type | capitalize:true}}</option>
+							</select>
+						</span>						
+						<span style="display:inline-block; padding-right:10px">   
+							<label style="display:block">Breed: {{animal.animal.breed | capitalize:true}}</label>	
+							<select class="form-control" ng-model="animal.selectBreeds">
+								<option value="" disabled>New Breed</option>
+								<option ng-repeat="breed in animal.existingBreeds" value = "{{breed.breed}}">{{breed.breed | capitalize:true}}</option>
+							</select>	
+						</span>
+						<span style="display:inline-block">   
+							<button class="btn btn-default" type="button" ng-click="animal.editAnimal()">
+								<span class="glyphicon glyphicon-edit"></span>
+								Edit
+							</button>	
+						</span>
+						<div class="alert alert-info form-group fadein fadeout" ng-class="animal.editMessage.alertType" ng-show="animal.editMessage.show">
+							{{animal.editMessage.message}}
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
 
+		<button type="button" style="display: block; text-align: left"  class="btn btn-default" ng-click="targetDateCollapsed = !targetDateCollapsed">
+			<span ng-class="{'glyphicon glyphicon-plus' : !targetDateCollapsed, 'glyphicon glyphicon-minus' : targetDateCollapsed}"></span>
+			Target Weight Estimation
+		</button>
+		<div uib-collapse="!targetDateCollapsed">
+			<form class="form-inline" role="form">
+				<div class="form-group panel panel-default">
+					<div class="panel-body">
+						<div class="form-group">
+							<p class="input-group" style="margin: 0">
+								<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="animal.targetDate" is-open="targetDate_datepicker.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="targetDate_datepicker.opened = !targetDate_datepicker.opened"><i class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</p>
+						</div>
+						<button type="button" class="btn btn-default" ng-click="animal.targetDateCalculator()">
+							<span class="glyphicon glyphicon-screenshot"></span>
+							Calculate
+						</button>
 
-
-            </div>
-        </form>
-    </div>
-    <div uib-collapse="!targetDateCollapsed">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-                <div class="form-group">
-                    <input type="date" class="form-control" ng-model="animal.targetDate" placeholder="Target Date">
-                </div>
-                <button type="button" class="btn btn-default" ng-click="animal.targetDateCalculator()">Calculate</button>
-
-            </div>
-
-
-        </form>
-    </div>
-    <div uib-collapse="!rangeDateCollapsed">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-
-                <div class="form-group">
-                    <input type="date" class="form-control" ng-model="animal.start_date" placeholder="Start Date">
-                </div>
-                <div class="form-group">
-                    <input type="date" class="form-control" ng-model="animal.end_date" placeholder="End Date">
-                    <!--<button type="button" ng-click="animal.getCurrentDate()">Today</button>-->
-                </div>
-                <button class="btn btn-default" type="button" ng-click="animal.averageGainInRange()">
-                    Calculate
-                </button>
-
-                <!--<div class="form-group">-->
-                <!--<input type="text" class="form-control" ng-model="user.addUsername" placeholder="username">-->
-                <!--</div>-->
-
-            </div>
-        </form>
-    </div>
+						<div class="alert alert-info form-group fadein fadeout" ng-class="animal.targetMessage.alertType" style="display: inline-block" ng-show="animal.targetMessage.show">
+							{{animal.targetMessage.message}}
+							<a class="close" ng-click="animal.targetMessage.show = !animal.targetMessage.show">&times;</a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<button type="button" style="display: block; text-align: left"  class="btn btn-default" ng-click="animal.calculateADG()">
+			<span class="glyphicon glyphicon-stats"></span>
+			Calculate Average Daily Gain
+		</button>
+		<form class="form-inline">
+			<div class="form-group panel panel-default fadein fadeout" ng-show="animal.adgMessage.show">
+				<div class="panel-body">
+					<div class="form-group alert" ng-class="animal.adgMessage.alertType" style="padding: 8px" >
+						{{ animal.adgMessage.message }} 
+						<button class="close" ng-click="animal.adgMessage.show = !animal.adgMessage.show">&times;</button>			
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
 <!-- LOADING MESSAGE -->
-<div class="jumbotron text-center" ng-show="user.processing"><span class="glyphicon glyphicon-repeat spinner"></span>
-
-    <p>Loading Animals...</p>
+<div class="jumbotron text-center" ng-show="user.processing" ng-cloak><span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>Loading Weights...</p>
 </div>
 <form>
-    <div class="form-group">
+    <div class="form-group" ng-show="animal.weights.length > 0">
         <div class="input-group">
             <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-            <input type="text" class="form-control" ng-model="animal.searchAnimals" placeholder="Search Animals">
+            <input type="text" class="form-control" ng-model="animal.searchAnimals" placeholder="Search Weights">
         </div>
     </div>
 </form>
-<table class="table table-hover table-bordered table-striped" ng-show="animal.animals">
+<table class="table table-hover table-bordered table-striped"  style="cursor: pointer" ng-show="animal.weights.length > 0" ng-cloak>
     <thead>
     <tr>
-        <th>
-			<a href="#">
-            <!-- <a href="#" ng-click="animal.sortType = '_id'; animal.sortReverse = !animal.sortReverse"> -->
-                ID
-                <!-- <span ng-show="animal.sortType == '_id' && !animal.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
-                <span ng-show="animal.sortType == '_id' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span> -->
-            </a>
-        </th>
-        <th>
+        <th class="col-md-1">
+
+		</th>
+
+        <th class="col-md-5">
             <a href="#" ng-click="animal.sortType = 'date'; animal.sortReverse = !animal.sortReverse">
                 Date
                 <span ng-show="animal.sortType == 'date' && !animal.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
                 <span ng-show="animal.sortType == 'date' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <!--<th>-->
-        <!--<a href="#" ng-click="user.sortType = 'username'; user.sortReverse = !user.sortReverse">-->
-        <!--username-->
-        <!--<span ng-show="user.sortType == 'username' && !user.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>-->
-        <!--<span ng-show="user.sortType == 'username' && user.sortReverse" class="glyphicon glyphicon-triangle-top"></span>-->
-        <!--</a>-->
-        <!--</th>-->
-        <th>
-            <a href="#" ng-click="animal.sortType = 'breed'; animal.sortReverse = !animal.sortReverse">
+        <th class="col-lg-5">
+            <a href="#" ng-click="animal.sortType = 'weight'; animal.sortReverse = !animal.sortReverse">
                 Weight
-                <span ng-show="animal.sortType == 'breed' && !animal.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
-                <span ng-show="animal.sortType == 'breed' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                <span ng-show="animal.sortType == 'weight' && !animal.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="animal.sortType == 'weight' && animal.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
             </a>
         </th>
-        <!-- <th class="col-sm-2"></th> -->
+        <th class="col-md-1">
+
+		</th>
     </tr>
     </thead>
     <tbody>
-    <!-- LOOP OVER THE USERS -->
-    <tr ng-repeat="a in animal.animals | orderBy:animal.sortType:animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date, animal)" ng-click="animal.selectDates(a.date)">
-        <td>{{ a.id }}</td>
+    <!-- LOOP OVER THE WEIGHTS -->
+    <tr ng-repeat="a in animal.weights | orderBy:animal.sortType:!animal.sortReverse | filter:animal.searchAnimals" ng-class="animal.highlight(a.date)" ng-click="animal.selectDates(a.date, $index)">
+        <td ng-click="$event.stopPropogation()"><input ng-checked="animal.highlight(a.date) == 'selected'" type="checkbox"></td>
         <td>{{ a.date | myDate }}</td>
         <td>{{ a.weight}}</td>
-        <!-- <td class="col-sm-2">
-            <a ng-href="/animal" class="btn btn-danger">Edit</a>
-        </td> -->
+        <td ng-click="$event.stopPropogation()" class="col-lg-1" ng-show="!animal.observing">
+            <button ng-click-confirm="animal.removeWeight(a._id, animal.animal._id)"  class="btn btn-danger btn-xs" ng-confirm="Are you sure you want to remove this weight?">Delete</button>
+        </td>
 
     </tr>
     </tbody>
 </table>
+<div class="jumbotron text-center" ng-show="(animal.weights.length == 0)" ng-cloak>
+    <p>No weights for this animal</p>
+</div>

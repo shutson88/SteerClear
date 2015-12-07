@@ -13,7 +13,7 @@ module.exports = mongoose.model('AnimalType', new Schema({
 	breeds: [
 		{
 			_id:false,
-			breed: {type: String, lowercase: true, unique: true}		
+			breed: {type: String, lowercase: true}		
 		}
 	
 	

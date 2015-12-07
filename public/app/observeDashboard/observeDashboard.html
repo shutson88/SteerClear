@@ -1,0 +1,79 @@
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li class="active">Observing</li>
+	</ol> 
+<!--     <h3>
+        <button class="btn btn-link" ng-click="observe.goHome()">
+			<span class="glyphicon glyphicon-menu-left"></span>
+		</button>
+		Youth
+
+		
+    </h3> -->
+
+	
+</div>
+<!-- LOADING MESSAGE -->
+<div class="jumbotron text-center" ng-show="observe.processing"><span class="glyphicon glyphicon-repeat spinner"></span>
+
+    <p>Loading Youth...</p>
+</div>
+<form>
+    <div class="form-group" ng-show="observe.youths.length > 0">
+        <div class="input-group">
+            <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+            <input type="text" class="form-control" ng-model="observe.searchYouth" placeholder="Search Youth">
+        </div>
+    </div>
+</form>
+<table class="table table-hover table-bordered table-striped" style="cursor: pointer" ng-show="observe.youths.length > 0" ng-cloak>
+    <thead>
+    <tr>
+        <th>
+            <a href="#" ng-click="observe.sortType = '_id'; observe.sortReverse = !observe.sortReverse">
+                Username
+                <span ng-show="observe.sortType == '_id' && !observe.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="observe.sortType == '_id' && observe.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+        </th>
+        <th>
+            <a href="#" ng-click="observe.sortType = 'fname'; observe.sortReverse = !observe.sortReverse">
+                First Name
+                <span ng-show="observe.sortType == 'fname' && !observe.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="observe.sortType == 'fname' && observe.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+        </th>
+		<th>
+            <a href="#" ng-click="observe.sortType = 'lname'; observe.sortReverse = !observe.sortReverse">
+                Last Name
+                <span ng-show="observe.sortType == 'lname' && !observe.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="observe.sortType == 'lname' && observe.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+        </th>
+		<th>
+            <a href="#" ng-click="observe.sortType = 'email'; observe.sortReverse = !observe.sortReverse">
+                Email
+                <span ng-show="observe.sortType == 'email' && !observe.sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                <span ng-show="observe.sortType == 'email' && observe.sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+            </a>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- LOOP OVER THE OBSERVED -->
+    <tr ng-repeat="youth in observe.youths | orderBy:observe.sortType:observe.sortReverse | filter:observe.searchYouth" ng-click="observe.openUserPage(youth)">
+        <td>{{ youth._id }}</td>
+        <td>{{ youth.first_name }}</td>
+        <td>{{ youth.last_name}}</td>
+		<td ng-click="$event.stopPropagation()"><a href="mailto:{{ youth.email}}">{{youth.email}}</a></td>
+		<td ng-click="$event.stopPropagation()" class="col-sm-2">
+			<button class="btn btn-danger btn-xs" type="button" ng-click-confirm="observe.stopObserving( youth._id )" ng-confirm="Are you sure you want to stop observing {{youth._id}}?">Stop Observing</button>
+		</td>
+    </tr>
+    </tbody>
+</table>
+<div class="jumbotron text-center" ng-show="(observe.youths.length == 0)" ng-cloak>
+
+    <p>You are not observing anyone</p>
+</div>
