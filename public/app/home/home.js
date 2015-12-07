@@ -21,6 +21,7 @@ angular.module('app.home', ['ngRoute', 'animalService', 'typeService', 'ui.boots
 	vm.removeTypeMessage = {};
 	vm.getBreedOptions = function() {
 		vm.existingBreeds = vm.existingTypes[vm.selectAddType];
+		vm.existingBreeds = vm.existingTypes[vm.selectRemoveType];
 	}
 	
 	vm.addType = function() {
