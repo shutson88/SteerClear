@@ -32,7 +32,7 @@
 		</div>
 		
 		<div ng-show="main.checkAdmin()">
-			<button type="button" class="btn btn-default" ng-click="addTypeCollapsed = !addTypeCollapsed; home.selectAddType=''; home.selectAddBreed=''">
+			<button type="button" class="btn btn-default" ng-click="addTypeCollapsed = !addTypeCollapsed; home.selectAddType=''; home.selectAddBreed='';home.existingBreeds=[]">
 					<span ng-class="{'glyphicon glyphicon-plus' : !addTypeCollapsed, 'glyphicon glyphicon-minus' : addTypeCollapsed}"></span>
 					Add Species
 			</button>
@@ -82,7 +82,7 @@
 			</div>
 		</div>
  		<div ng-show="main.checkAdmin()">
-			<button type="button" class="btn btn-default" ng-click="removeTypeCollapsed = !removeTypeCollapsed; home.selectRemoveBreed=''; home.selectRemoveType=''">
+			<button type="button" class="btn btn-default" ng-click="removeTypeCollapsed = !removeTypeCollapsed; home.selectRemoveBreed=''; home.selectRemoveType=''; home.existingBreeds=[]">
 					<span ng-class="{'glyphicon glyphicon-plus' : !removeTypeCollapsed, 'glyphicon glyphicon-minus' : removeTypeCollapsed}"></span>
 					Remove Species
 			</button>
